@@ -1,9 +1,16 @@
 page-modal {
-
-    .modalFilter{
-        display: flex;
-        justify-content: space-around;
-        text-align: center;
-    }
-
+	.modalFilter {
+		display: flex;
+		justify-content: space-around;
+		text-align: center;
+		.fab {
+			margin: 6px auto;
+		}
+		div {
+			flex: 1;
+		}
+	}
+	.title {
+		text-align: center;
+	}
 }
