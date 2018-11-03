@@ -6,7 +6,7 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import { Profile } from '../pages/home/modal';
+import { ModalPage } from '../pages/modal/modal';
 import { MapasnativoPage } from '../pages/mapasnativo/mapasnativo';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -21,7 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ContactPage,
     HomePage,
     MapasnativoPage,
-    Profile,
+    ModalPage,
     TabsPage
   ],
   imports: [
@@ -36,7 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ContactPage,
     HomePage,
     MapasnativoPage,
-    Profile,
+    ModalPage,
     TabsPage
   ],
   providers: [

@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NavController, Events, ModalController } from 'ionic-angular';
 import { MapasnativoPage } from '../mapasnativo/mapasnativo';
-import { Profile } from './modal'
+import { ModalPage } from '../modal/modal'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -23,7 +23,7 @@ export class HomePage {
   }
 
   presentModal() {
-    const modal = this.modalCtrl.create(Profile);
+    const modal = this.modalCtrl.create(ModalPage);
     modal.present();
   }
 

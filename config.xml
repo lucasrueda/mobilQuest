@@ -90,6 +90,6 @@
     <plugin name="cordova-android-play-services-gradle-release" spec="^1.4.4">
         <variable name="PLAY_SERVICES_VERSION" value="15.0.0" />
     </plugin>
-    <allow-navigation href="http://192.168.1.23:8100" sessionid="97c294ec" />
+    <allow-navigation href="http://192.168.1.23:8100" sessionid="98c6f6df" />
     <engine name="android" spec="6.3.0" />
 </widget>
