@@ -1,0 +1,7 @@
+{
+  "name": "mobilQuest",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
