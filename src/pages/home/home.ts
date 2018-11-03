@@ -18,10 +18,12 @@ export class HomePage {
         this.search.nativeElement.classList.add('displayMenu');
       } else {
         this.search.nativeElement.classList.remove('displayMenu');
+        this.presentModal();
       }
     });
+    this.presentModal();
   }
-
+  
   presentModal() {
     const modal = this.modalCtrl.create(ModalPage);
     modal.present();
