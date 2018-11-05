@@ -3,7 +3,7 @@
     -moz-transition: opacity 0.3s ease-in-out;
     -ms-transition: opacity 0.3s ease-in-out;
     -o-transition: opacity 0.3s ease-in-out;
-     opacity: 0;    
+    opacity: 0;
 }
 
 .displayMenu ion-searchbar {
@@ -11,15 +11,23 @@
     -moz-transition: opacity 0.3s ease-in-out;
     -ms-transition: opacity 0.3s ease-in-out;
     -o-transition: opacity 0.3s ease-in-out;
-     opacity: 0;    
+    opacity: 0;
 }
 
 ion-modal {
     top: unset;
     height: 30%;
-    bottom: 50px;
+    bottom: 49px;
 }
 
 .modal-wrapper {
     border-radius: 10px 10px 0 0 !important;
+    .content-ios {
+        border-radius: 10px 10px 0 0 !important;
+        box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.3);
+    }
+}
+
+page-home ion-content .scroll-content {
+    padding-top: 0 !important;
 }
