@@ -11,11 +11,6 @@ export class ModalPage {
   constructor(public viewCtrl: ViewController, public event: Events) {
     this.event.subscribe('user:click', () => {
       console.log('dissmiseando')
-      this.dismiss();
     })
-  }
-
-  dismiss() {
-    this.viewCtrl.dismiss();
   }
 }
