@@ -1,25 +1,25 @@
 page-modal {
-	.modalFilter {
-		display: flex;
-		justify-content: space-around;
-		text-align: center;
-		font-size: 0.7em;
+    .modalFilter {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        font-size: 0.7em;
         color: rgba(0, 0, 0, 0.54);
-		.fab {
-			margin: 6px auto;
-		}
-		div {
-			flex: 1;
-		}
-	}
-	.title {
-		color: rgba(0,0,0,0.87);
-		display: block;
-		font-size: 16px;
-		font-weight: 500;
-		line-height: 24px;
-		text-align: center;
-		text-transform: none;
-		margin: 0;
-	}
+        .fab {
+            margin: 6px auto;
+        }
+        div {
+            flex: 1;
+        }
+    }
+    .title {
+        color: rgba(0, 0, 0, 0.87);
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        text-align: center;
+        text-transform: none;
+        margin: 0;
+    }
 }
