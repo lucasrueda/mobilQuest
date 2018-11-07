@@ -9,3 +9,35 @@
 page-home > ion-content > .scroll-content {
     padding-top: 0 !important;
 }
+
+// Material Design Sidemenu
+#menu-material {
+    .menu-header {
+      padding: 5px 15px;
+      background-image: url('../assets/imgs/material-design-background.jpg');
+      background-size: cover;
+      color: white;
+      .name {
+        font-weight: 500;
+        margin-bottom: 3px;
+      }
+      .e-mail {
+        margin-top: 0;
+        margin-bottom: 5px;
+      }
+    }
+    .user-avatar {
+      padding: .5em;
+      height: 12vh;
+      border-radius: 50%;
+    }
+    h3,
+    .label,
+    {
+      color: #999;
+      font-weight: 400;
+    }
+    ion-icon {
+      color: #777;
+    }
+  }

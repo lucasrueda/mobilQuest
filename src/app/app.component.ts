@@ -13,11 +13,12 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage:any = HomePage;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any, active: boolean, icon: string }>;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     this.pages = [
-      { title: 'Home', component: HomePage }
+      { title: 'Home', component: 'HomePage', active: true, icon: 'home' },
+      { title: 'Mapa', component: 'HomePage', active: true, icon: 'map' }
     ];
 
     platform.ready().then(() => {
