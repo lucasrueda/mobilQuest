@@ -9,20 +9,25 @@ import { ModalPage } from '../modal/modal'
 export class HomePage {
   @ViewChild('search', { read: ElementRef }) search: ElementRef;
   @ViewChild('modal', { read: ElementRef }) modal: ElementRef;
+  @ViewChild('expander', { read: ElementRef }) expander: ElementRef;
+
   displayMenu: boolean = false;
   constructor(public navCtrl: NavController, public event: Events, public _zone: NgZone, public modalCtrl: ModalController) { }
 
   ionViewDidLoad() {
     this.search.nativeElement.classList.add('slide-in');
     this.modal.nativeElement.classList.add('slide-in');
+    this.expander.nativeElement.classList.remove('slide-in');
     this.event.subscribe('user:click', () => {
       this._zone.run(() => this.displayMenu = !this.displayMenu)
       if (this.displayMenu) {
         this.search.nativeElement.classList.add('slide-in');
         this.modal.nativeElement.classList.add('slide-in');
+        this.expander.nativeElement.classList.remove('slide-in');
       } else {
         this.search.nativeElement.classList.remove('slide-in');
         this.modal.nativeElement.classList.remove('slide-in');
+        this.expander.nativeElement.classList.add('slide-in');
       }
     });
   }
