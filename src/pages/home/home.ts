@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NavController, Events, ModalController } from 'ionic-angular';
 import { MapasnativoPage } from '../mapasnativo/mapasnativo';
 import { ModalPage } from '../modal/modal'
+import { MapaProvider } from '../../providers/mapa/mapa';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -12,9 +13,21 @@ export class HomePage {
   @ViewChild('expander', { read: ElementRef }) expander: ElementRef;
 
   displayMenu: boolean = false;
-  constructor(public navCtrl: NavController, public event: Events, public _zone: NgZone, public modalCtrl: ModalController) { }
+  data:any;
 
-  ionViewDidLoad() {
+  constructor(public navCtrl: NavController,
+    public event: Events,
+    public mapaSrv: MapaProvider,
+    public _zone: NgZone,
+    public modalCtrl: ModalController) { }
+
+  async ionViewDidLoad() {
+    this.mostrarOcultarFiltros();
+    this.data = await this.mapaSrv.consultarTodoMockUp();
+    console.log(this.data);
+  }
+
+  mostrarOcultarFiltros() {
     this.search.nativeElement.classList.add('slide-in');
     this.modal.nativeElement.classList.add('slide-in');
     this.expander.nativeElement.classList.remove('slide-in');

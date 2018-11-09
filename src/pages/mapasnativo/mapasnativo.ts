@@ -5,6 +5,8 @@ import {
     GoogleMap,
     GoogleMapsEvent,
     LatLng,
+    Marker,
+    GoogleMaps,
     CameraPosition
 } from '@ionic-native/google-maps';
 
@@ -16,6 +18,7 @@ import {
 export class MapasnativoPage {
     @Input() latitud;
     @Input() longitud;
+    @Input() data;
 
     map: GoogleMap;
 
@@ -34,11 +37,24 @@ export class MapasnativoPage {
         let location = new LatLng(this.latitud, this.longitud);
         console.log('latitud', location.lat);
         console.log('longitud', location.lng);
-        this.map = new GoogleMap('map', {});
+        this.map = GoogleMaps.create('map')
 
         this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
             console.log('Map is ready!');
-            this.moveCamara(location);
+            //this.moveCamara(location);
+            let marker: Marker = this.map.addMarkerSync({
+              title: 'Ionic',
+              icon: 'blue',
+              animation: 'DROP',
+              position: {
+                lat: 43.0741904,
+                lng: -89.3809802
+              }
+            });
+            marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+              alert('clicked');
+            });
+
         });
 
         this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe( () => {
