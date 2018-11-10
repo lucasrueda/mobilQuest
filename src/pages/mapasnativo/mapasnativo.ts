@@ -46,32 +46,60 @@ export class MapasnativoPage {
     })
   }
 
-  agregarMarcadores(){
+  async agregarMarcadores() {
     let bounds = new LatLngBounds();
-      for (let i = 0; i < data.patente.length; i++) {
-        let marker: Marker = this.map.addMarkerSync({
-          title: 'Ionic',
-          icon: this.determinarIcono(parseInt(data.estado_sensor_en_bit[i])),
-          position: {
-            lat: data.latitud[i],
-            lng: data.longitud[i]
-          }
-        });
-        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-          alert('clicked');
-        });
-        bounds.extend(marker.getPosition());
-      }
-      //Termino de centrar el mapa
-      this.moveCamara(bounds);
+    for (let i = 0; i < data.patente.length; i++) {
+      let iconoURL = this.determinarIcono(parseInt(data.estado_sensor_en_bit[i]));
+      let iconoFinal = await this.escrbirCanvas(iconoURL, data.patente[i]);
+      let marker: Marker = this.map.addMarkerSync({
+        title: 'Ionic',
+        icon: iconoFinal,
+        position: {
+          lat: data.latitud[i],
+          lng: data.longitud[i]
+        }
+      });
+      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+        alert('clicked');
+      });
+      bounds.extend(marker.getPosition());
+    }
+    //Termino de centrar el mapa
+    this.moveCamara(bounds);
   }
 
-  determinarIcono(estadoMotor){
-    if(estadoMotor){
+  determinarIcono(estadoMotor) {
+    if (estadoMotor) {
       return './assets/imgs/encendido_movimiento.png';
-    }else{
+    } else {
       return './assets/imgs/apagado_parada.png';
     }
+  }
+
+  escrbirCanvas(iconoURL, nombre) {
+    return new Promise((resolve, reject) => {
+      //Creo el canvas 
+      let canvas, ctx;
+      canvas = document.createElement("canvas");
+      ctx = canvas.getContext("2d");
+
+      // Creo el objeto de la imagen 
+      let imageObj = new Image();
+      imageObj.crossOrigin = "Anonymous";
+      imageObj.src = iconoURL;
+      // Espero que ser cargue para poder obtener sus propiedades
+      imageObj.onload = (() => {
+        canvas.width = imageObj.width + 50;
+        canvas.crossOrigin = "Anonymous";
+        canvas.height = imageObj.height + 50;
+        ctx.font = "bold 12pt Arial";
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(imageObj, 0, 0);
+        ctx.fillStyle = "blue";
+        ctx.fillText(nombre, 8, 82);
+        resolve(canvas.toDataURL("image/jpg"));
+      })
+    })
   }
 
   async moveCamara(location: LatLngBounds) {
@@ -79,7 +107,7 @@ export class MapasnativoPage {
     await this.map.moveCamera({
       target: location,
     })
-    let zoom = await this.map.getCameraZoom() - 2;
+    let zoom = await this.map.getCameraZoom() - 1.5;
     await this.map.moveCamera({
       target: center,
       zoom: zoom
