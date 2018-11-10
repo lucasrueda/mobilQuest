@@ -97,6 +97,10 @@ export class MapasnativoPage {
         ctx.drawImage(imageObj, 0, 0);
         ctx.fillStyle = "blue";
         ctx.fillText(nombre, 8, 82);
+        ctx.closePath();
+        ctx.fillStyle = "white";
+        ctx.font = "bold 6pt Arial";
+        ctx.fillText('60+', 12, 15);
         resolve(canvas.toDataURL("image/jpg"));
       })
     })
