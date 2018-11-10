@@ -93,7 +93,7 @@
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="This app wants to get your location always, even this app runs in background." />
     </plugin>
     <allow-navigation href="http://192.168.1.15:8100" />
-    <allow-navigation href="http://192.168.1.21:8100" sessionid="18ecbe53" />
+    <allow-navigation href="http://192.168.1.21:8100" sessionid="03717760" />
     <engine name="android" spec="6.3.0" />
     <engine name="browser" spec="5.0.4" />
     <engine name="ios" spec="4.5.5" />
