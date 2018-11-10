@@ -13,7 +13,7 @@ export class HomePage {
   @ViewChild('expander', { read: ElementRef }) expander: ElementRef;
 
   displayMenu: boolean = false;
-  data:any;
+  datos:any;
 
   constructor(public navCtrl: NavController,
     public event: Events,
@@ -23,8 +23,8 @@ export class HomePage {
 
   async ionViewDidLoad() {
     this.mostrarOcultarFiltros();
-    this.data = await this.mapaSrv.consultarTodoMockUp();
-    console.log(this.data);
+    this.datos = await this.mapaSrv.consultarTodoMockUp();
+    console.log(this.datos);
   }
 
   mostrarOcultarFiltros() {
