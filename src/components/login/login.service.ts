@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/x-www-form-urlencoded',
+    // 'Accept': 'application/x-www-form-urlencoded',
+    // 'Access-Control-Allow-Origin': '*'
   })
 };
 
@@ -19,8 +21,9 @@ export class LoginService {
 		console.log("​LoginService -> publiclogin -> usuario", usuario)
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('Accept', 'application/x-www-form-urlencoded');
     var body = "usua_nombre=" + usuario + "&usua_pass=" + password + "&button=Entrar";
-    return this.http.post(url, body, httpOptions).toPromise();
+    return this.http.post(url, body,httpOptions).toPromise();
 
   }
 
