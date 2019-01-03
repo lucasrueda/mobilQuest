@@ -1,0 +1,23 @@
+<ion-content padding class="transparent-header">
+    <img class="logo" [src]="logoUrl" />
+    <div padding>
+      <ion-item>
+        <ion-input [(ngModel)]="usuario" type="text" placeholder="Usuario"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="password" type="password" placeholder="Contraseña"></ion-input>
+      </ion-item>
+      <button ion-button block (click)="login()" color="mobile" class="login-button">Ingresar</button>
+    </div>
+    <!-- <div class="strike">
+      <span>OR</span>
+    </div>
+    <button ion-button block clear (click)="login()" color="light" class="login-button"><ion-icon name="logo-facebook"></ion-icon> Login with Facebook</button> -->
+  </ion-content>
+  <!-- <ion-footer>
+    <ion-toolbar class="footer">
+      <div (click)="goToSignup()">
+        <span>Don't have an account? <strong>Sign up here</strong>.</span>
+      </div>
+    </ion-toolbar>
+  </ion-footer> -->

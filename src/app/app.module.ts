@@ -15,6 +15,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapaProvider } from '../providers/mapa/mapa';
+import { LoginPage } from '../pages/login/login';
+import { LoginComponent } from '../components/login/login';
+import { LoginService } from '../components/login/login.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { MapaProvider } from '../providers/mapa/mapa';
     HomePage,
     MapasnativoPage,
     ModalPage,
-    TabsPage
+    TabsPage,
+    LoginPage,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -40,13 +45,16 @@ import { MapaProvider } from '../providers/mapa/mapa';
     HomePage,
     MapasnativoPage,
     ModalPage,
-    TabsPage
+    TabsPage,
+    LoginPage,
+    LoginComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    MapaProvider
+    MapaProvider,
+    LoginService
   ]
 })
 export class AppModule {}
