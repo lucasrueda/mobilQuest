@@ -3,10 +3,10 @@
   <div padding>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <ion-item>
-        <ion-input formControlName="usua_nombre" type="text" placeholder="Usuario" autocomplete="off"></ion-input>
+        <ion-input formControlName="usuario" type="text" placeholder="Usuario" autocomplete="off"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input formControlName="usua_pass" type="password" placeholder="Contraseña" autocomplete="off"></ion-input>
+        <ion-input formControlName="password" type="password" placeholder="Contraseña" autocomplete="off"></ion-input>
       </ion-item>
       <button ion-button block type="submit" color="mobile" class="login-button">Ingresar</button>
     </form>

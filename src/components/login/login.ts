@@ -24,9 +24,8 @@ export class LoginComponent {
     private toastCtrl: ToastController
   ) {
     this.loginForm = this.formBuilder.group({
-      usua_nombre: ['', Validators.required],
-      usua_pass: ['', Validators.required],
-      button: ['Entrar'],
+      usuario: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
