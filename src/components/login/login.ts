@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { AlertController, App, LoadingController, IonicPage, Form } from 'ionic-angular';
+import { AlertController, App, LoadingController, IonicPage, Form, ToastController } from 'ionic-angular';
 import { LoginService } from './login.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'login',
@@ -10,27 +11,50 @@ export class LoginComponent {
   @Input() logoUrl: string;
   @Input() endpoint: string;
 
-  usuario: string;
-  password: string;
+
+
+  private loginForm: FormGroup;
+  private loading: any;
 
   constructor(
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
-    public loginSrv: LoginService
+    public loginSrv: LoginService,
+    private formBuilder: FormBuilder,
+    private toastCtrl: ToastController
   ) {
+    this.loginForm = this.formBuilder.group({
+      usua_nombre: ['', Validators.required],
+      usua_pass: ['', Validators.required],
+      button: ['Entrar'],
+    });
   }
 
   ionViewDidLoad() {
   }
 
   login() {
-    this.loginSrv.login(this.usuario, this.password, this.endpoint)
+    this.showLoading();
+    this.loginSrv.login(this.loginForm.value, this.endpoint)
       .then(res => {
-        console.log("​LoginComponent -> login -> res", res)
-
+        // Nunca entra por el then la consulta al servidor por mala configuracion de MobileQuest.
+        this.loading.dismiss();
       })
       .catch(err => {
-        console.log("​LoginComponent -> login -> err", err)
+        this.loading.dismiss();
+        console.log("​LoginComponent -> login -> err", err.error.text)
+        // si las credenciales estan mal, aparece un alert("Nombre de usuario incorrecto")
+        // sino, aparece dentro de un <p> el numero de id del cliente
+        const respuesta = err.error.text;
+        if (respuesta.includes('incorrecto')) {
+          //todo mal, no existe el usuario
+          console.log("todo mal")
+          this.presentToast("Usuario y/o contraseña incorrectos. Vuelva a intentar")
+        } else {
+          // existe el usuario
+          console.log("todo ok")
+          this.presentToast("Ha iniciado sesión correctamente")
+        }
 
       })
     // const loading = this.loadingCtrl.create({
@@ -47,6 +71,23 @@ export class LoginComponent {
     // });
 
     // loading.present();
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      // content: 'Por favor espere...',
+      spinner: 'crescent',
+    });
+    this.loading.present();
+  }
+
+  presentToast(mensaje) {
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
 
   goToSignup() {

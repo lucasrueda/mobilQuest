@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded',
-    // 'Accept': 'application/x-www-form-urlencoded',
-    // 'Access-Control-Allow-Origin': '*'
-  })
-};
+// const httpOptions = {
+//   headers: new HttpHeaders({
+//     'Content-Type': 'application/x-www-form-urlencoded',
+//     'Accept': 'application/x-www-form-urlencoded',
+//     'Access-Control-Allow-Origin': '*'
+//   })
+// };
 
 @Injectable()
 export class LoginService {
@@ -17,13 +17,19 @@ export class LoginService {
 
   }
 
-  public login(usuario, password, url) {
-		console.log("​LoginService -> publiclogin -> usuario", usuario)
+  public login(credenciales, url) {
+	console.log("​LoginService -> publiclogin -> credenciales", credenciales)
+    const usuario = credenciales.usua_nombre;
+    const password = credenciales.usua_pass;
+    const button = credenciales.button;
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('Accept', 'application/x-www-form-urlencoded');
-    var body = "usua_nombre=" + usuario + "&usua_pass=" + password + "&button=Entrar";
-    return this.http.post(url, body,httpOptions).toPromise();
+    headers.append('Access-Control-Allow-Origin', '*');
+    const body = new FormData();
+    body.append("usua_nombre",usuario);
+    body.append("usua_pass",password);
+    body.append("button",button);
+    return this.http.post(url, body, {headers:headers}).toPromise();
 
   }
 
