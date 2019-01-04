@@ -11,6 +11,10 @@
         <ion-icon [name]="p.icon" item-left></ion-icon>
         {{p.title}}
       </button>
+      <button menuClose="left" ion-item detail-none (click)="logout()">
+        <ion-icon name="log-out" item-left></ion-icon>
+        Cerrar sesión
+      </button>
     </ion-list>
   </ion-content>
 </ion-menu>

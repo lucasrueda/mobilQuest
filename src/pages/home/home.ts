@@ -1,8 +1,10 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
-import { NavController, Events, ModalController } from 'ionic-angular';
+import { NavController, Events, ModalController, NavParams } from 'ionic-angular';
 import { MapasnativoPage } from '../mapasnativo/mapasnativo';
 import { ModalPage } from '../modal/modal'
 import { MapaProvider } from '../../providers/mapa/mapa';
+import { Storage } from '@ionic/storage';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -13,13 +15,25 @@ export class HomePage {
   @ViewChild('expander', { read: ElementRef }) expander: ElementRef;
 
   displayMenu: boolean = false;
-  datos:any;
+  datos: any;
+  id_cliente: number;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
     public event: Events,
     public mapaSrv: MapaProvider,
     public _zone: NgZone,
-    public modalCtrl: ModalController) { }
+    public modalCtrl: ModalController,
+    private storage: Storage
+  ) {
+    this.storage.ready()
+      .then(() => {
+        this.storage.get('id_cliente').then((id_cliente) => {
+          this.id_cliente = id_cliente
+        });
+      })
+  }
 
   async ionViewDidLoad() {
     this.mostrarOcultarFiltros();

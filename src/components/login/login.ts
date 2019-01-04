@@ -1,8 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { AlertController, App, LoadingController, IonicPage, Form, ToastController } from 'ionic-angular';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { LoadingController } from 'ionic-angular';
 import { LoginService } from './login.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'login',
@@ -11,7 +10,7 @@ import { Storage } from '@ionic/storage';
 export class LoginComponent {
   @Input() logoUrl: string;
   @Input() endpoint: string;
-
+  @Output() respuesta = new EventEmitter<any>();
 
 
   private loginForm: FormGroup;
@@ -19,11 +18,8 @@ export class LoginComponent {
 
   constructor(
     public loadingCtrl: LoadingController,
-    public alertCtrl: AlertController,
     public loginSrv: LoginService,
     private formBuilder: FormBuilder,
-    private storage: Storage,
-    private toastCtrl: ToastController
   ) {
     this.loginForm = this.formBuilder.group({
       usuario: ['', Validators.required],
@@ -38,16 +34,21 @@ export class LoginComponent {
     this.showLoading();
     this.loginSrv.login(this.loginForm.value, this.endpoint)
       .then(id_cliente => {
-				// id_cliente listo para hacer un push o root de una page
+        // id_cliente listo para hacer un push o root de una page
         this.loading.dismiss();
-        this.presentToast("Ha iniciado sesión correctamente")
+        const res = {
+          login: true,
+          id_cliente
+        }
+        this.respuesta.emit(res);
       })
       .catch(err => {
         this.loading.dismiss();
-        let mensaje: string;
-        if(err.pass) mensaje = "Contraseña incorrecta"
-        else mensaje = "Usuario incorrecto"
-        this.presentToast(mensaje)
+        const res = {
+          login: false,
+          err
+        }
+        this.respuesta.emit(res);
       })
     // const loading = this.loadingCtrl.create({
     //   duration: 500
@@ -65,25 +66,12 @@ export class LoginComponent {
     // loading.present();
   }
 
-  logout(){
-    this.loginSrv.logout();
-  }
-
   showLoading() {
     this.loading = this.loadingCtrl.create({
       // content: 'Por favor espere...',
       spinner: 'crescent',
     });
     this.loading.present();
-  }
-
-  presentToast(mensaje) {
-    let toast = this.toastCtrl.create({
-      message: mensaje,
-      duration: 3000,
-      position: 'top'
-    });
-    toast.present();
   }
 
   goToSignup() {

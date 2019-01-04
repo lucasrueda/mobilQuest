@@ -17,7 +17,6 @@ export class LoginService {
   }
 
   public login(credenciales, url) {
-    console.log("​LoginService -> publiclogin -> credenciales", credenciales)
     const usuario = credenciales.usuario;
     const password = credenciales.password;
 
@@ -48,10 +47,6 @@ export class LoginService {
           return this.storageId(id_cliente);
         }
       })
-  }
-
-  public logout() {
-    this.storage.clear();
   }
 
   storageId(id_cliente) {
