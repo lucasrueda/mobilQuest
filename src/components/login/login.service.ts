@@ -29,15 +29,18 @@ export class LoginService {
         // Nunca entra por el then la consulta al servidor por mala configuracion de MobileQuest.
       })
       .catch(res => {
+				console.log("​LoginService -> publiclogin -> res", res)
         const respuesta = res.error.text;
-        if (respuesta.includes('Clave incorrecta') || respuesta.includes('Nombre de usuario incorrecto')) {
+        if (respuesta.includes('Clave incorrecta') || respuesta.includes('Nombre de usuario incorrecto') || respuesta.includes('<error></error>')) {
           //todo mal
           const err = {
             usuario: false,
-            pass: false
+            pass: false,
+            denegado: false,
           }
-          if (respuesta.includes('Clave incorrecta')) err.pass = true
-          else err.usuario = true;
+          if (respuesta.includes('Clave incorrecta')) err.pass = true;
+          if (respuesta.includes('Nombre de usuario incorrecto')) err.usuario = true;
+          if (respuesta.includes('<error></error>')) err.denegado = true;
           return Promise.reject(err)
         } else {
           // todo ok.

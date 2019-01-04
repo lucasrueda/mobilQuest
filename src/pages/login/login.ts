@@ -16,7 +16,7 @@ export class LoginPage {
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
   ) {
     this.endpoint = "http://www.mobilequest.com.ar/session.php"
     this.logoUrl = "assets/imgs/login_logo.png"
@@ -29,12 +29,14 @@ export class LoginPage {
     let mensaje: string;
     if (respuesta.login) {
       mensaje = "Ha iniciado sesión correctamente";
+      this.presentToast(mensaje)
       this.navCtrl.setRoot(HomePage)
     } else {
       if (respuesta.err.pass) mensaje = "Contraseña incorrecta"
-      else mensaje = "Usuario incorrecto"
+      if (respuesta.err.usuario) mensaje = "Usuario incorrecto"
+      if (respuesta.err.denegado) mensaje = "Acceso denegado"
+      this.presentAlert(mensaje)
     }
-    this.presentToast(mensaje)
   }
 
   presentToast(mensaje) {
@@ -44,6 +46,15 @@ export class LoginPage {
       position: 'top'
     });
     toast.present();
+  }
+
+  presentAlert(mensaje) {
+    let alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: mensaje,
+      buttons: ['Aceptar']
+    });
+    alert.present();
   }
 
 
