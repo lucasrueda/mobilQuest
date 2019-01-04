@@ -47,7 +47,7 @@ export class MyApp {
   logout() {
     this.storage.clear()
       .then(() => {
-        this.rootPage = LoginPage;
+        this.nav.setRoot(LoginPage);
       })
   }
 

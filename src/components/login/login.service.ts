@@ -59,11 +59,4 @@ export class LoginService {
     })
   }
 
-  public consultarTodo() {
-    let headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Content-Type', 'application/json');
-    return this.http.get('http://mobilequest.com.ar/acciones_mq3.php?accion=buscapuntos&id_cliente=155', { headers: headers }).toPromise();
-  }
-
 }
