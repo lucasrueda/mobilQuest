@@ -35,12 +35,11 @@ export class HomePage {
       .then(() => {
         this.storage.get('id_cliente').then(async (id_cliente) => {
           this.id_cliente = id_cliente
-          // en consultar todo serian 3 las consultas:
-          // la que ya esta hecha: url acciones_mq3 con el form accion: buscapuntos
-          // falta la de accion: mensajes
-          // y para la url acciones_informes el form es accion_restricciones
-          // todas las consultas se le agrega el id_cliente en el form
-          this.datos = await this.mapaSrv.consultarTodo(this.id_cliente);
+          try {
+            this.datos = await this.mapaSrv.consultarTodo(this.id_cliente);
+          } catch (error) {
+            console.log("​catch -> error", error)
+          }
           console.log(this.datos);
         });
       })
