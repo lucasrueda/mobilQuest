@@ -1,12 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { data } from './data'
-/*
-  Generated class for the MapaProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
+const headers = new HttpHeaders();
+headers.append('Content-Type', 'application/x-www-form-urlencoded');
+headers.append('Access-Control-Allow-Origin', '*');
+
 @Injectable()
 export class MapaProvider {
 
@@ -14,11 +13,14 @@ export class MapaProvider {
     console.log('Hello MapaProvider Provider');
   }
 
-  public consultarTodo() {
+  public consultarTodo(id_cliente) {
     let headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://mobilequest.com.ar/acciones_mq3.php?accion=buscapuntos&id_cliente=155', { headers: headers }).toPromise();
+    const body = new FormData();
+    body.append("accion", 'buscapuntos');
+    body.append("id_cliente", id_cliente);
+    return this.http.post('http://mobilequest.com.ar/acciones_mq3.php', body, { headers: headers }).toPromise();
   }
 
   public consultarTodoMockUp() {
