@@ -25,7 +25,7 @@ export class MapaProvider {
     // el promise.all resuelve todas las promises en paralelo, si alguna falla, falla la funcion con un reject.
     // esto nos asegura q se cumplan todas las peticiones o nada..
     // si se cumplen, esto devuelve un array, en donde cada elemento del array es la respuesta a una promise.
-    return Promise.all([c1, c2]);
+    return Promise.all([c1, c2, c3]);
   }
 
   private consulta_1(id_cliente) {
