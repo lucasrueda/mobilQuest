@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AlertController, App, LoadingController, IonicPage, Form, ToastController } from 'ionic-angular';
 import { LoginService } from './login.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'login',
@@ -21,6 +22,7 @@ export class LoginComponent {
     public alertCtrl: AlertController,
     public loginSrv: LoginService,
     private formBuilder: FormBuilder,
+    private storage: Storage,
     private toastCtrl: ToastController
   ) {
     this.loginForm = this.formBuilder.group({
@@ -35,26 +37,17 @@ export class LoginComponent {
   login() {
     this.showLoading();
     this.loginSrv.login(this.loginForm.value, this.endpoint)
-      .then(res => {
-        // Nunca entra por el then la consulta al servidor por mala configuracion de MobileQuest.
+      .then(id_cliente => {
+				// id_cliente listo para hacer un push o root de una page
         this.loading.dismiss();
+        this.presentToast("Ha iniciado sesión correctamente")
       })
       .catch(err => {
         this.loading.dismiss();
-        console.log("​LoginComponent -> login -> err", err.error.text)
-        // si las credenciales estan mal, aparece un alert("Nombre de usuario incorrecto")
-        // sino, aparece dentro de un <p> el numero de id del cliente
-        const respuesta = err.error.text;
-        if (respuesta.includes('incorrecto')) {
-          //todo mal, no existe el usuario
-          console.log("todo mal")
-          this.presentToast("Usuario y/o contraseña incorrectos. Vuelva a intentar")
-        } else {
-          // existe el usuario
-          console.log("todo ok")
-          this.presentToast("Ha iniciado sesión correctamente")
-        }
-
+        let mensaje: string;
+        if(err.pass) mensaje = "Contraseña incorrecta"
+        else mensaje = "Usuario incorrecto"
+        this.presentToast(mensaje)
       })
     // const loading = this.loadingCtrl.create({
     //   duration: 500
@@ -70,6 +63,10 @@ export class LoginComponent {
     // });
 
     // loading.present();
+  }
+
+  logout(){
+    this.loginSrv.logout();
   }
 
   showLoading() {
