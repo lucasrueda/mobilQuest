@@ -60,12 +60,20 @@ export class MapasnativoPage {
         }
       });
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-        alert('clicked');
+        this.verInformacion(i);
       });
       bounds.extend(marker.getPosition());
     }
     //Termino de centrar el mapa
     this.moveCamara(bounds);
+  }
+
+  verInformacion(i:number){
+    let vehiculo = {
+      numeroDeLinea: data.numero[i],
+      patente: data.patente[i],
+    }
+    console.log(vehiculo);
   }
 
   determinarIcono(estadoMotor) {

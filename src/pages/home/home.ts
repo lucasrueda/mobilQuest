@@ -40,7 +40,7 @@ export class HomePage {
           } catch (error) {
             console.log("​catch -> error", error)
           }
-          console.log(this.datos);
+          console.log('mostrando datos', this.datos);
         });
       })
   }

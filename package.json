@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "start": "ionic-app-scripts serve",
+    "emulate": "ionic cordova emulate ios -lc -- --buildFlag='-UseModernBuildSystem=0' --target='iPhone-8'",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint"
