@@ -4,6 +4,7 @@ import { MapasnativoPage } from '../mapasnativo/mapasnativo';
 import { ModalPage } from '../modal/modal'
 import { MapaProvider } from '../../providers/mapa/mapa';
 import { Storage } from '@ionic/storage';
+import { obtenerDireccion } from '../../helpers/helpers';
 
 @Component({
   selector: 'page-home',
@@ -43,6 +44,7 @@ export class HomePage {
           console.log('mostrando datos', this.datos);
         });
       })
+      obtenerDireccion(-28.477151666,-65.7661866660)
   }
 
   mostrarOcultarFiltros() {

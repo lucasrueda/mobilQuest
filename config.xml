@@ -94,7 +94,7 @@
     </plugin>
     <allow-navigation href="http://192.168.1.15:8100" />
     <allow-navigation href="http://192.168.1.21:8100" sessionid="03717760" />
-    <allow-navigation href="http://192.168.100.11:8100" sessionid="8c5ecf5e" />
+    <allow-navigation href="http://192.168.100.11:8100" sessionid="05c3df72" />
     <engine name="android" spec="6.3.0" />
     <engine name="browser" spec="5.0.4" />
     <engine name="ios" spec="4.5.5" />

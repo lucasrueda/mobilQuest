@@ -4,14 +4,13 @@ import { NavController, NavParams } from 'ionic-angular';
 import {
   GoogleMap,
   GoogleMapsEvent,
-  LatLng,
   Marker,
   GoogleMaps,
   LatLngBounds,
-  CameraPosition
 } from '@ionic-native/google-maps';
 import { data } from '../../providers/mapa/data';
-
+import { EstadoVehiculo } from '../../models/EstadoVehiculo';
+import { signalGPS } from '../../helpers/helpers'
 
 @Component({
   selector: 'page-mapasnativo',
@@ -69,11 +68,15 @@ export class MapasnativoPage {
   }
 
   verInformacion(i:number){
-    let vehiculo = {
-      numeroDeLinea: data.numero[i],
-      patente: data.patente[i],
-    }
-    console.log(vehiculo);
+    // let vehiculo:EstadoVehiculo = new EstadoVehiculo(
+    //   data.numero[i],
+    //   data.patente[i],
+    //   data.patente[i],
+    //   data.marca[i],
+    //   data.color[i],
+    //   signalGPS(data.hdop[i]),
+    // );
+    // console.log(vehiculo);
   }
 
   determinarIcono(estadoMotor) {
