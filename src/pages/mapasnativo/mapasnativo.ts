@@ -8,9 +8,8 @@ import {
   GoogleMaps,
   LatLngBounds,
 } from '@ionic-native/google-maps';
-import { data } from '../../providers/mapa/data';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
-import { signalGPS } from '../../helpers/helpers'
+import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor } from '../../helpers/helpers'
 
 @Component({
   selector: 'page-mapasnativo',
@@ -47,15 +46,15 @@ export class MapasnativoPage {
 
   async agregarMarcadores() {
     let bounds = new LatLngBounds();
-    for (let i = 0; i < data.patente.length; i++) {
-      let iconoURL = this.determinarIcono(parseInt(data.estado_sensor_en_bit[i]));
-      let iconoFinal = await this.escrbirCanvas(iconoURL, data.patente[i]);
+    for (let i = 0; i < this.datos.patente.length; i++) {
+      let iconoURL = this.determinarIcono(parseInt(this.datos.estado_sensor_en_bit[i]));
+      let iconoFinal = await this.escrbirCanvas(iconoURL, this.datos.patente[i]);
       let marker: Marker = this.map.addMarkerSync({
         title: 'Ionic',
         icon: iconoFinal,
         position: {
-          lat: data.latitud[i],
-          lng: data.longitud[i]
+          lat: this.datos.latitud[i],
+          lng: this.datos.longitud[i]
         }
       });
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
@@ -67,16 +66,22 @@ export class MapasnativoPage {
     this.moveCamara(bounds);
   }
 
-  verInformacion(i:number){
-    // let vehiculo:EstadoVehiculo = new EstadoVehiculo(
-    //   data.numero[i],
-    //   data.patente[i],
-    //   data.patente[i],
-    //   data.marca[i],
-    //   data.color[i],
-    //   signalGPS(data.hdop[i]),
-    // );
-    // console.log(vehiculo);
+  async verInformacion(i:number){
+    let vehiculo:EstadoVehiculo = new EstadoVehiculo(
+      this.datos.numero[i],
+      this.datos.dominio[i],
+      this.datos.patente[i],
+      this.datos.marca[i],
+      this.datos.color[i],
+      await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),
+      this.datos.hora_avl[i],
+      tiempoDetenido(this.datos.tiempo_parada[i]*60),
+      estadoMotor(this.datos.estado_sensor_en_bit[i]),
+      Math.round(parseFloat(this.datos.km_total_usuario[i])*100)/100,//cuenta Kilometros
+      this.datos.voltaje_vehiculo[i],
+      signalGPS(this.datos.hdop[i])
+    );
+    console.log(vehiculo);
   }
 
   determinarIcono(estadoMotor) {

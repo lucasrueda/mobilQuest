@@ -20,12 +20,14 @@ export class MapaProvider {
     // 3: url acciones_informes con el form es accion_restricciones
     // todas las consultas se le agrega el id_cliente en el form
     const c1 = this.consulta_1(id_cliente)
-    const c2 = this.consulta_2(id_cliente)
-    const c3 = this.consulta_3(id_cliente)
+    // const c2 = this.consulta_2(id_cliente)
+    // const c3 = this.consulta_3(id_cliente)
     // el promise.all resuelve todas las promises en paralelo, si alguna falla, falla la funcion con un reject.
     // esto nos asegura q se cumplan todas las peticiones o nada..
     // si se cumplen, esto devuelve un array, en donde cada elemento del array es la respuesta a una promise.
-    return Promise.all([c1, c2, c3]);
+
+    // return Promise.all([c1, c2, c3]);
+    return Promise.all([c1]);
   }
 
   private consulta_1(id_cliente) {

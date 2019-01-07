@@ -21,14 +21,42 @@ const signalGPS = hdop => {
 }
 
 const obtenerDireccion = (lat, long) => {
-  Geocoder.geocode({
+  return Geocoder.geocode({
     "position": new LatLng(lat, long)
   }).then((results: GeocoderResult[]) => {
     if (results.length == 0) {
-      return null;
+      return Promise.resolve(null);
     }
-    return results[0].extra.lines[0];
-  });
+    return Promise.resolve(results[0].extra.lines[0]);
+  }).catch( e => console.log(e));
 }
 
-export { signalGPS, obtenerDireccion };
+const tiempoDetenido = (segundos: number) => {
+  let minutos = segundos / 60;
+  let horas = minutos / 60;
+  horas = parseInt(horas.toString());
+  let msj_minutos;
+  if (minutos > 59) {
+    minutos = minutos - (horas * 60);
+  }
+  if (minutos == 1) {
+    msj_minutos = " minuto.";
+  } else {
+    msj_minutos = " minutos.";
+  }
+  if (horas == 0) {
+    return minutos + msj_minutos;
+  } else {
+    if (horas == 1) {
+      return horas + " hora y " + minutos + msj_minutos;
+    } else {
+      return horas + " horas y " + minutos + msj_minutos;
+    }
+  }
+}
+
+const estadoMotor = estado => {
+  return (parseInt(estado)) ? 'Encendido' : 'Apagado';
+}
+
+export { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor };

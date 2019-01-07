@@ -1,12 +1,12 @@
 export class Vehiculo {
-    nuneroDeLinea:string;
+    numeroDeLinea:string;
     denominacion:string;
     patente:string;
     marca:string;
     color:string;
 
-    constructor(nuneroDeLinea, denominacion, patente, marca, color){
-        this.nuneroDeLinea = nuneroDeLinea;
+    constructor(numeroDeLinea, denominacion, patente, marca, color){
+        this.numeroDeLinea = numeroDeLinea;
         this.denominacion = denominacion;
         this.patente = patente;
         this.marca = marca;

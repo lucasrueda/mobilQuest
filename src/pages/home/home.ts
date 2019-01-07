@@ -37,14 +37,14 @@ export class HomePage {
         this.storage.get('id_cliente').then(async (id_cliente) => {
           this.id_cliente = id_cliente
           try {
-            this.datos = await this.mapaSrv.consultarTodo(this.id_cliente);
+            this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
+            this
           } catch (error) {
             console.log("​catch -> error", error)
           }
           console.log('mostrando datos', this.datos);
         });
       })
-      obtenerDireccion(-28.477151666,-65.7661866660)
   }
 
   mostrarOcultarFiltros() {
