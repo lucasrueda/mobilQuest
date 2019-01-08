@@ -17,10 +17,11 @@ export class SeleccionFechaComponent {
   horaDesdeMax: any;
 
   fechaHasta: Date;
-  horaHasta: Date;
+  horaHasta: any;
   fechaHastaMax: any;
   fechaHastaMin: any;
   horaHastaMax: any;
+  horaHastaMin: any;
 
   constructor() {
     console.log(moment())
@@ -29,15 +30,17 @@ export class SeleccionFechaComponent {
   }
 
   fechaDesdeSelect() {
+    this.horaDesde = '00:00'
     if (this.fechaDesde === this.fechaNow) {
       this.horaDesdeMax = this.horaNow
-      this.horaDesde = moment().format();
-    }else{
+    } else {
       this.horaDesdeMax = '23:59'
     }
-   
+    this.fechaHasta = null;
+    this.horaHasta = null;
+    this.horaDesdeSelect();
   }
-
+  
   horaDesdeSelect() {
     if (this.fechaDesde && this.horaDesde) {
       const fechaElegida = `${this.fechaDesde} ${this.horaDesde}`;
@@ -45,20 +48,26 @@ export class SeleccionFechaComponent {
       const isAfter = moment(fechaHastaLimiteMax).isAfter(`${this.fechaNow} ${this.horaNow}`);
       if (isAfter) {
         fechaHastaLimiteMax = moment().format(`${this.fechaNow} ${this.horaNow}`);
-      }else{
+      } else {
         fechaHastaLimiteMax = moment(moment(fechaElegida).add('1', 'd').format('YYYY-MM-DD HH:mm')).format('YYYY-MM-DD HH:mm');
       }
       
       this.fechaHastaMax = fechaHastaLimiteMax.split(' ')[0];
       this.fechaHastaMin = this.fechaDesde;
       this.horaHastaMax = fechaHastaLimiteMax.split(' ')[1];
+      this.horaHasta = null;
     }
   }
-
-  hastaSelect(){
-    if(this.fechaDesde === this.fechaHasta){
-      
+  
+  fechaHastaSelect() {
+    if (this.fechaDesde === this.fechaHasta) {
+      this.horaHastaMax = '23:59';
+      this.horaHastaMin = this.horaDesde;
+    }else{
+      this.horaHastaMax = this.horaDesde;
+      this.horaHastaMin = '00:00';
     }
+    this.horaHasta = this.horaHastaMin;
   }
 
 }

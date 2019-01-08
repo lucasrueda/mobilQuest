@@ -29,14 +29,14 @@
       <ion-col col-8>
         <ion-item no-padding>
           <ion-label floating>Fecha</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaHastaMax" [min]="fechaHastaMin" cancelText="Cancelar"
+          <ion-datetime [disabled]="!fechaDesde && !horaDesde" displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaHastaMax" [min]="fechaHastaMin" cancelText="Cancelar"
             doneText="Aceptar" [(ngModel)]="fechaHasta" (ionChange)="fechaHastaSelect()"></ion-datetime>
         </ion-item>
       </ion-col>
       <ion-col col-4>
         <ion-item no-padding>
           <ion-label floating>Hora</ion-label>
-          <ion-datetime displayFormat="HH:mm" [(ngModel)]="horaHasta" [max]="horaHastaMax" min="00:00"></ion-datetime>
+          <ion-datetime [disabled]="!fechaHasta" displayFormat="HH:mm" [(ngModel)]="horaHasta" [max]="horaHastaMax" [min]="horaHastaMin"></ion-datetime>
         </ion-item>
       </ion-col>
     </ion-row>
