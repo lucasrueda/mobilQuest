@@ -1,0 +1,36 @@
+<ion-content>
+  <ion-grid>
+    <span>Desde</span>
+    <ion-row>
+      <ion-col col-8>
+        <ion-item no-padding>
+          <ion-label floating>Fecha</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaNow" min="1999-01-01" cancelText="Cancelar"
+            doneText="Aceptar" [(ngModel)]="fechaDesde" (ionChange)="desdeSelect()"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col col-4>
+        <ion-item no-padding>
+          <ion-label floating>Hora</ion-label>
+          <ion-datetime displayFormat="HH:mm" [max]="horaNow" min="00:00" [(ngModel)]="horaDesde" (ionChange)="desdeSelect()"></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <span>Hasta</span>
+    <ion-row>
+      <ion-col col-8>
+        <ion-item no-padding>
+          <ion-label floating>Fecha</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaHastaMax" [min]="fechaHastaMin" cancelText="Cancelar"
+            doneText="Aceptar" [(ngModel)]="fechaHasta" (ionChange)="hastaSelect()"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col col-4>
+        <ion-item no-padding>
+          <ion-label floating>Hora</ion-label>
+          <ion-datetime displayFormat="HH:mm" [(ngModel)]="horaHasta" [max]="horaHastaMax" min="00:00"></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

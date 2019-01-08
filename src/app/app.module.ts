@@ -19,6 +19,8 @@ import { MapaProvider } from '../providers/mapa/mapa';
 import { LoginPage } from '../pages/login/login';
 import { LoginComponent } from '../components/login/login';
 import { LoginService } from '../components/login/login.service';
+import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion-fecha';
+import { SeleccionFechaService } from '../components/seleccion-fecha/seleccion-fecha.service';
 
 @NgModule({
   declarations: [
@@ -30,13 +32,19 @@ import { LoginService } from '../components/login/login.service';
     ModalPage,
     TabsPage,
     LoginPage,
-    LoginComponent
+    LoginComponent,
+    SeleccionFechaComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      monthNames : ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthShortNames : ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      dayNames : ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'],
+      dayShortNames : ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom']
+    }),
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -49,14 +57,19 @@ import { LoginService } from '../components/login/login.service';
     ModalPage,
     TabsPage,
     LoginPage,
-    LoginComponent
+    LoginComponent,
+    SeleccionFechaComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     MapaProvider,
-    LoginService
+    LoginService,
+    SeleccionFechaService
   ]
 })
-export class AppModule {}
+
+
+
+export class AppModule { }
