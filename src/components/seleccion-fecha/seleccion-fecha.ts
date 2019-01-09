@@ -10,6 +10,7 @@ import * as moment from 'moment';
 export class SeleccionFechaComponent {
 
   @Input() imei: string;
+  @Output() respuesta = new EventEmitter<any>();
 
   filtroAvanzado: boolean = false;
   filtroRapido: any;
@@ -98,13 +99,13 @@ export class SeleccionFechaComponent {
     const isSame = moment(fechaElegida).isSame(`${this.fechaHasta} ${this.horaHasta}`);
     const isSameOrAfter = moment(fechaHastaLimiteMax).isSameOrAfter(`${this.fechaHasta} ${this.horaHasta}`);
     console.log("​SeleccionFechaComponent -> buscarAvanzado -> isSameOrAfter", isSameOrAfter)
-    if(isSame){
-      this.presentAlert('Las fechas son iguales. Ingrese un nuevo intervalo de fechas')
-      
-    }else{
+    if (isSame) {
+      this.presentAlert('Rango de fechas no permitido', 'Las fechas son iguales. Ingrese un nuevo intervalo de fechas')
+
+    } else {
       // isSameOrAfter tiene que ser true, es decir, la fecha limite son 24 hs despues, y eso se cumple con TRUE
       if (!isSameOrAfter) {
-        this.presentAlert('La consulta no puede superar las 24 hs. Ingrese un nuevo intervalo de fechas')
+        this.presentAlert('Rango de fechas no permitido', 'La consulta no puede superar las 24 hs. Ingrese un nuevo intervalo de fechas')
       } else {
         const fecha_desde = `${this.fechaDesde} ${this.horaDesde}`
         const fecha_hasta = `${this.fechaHasta} ${this.horaHasta}`
@@ -116,19 +117,29 @@ export class SeleccionFechaComponent {
 
   buscar(fecha_desde, fecha_hasta) {
     this.selectFechaSrv.buscar(fecha_desde, fecha_hasta, this.imei)
-      .then(res => {
-        console.log("​SeleccionFechaComponent -> buscarFiltroRapido -> res", res)
-
+      .then((res: any) => {
+        if (res.hasOwnProperty('respuesta')) {
+          console.log("error: ", res.respuesta)
+          if (res.respuesta === "SIN_REGISTROS") {
+            this.presentAlert('Sin registros', 'Por favor ingrese otro intervalo de fechas')
+          } else {
+            this.presentAlert(`Error (${res.respuesta})`, 'Por favor ingrese otro intervalo de fechas')
+          }
+        } else {
+          console.log("Todo ok")
+					console.log("​SeleccionFechaComponent -> buscar -> res", res)
+          this.respuesta.emit(res);
+        }
       })
       .catch(err => {
         console.log("​SeleccionFechaComponent -> buscarFiltroRapido -> err", err)
-
+        this.presentAlert(`Error (${err})`, 'Comuniquese con un asistente')
       })
   }
 
-  presentAlert(mensaje) {
+  presentAlert(title, mensaje) {
     let alert = this.alertCtrl.create({
-      title: 'Rango de fechas no permitido',
+      title: title,
       subTitle: mensaje,
       buttons: ['Aceptar']
     });
