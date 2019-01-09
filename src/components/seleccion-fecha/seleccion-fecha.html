@@ -1,26 +1,23 @@
 <ion-content>
-  <ion-grid>
+  <ion-item>
+    <ion-label>Filtros avanzados</ion-label>
+    <ion-toggle checked="filtroAvanzado" (ionChange)="filtroAvanzadoOption()"></ion-toggle>
+  </ion-item>
+  <ion-grid *ngIf="filtroAvanzado">
     <span>Desde</span>
     <ion-row>
       <ion-col col-8>
         <ion-item no-padding>
           <ion-label floating>Fecha</ion-label>
-          <ion-datetime 
-          displayFormat="DD/MM/YYYY" 
-          pickerFormat="DD/MMM/YYYY" 
-          [max]="fechaNow" 
-          min="1999-01-01" 
-          cancelText="Cancelar"
-          doneText="Aceptar" 
-          [(ngModel)]="fechaDesde" 
-          (ionChange)="fechaDesdeSelect()"></ion-datetime>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaNow" min="1999-01-01" cancelText="Cancelar"
+            doneText="Aceptar" [(ngModel)]="fechaDesde" (ionChange)="fechaDesdeSelect()"></ion-datetime>
         </ion-item>
       </ion-col>
       <ion-col col-4>
         <ion-item no-padding>
           <ion-label floating>Hora</ion-label>
           <ion-datetime [disabled]="!fechaDesde" displayFormat="HH:mm" pickerFormat="HH:mm" [max]="horaDesdeMax" min="00:00" cancelText="Cancelar"
-          doneText="Aceptar" [(ngModel)]="horaDesde" (ionChange)="horaDesdeSelect()"></ion-datetime>
+            doneText="Aceptar" [(ngModel)]="horaDesde" (ionChange)="horaDesdeSelect()"></ion-datetime>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -29,8 +26,8 @@
       <ion-col col-8>
         <ion-item no-padding>
           <ion-label floating>Fecha</ion-label>
-          <ion-datetime [disabled]="!fechaDesde && !horaDesde" displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaHastaMax" [min]="fechaHastaMin" cancelText="Cancelar"
-            doneText="Aceptar" [(ngModel)]="fechaHasta" (ionChange)="fechaHastaSelect()"></ion-datetime>
+          <ion-datetime [disabled]="!fechaDesde && !horaDesde" displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaHastaMax"
+            [min]="fechaHastaMin" cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="fechaHasta" (ionChange)="fechaHastaSelect()"></ion-datetime>
         </ion-item>
       </ion-col>
       <ion-col col-4>
@@ -40,5 +37,42 @@
         </ion-item>
       </ion-col>
     </ion-row>
+    <button ion-button block (click)="buscarAvanzado()" color="mobile" round outline [disabled]="!fechaDesde || !horaDesde || !fechaHasta || !horaHasta">Ver recorrido</button>
+    
+  </ion-grid>
+  <ion-grid *ngIf="!filtroAvanzado">
+    <ion-item>
+      <ion-label stacked>Ver recorrido de</ion-label>
+      <ion-select [(ngModel)]="filtroRapido" placeholder="Seleccione una opción" interface="action-sheet" cancelText="Cancelar">
+        <ion-option value="15m">Ultimos 15 minutos</ion-option>
+        <ion-option value="30m">Ultimos 30 minutos</ion-option>
+        <ion-option value="45m">Ultimos 45 minutos</ion-option>
+        <ion-option value="1h">Ultima hora</ion-option>
+        <ion-option value="2h">Ultimas 2 horas</ion-option>
+        <ion-option value="3h">Ultimas 3 horas</ion-option>
+        <ion-option value="4h">Ultimas 4 horas</ion-option>
+        <ion-option value="5h">Ultimas 5 horas</ion-option>
+        <ion-option value="6h">Ultimas 6 horas</ion-option>
+        <ion-option value="7h">Ultimas 7 horas</ion-option>
+        <ion-option value="8h">Ultimas 8 horas</ion-option>
+        <ion-option value="9h">Ultimas 9 horas</ion-option>
+        <ion-option value="10h">Ultimas 10 horas</ion-option>
+        <ion-option value="11h">Ultimas 11 horas</ion-option>
+        <ion-option value="12h">Ultimas 12 horas</ion-option>
+        <ion-option value="13h">Ultimas 13 horas</ion-option>
+        <ion-option value="14h">Ultimas 14 horas</ion-option>
+        <ion-option value="15h">Ultimas 15 horas</ion-option>
+        <ion-option value="16h">Ultimas 16 horas</ion-option>
+        <ion-option value="17h">Ultimas 17 horas</ion-option>
+        <ion-option value="18h">Ultimas 18 horas</ion-option>
+        <ion-option value="19h">Ultimas 19 horas</ion-option>
+        <ion-option value="20h">Ultimas 20 horas</ion-option>
+        <ion-option value="21h">Ultimas 21 horas</ion-option>
+        <ion-option value="22h">Ultimas 22 horas</ion-option>
+        <ion-option value="23h">Ultimas 23 horas</ion-option>
+        <ion-option value="24h">Ultimas 24 horas</ion-option>
+      </ion-select>
+    </ion-item>
+    <button ion-button block (click)="buscarFiltroRapido()" color="mobile" round outline [disabled]="!filtroRapido">Ver recorrido</button>
   </ion-grid>
 </ion-content>

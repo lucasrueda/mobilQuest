@@ -6,6 +6,8 @@ const headers = new HttpHeaders();
 headers.append('Content-Type', 'application/x-www-form-urlencoded');
 headers.append('Access-Control-Allow-Origin', '*');
 
+const url = 'http://www.mobilequest.com.ar/acciones_mq3.php';
+
 @Injectable()
 export class SeleccionFechaService {
   private url: string;
@@ -16,40 +18,16 @@ export class SeleccionFechaService {
 
   }
 
-  public login(credenciales, url) {
-    const usuario = credenciales.usuario;
-    const password = credenciales.password;
-
+  public buscar(fecha_desde, fecha_hasta, imei) {
+    
+    fecha_desde = fecha_desde.replace(/-/g, '/')
+    fecha_hasta = fecha_hasta.replace(/-/g, '/') 
     const body = new FormData();
-    body.append("usua_nombre", usuario);
-    body.append("usua_pass", password);
-    body.append("button", "Entrar");
-    return this.http.post(url, body, { headers: headers }).toPromise()
-      .then(() => {
-        // Nunca entra por el then la consulta al servidor por mala configuracion de MobileQuest.
-      })
-      .catch(res => {
-				console.log("​LoginService -> publiclogin -> res", res)
-        const respuesta = res.error.text;
-        if (respuesta.includes('Clave incorrecta') || respuesta.includes('Nombre de usuario incorrecto') || respuesta.includes('<error></error>')) {
-          //todo mal
-          const err = {
-            usuario: false,
-            pass: false,
-            denegado: false,
-          }
-          if (respuesta.includes('Clave incorrecta')) err.pass = true;
-          if (respuesta.includes('Nombre de usuario incorrecto')) err.usuario = true;
-          if (respuesta.includes('<error></error>')) err.denegado = true;
-          return Promise.reject(err)
-        } else {
-          // todo ok.
-          let index0 = respuesta.search("<p>")
-          let index1 = respuesta.search("</p>")
-          const id_cliente = parseInt(respuesta.substring(index0 + 3, index1));
-          return this.storageId(id_cliente);
-        }
-      })
+    body.append("accion", "recorrido");
+    body.append("fecha_desde", fecha_desde);
+    body.append("fecha_hasta", fecha_hasta);
+    body.append("imei", imei);
+    return this.http.post(url, body, { headers: headers }).toPromise();
   }
 
   storageId(id_cliente) {

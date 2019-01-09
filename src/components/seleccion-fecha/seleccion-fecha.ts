@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, AlertController } from 'ionic-angular';
 import { SeleccionFechaService } from './seleccion-fecha.service';
 import * as moment from 'moment';
 
@@ -9,24 +9,46 @@ import * as moment from 'moment';
 })
 export class SeleccionFechaComponent {
 
+  @Input() imei: string;
+
+  filtroAvanzado: boolean = false;
+  filtroRapido: any;
   fechaNow: any;
   horaNow: any;
 
-  fechaDesde: Date;
+  fechaDesde: any;
   horaDesde: any;
   horaDesdeMax: any;
 
-  fechaHasta: Date;
+  fechaHasta: any;
   horaHasta: any;
   fechaHastaMax: any;
   fechaHastaMin: any;
   horaHastaMax: any;
   horaHastaMin: any;
 
-  constructor() {
-    console.log(moment())
+  constructor(
+    public alertCtrl: AlertController,
+    private selectFechaSrv: SeleccionFechaService
+  ) {
+  }
+
+  ngOnInit() {
+    console.log("selector fecha INIT")
     this.fechaNow = moment().format('YYYY-MM-DD');
     this.horaNow = moment().format('HH:mm');
+  }
+
+  filtroAvanzadoOption() {
+    this.filtroAvanzado = !this.filtroAvanzado;
+  }
+
+  buscarFiltroRapido() {
+    const fecha_hasta = `${this.fechaNow} ${this.horaNow}`
+    const cantidad = this.filtroRapido.substring(0, this.filtroRapido.length - 1);
+    const magnitud = this.filtroRapido[this.filtroRapido.length - 1];
+    const fecha_desde = moment(moment(fecha_hasta).subtract(cantidad, magnitud).format('YYYY-MM-DD HH:mm')).format('YYYY-MM-DD HH:mm');
+    this.buscar(fecha_desde, fecha_hasta)
   }
 
   fechaDesdeSelect() {
@@ -40,7 +62,7 @@ export class SeleccionFechaComponent {
     this.horaHasta = null;
     this.horaDesdeSelect();
   }
-  
+
   horaDesdeSelect() {
     if (this.fechaDesde && this.horaDesde) {
       const fechaElegida = `${this.fechaDesde} ${this.horaDesde}`;
@@ -51,23 +73,69 @@ export class SeleccionFechaComponent {
       } else {
         fechaHastaLimiteMax = moment(moment(fechaElegida).add('1', 'd').format('YYYY-MM-DD HH:mm')).format('YYYY-MM-DD HH:mm');
       }
-      
+
       this.fechaHastaMax = fechaHastaLimiteMax.split(' ')[0];
       this.fechaHastaMin = this.fechaDesde;
       this.horaHastaMax = fechaHastaLimiteMax.split(' ')[1];
       this.horaHasta = null;
     }
   }
-  
+
   fechaHastaSelect() {
     if (this.fechaDesde === this.fechaHasta) {
       this.horaHastaMax = '23:59';
       this.horaHastaMin = this.horaDesde;
-    }else{
+    } else {
       this.horaHastaMax = this.horaDesde;
       this.horaHastaMin = '00:00';
     }
     this.horaHasta = this.horaHastaMin;
   }
+
+  buscarAvanzado() {
+    const fechaElegida = `${this.fechaDesde} ${this.horaDesde}`;
+    let fechaHastaLimiteMax: any = moment(moment(fechaElegida).add('1', 'd').format('YYYY-MM-DD HH:mm'));
+    const isSame = moment(fechaElegida).isSame(`${this.fechaHasta} ${this.horaHasta}`);
+    const isSameOrAfter = moment(fechaHastaLimiteMax).isSameOrAfter(`${this.fechaHasta} ${this.horaHasta}`);
+    console.log("​SeleccionFechaComponent -> buscarAvanzado -> isSameOrAfter", isSameOrAfter)
+    if(isSame){
+      this.presentAlert('Las fechas son iguales. Ingrese un nuevo intervalo de fechas')
+      
+    }else{
+      // isSameOrAfter tiene que ser true, es decir, la fecha limite son 24 hs despues, y eso se cumple con TRUE
+      if (!isSameOrAfter) {
+        this.presentAlert('La consulta no puede superar las 24 hs. Ingrese un nuevo intervalo de fechas')
+      } else {
+        const fecha_desde = `${this.fechaDesde} ${this.horaDesde}`
+        const fecha_hasta = `${this.fechaHasta} ${this.horaHasta}`
+        this.buscar(fecha_desde, fecha_hasta)
+      }
+    }
+
+  }
+
+  buscar(fecha_desde, fecha_hasta) {
+    this.selectFechaSrv.buscar(fecha_desde, fecha_hasta, this.imei)
+      .then(res => {
+        console.log("​SeleccionFechaComponent -> buscarFiltroRapido -> res", res)
+
+      })
+      .catch(err => {
+        console.log("​SeleccionFechaComponent -> buscarFiltroRapido -> err", err)
+
+      })
+  }
+
+  presentAlert(mensaje) {
+    let alert = this.alertCtrl.create({
+      title: 'Rango de fechas no permitido',
+      subTitle: mensaje,
+      buttons: ['Aceptar']
+    });
+    alert.present();
+  }
+
+
+
 
 }
