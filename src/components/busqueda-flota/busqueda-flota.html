@@ -1,4 +1,4 @@
-<ion-searchbar placeholder="Ingrese texto" (ionInput)="filtrarVehiculos()" (ionFocus)="checkFocus()" [(ngModel)]="searchTermVehiculo"></ion-searchbar>
+<ion-searchbar placeholder="Ingrese un dominio" (ionInput)="filtrarVehiculos()" (ionFocus)="checkFocus()" [(ngModel)]="searchTermVehiculo" cancelButtonText="Cancelar" showCancelButton="true" (ionCancel)="cancelar()"></ion-searchbar>
 <ion-grid *ngIf="mostrarLista" no-padding>
   
   <ion-scroll scrollY="true">
@@ -11,7 +11,7 @@
         </ion-item-divider>
         <div *ngIf="f.show" [@enterAnimation]>
           <ion-item *ngFor="let v of f.vehiculos">
-            <div (click)="vehiculoSeleccionado(v)">{{v | uppercase}}</div>
+            <div (click)="vehiculoSeleccionado(v)">{{v.dominio | uppercase}}</div>
           </ion-item>
         </div>
       </div>

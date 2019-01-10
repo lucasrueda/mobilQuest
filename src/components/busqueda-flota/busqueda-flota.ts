@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, NgZone, trigger, style, animate, transition, Input } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone, trigger, style, animate, transition, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'busqueda-flota',
@@ -24,6 +24,7 @@ export class BusquedaFlotaComponent {
   @Input() vectorNombreGrupo: any;
   @Input() idGrupo: any;
   @Input() dominio: any;
+  @Output() respuesta = new EventEmitter<any>();
 
   mostrarLista: boolean = false;
   flota: Array<any> = [];
@@ -59,11 +60,11 @@ export class BusquedaFlotaComponent {
     for (let i in this.idGrupo) {
       if (this.idGrupo[i]) {
         const j = this.flota.map(f => f.idGrupo).indexOf(this.idGrupo[i]);
-        this.flota[j].vehiculos.push(this.dominio[i].toUpperCase());
+        this.flota[j].vehiculos.push({dominio: this.dominio[i].toUpperCase()});
       } else {
         //quiere decir que el vehiculo no tiene grupo, entonces lo agregamos a un grupo "null"
         const j = this.flota.map(f => f.idGrupo).indexOf(null);
-        this.flota[j].vehiculos.push(this.dominio[i].toUpperCase());
+        this.flota[j].vehiculos.push({dominio:this.dominio[i].toUpperCase()});
       }
     }
     this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
@@ -79,9 +80,8 @@ export class BusquedaFlotaComponent {
       // console.log("​BusquedaFlotaComponent -> filtrarVehiculos -> filteredResult", filteredResult)
       this.listaFlotaBusqueda = this.listaFlotaBusqueda.filter(f => {
         f.vehiculos = f.vehiculos.filter(v => {
-          const coincidencia = (v.indexOf(this.searchTermVehiculo.toUpperCase()) === 0);
+          const coincidencia = (v.dominio.indexOf(this.searchTermVehiculo.toUpperCase()) === 0);
           if (coincidencia) {
-            this.showButtonTodaFlota = true;
             f.show = true;
           }
           return coincidencia
@@ -96,54 +96,56 @@ export class BusquedaFlotaComponent {
 
   // despues se recupera la seleccion
   vehiculoSeleccionado(vehiculo) {
-    console.log("​BusquedaFlotaComponent -> vehiculoSeleccionado -> vehiculo", vehiculo)
-    // this.searchTermTransporte = transporte.razonSocial;
-    // this.listaTransportesBusqueda = null;
-    // this.datos.transporte = transporte;
-    // console.log(this.datos)
+		console.log("​BusquedaFlotaComponent -> vehiculoSeleccionado -> vehiculo", vehiculo)
+    this.respuesta.emit({showAll: false, vehiculo});
+    this.showButtonTodaFlota = true;
+    this.mostrarLista = false;
   }
-
-
+  
+  
   checkFocus() {
     this.mostrarLista = true;
-    console.log("focus")
   }
 
-  cancelar() {
-    console.log("cancelar")
-  }
-
+  
   openGroup(grupo) {
     console.log("​HomePage -> openGroup -> grupo", grupo.nombre)
     grupo.show = !grupo.show;
-    this.showButtonTodaFlota = true;
   }
-
+  
   allFlota() {
     for (let f of this.flota) {
       f.show = false;
     }
+    this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
     this.showButtonTodaFlota = false;
+    this.mostrarLista = false;
+    this.searchTermVehiculo = '';
+    this.respuesta.emit({showAll: true});
   }
 
-
+  cancelar(){
+    this.mostrarLista = false;
+  }
+  
+  
 }
 
-this.flota = [
-  { grupo: "camionetas", vehiculos: ["HILUX", "AMAROK",], show: false },
-  {
-    grupo: "autos", vehiculos: [
-      "FOCUS",
-      "COROLLA",
-      "CLIO",
-      "FIESTA",
-      "LOGAN",
-      "QQ",
-      "KWID",
-      "UP",
-      "GOL"
-    ], show: false
-  },
-  { grupo: "motos", vehiculos: ["X200", "WAVE"], show: false },
-  { grupo: "camion", vehiculos: ["F150", "RAM 5000"], show: false },
-]
+// this.flota = [
+//   { grupo: "camionetas", vehiculos: ["HILUX", "AMAROK",], show: false },
+//   {
+//     grupo: "autos", vehiculos: [
+//       "FOCUS",
+//       "COROLLA",
+//       "CLIO",
+//       "FIESTA",
+//       "LOGAN",
+//       "QQ",
+//       "KWID",
+//       "UP",
+//       "GOL"
+//     ], show: false
+//   },
+//   { grupo: "motos", vehiculos: ["X200", "WAVE"], show: false },
+//   { grupo: "camion", vehiculos: ["F150", "RAM 5000"], show: false },
+// ]

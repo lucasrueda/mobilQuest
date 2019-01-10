@@ -8,7 +8,7 @@
       </ion-col>
       <ion-col no-padding>
         <!-- <busqueda-flota ></busqueda-flota> -->
-        <busqueda-flota *ngIf="datos" [vectorIdGrupo]="datos.vector_id_grupo" [vectorNombreGrupo]="datos.vector_nombre_grupo" [idGrupo]="datos.id_grupo" [dominio]="datos.dominio"></busqueda-flota>
+        <busqueda-flota *ngIf="datos" (respuesta)="respuestaVehiculoSelect($event)" [vectorIdGrupo]="datos.vector_id_grupo" [vectorNombreGrupo]="datos.vector_nombre_grupo" [idGrupo]="datos.id_grupo" [dominio]="datos.dominio"></busqueda-flota>
       </ion-col>
     </ion-row>
   </div>
