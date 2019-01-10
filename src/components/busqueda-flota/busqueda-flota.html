@@ -4,10 +4,9 @@
   <ion-scroll scrollY="true">
   <ion-item-group>
       <div *ngFor="let f of listaFlotaBusqueda">
-        <ion-item-divider color="light">
+        <ion-item-divider [class.sinGrupo]="!f.grupo" color="light">
           <div (click)="openGroup(f)">
-            <ion-icon class="drop-icon" [name]="(f.show)? 'md-arrow-dropdown' : 'md-arrow-dropright'"></ion-icon>{{f.grupo
-            | uppercase}}
+            <ion-icon class="drop-icon" [name]="(f.show)? 'md-arrow-dropdown' : 'md-arrow-dropright'"></ion-icon>{{(f.grupo)? f.grupo : 'Sin grupo'}}
           </div>
         </ion-item-divider>
         <div *ngIf="f.show" [@enterAnimation]>

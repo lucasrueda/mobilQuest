@@ -20,9 +20,13 @@ import { Component, ElementRef, ViewChild, NgZone, trigger, style, animate, tran
 })
 export class BusquedaFlotaComponent {
 
-  @Input() datos: any;
+  @Input() vectorIdGrupo: any;
+  @Input() vectorNombreGrupo: any;
+  @Input() idGrupo: any;
+  @Input() dominio: any;
+
   mostrarLista: boolean = false;
-  flota: any;
+  flota: Array<any> = [];
   showButtonTodaFlota: boolean = false;
   searchTermVehiculo: any = '';
   private vehiculos: any; //aqui se guardan los datos originales
@@ -30,65 +34,41 @@ export class BusquedaFlotaComponent {
 
   constructor(
   ) {
-    this.flota = [
-      { grupo: "camionetas", vehiculos: ["HILUX", "AMAROK",], show: false },
-      {
-        grupo: "autos", vehiculos: [
-          "FOCUS",
-          "COROLLA",
-          "CLIO",
-          "FIESTA",
-          "LOGAN",
-          "QQ",
-          "KWID",
-          "UP",
-          "GOL"
-        ], show: false
-      },
-      { grupo: "motos", vehiculos: ["X200", "WAVE"], show: false },
-      { grupo: "camion", vehiculos: ["F150", "RAM 5000"], show: false },
-    ]
+  }
 
+  ngOnInit() {
+    this.parsearGrupos();
+  }
+
+  parsearGrupos() {
+    for (let i in this.vectorIdGrupo) {
+      this.flota.push({
+        grupo: this.vectorNombreGrupo[i].toUpperCase(),
+        idGrupo: this.vectorIdGrupo[i],
+        vehiculos: [],
+        show: false
+      },
+        { // para los vehiculos sin grupo
+          grupo: null,
+          idGrupo: null,
+          vehiculos: [],
+          show: false
+        })
+    }
+
+    for (let i in this.idGrupo) {
+      if (this.idGrupo[i]) {
+        const j = this.flota.map(f => f.idGrupo).indexOf(this.idGrupo[i]);
+        this.flota[j].vehiculos.push(this.dominio[i].toUpperCase());
+      } else {
+        //quiere decir que el vehiculo no tiene grupo, entonces lo agregamos a un grupo "null"
+        const j = this.flota.map(f => f.idGrupo).indexOf(null);
+        this.flota[j].vehiculos.push(this.dominio[i].toUpperCase());
+      }
+    }
     this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
   }
 
-
-
-  // primero se guardan los datos a filtrar en 2 variables diferentes
-  listarVehiculos() {
-    // this.planillaProv.listarTransportes().then((respuesta: any) => {
-    //   console.log("llistar transportes respuesta", respuesta)
-    //   if (respuesta.codigo != 0) {
-    //     this.transportes = respuesta;
-    //     this.listaTransportesBusqueda = respuesta;
-    //   } else {
-    //     swal("¡Error!", respuesta.mensaje, "error");
-    //   }
-    // }, (err) => {
-    //   swal("¡Error!", "Problemas de conexion con el sistema", "error");
-    // });
-    this.flota = [
-      { grupo: "camionetas", vehiculos: ["HILUX", "AMAROK",], show: false },
-      {
-        grupo: "autos", vehiculos: [
-          "FOCUS",
-          "COROLLA",
-          "CLIO",
-          "FIESTA",
-          "LOGAN",
-          "QQ",
-          "KWID",
-          "UP",
-          "GOL"
-        ], show: false
-      },
-      { grupo: "motos", vehiculos: ["X200", "WAVE"], show: false },
-      { grupo: "camion", vehiculos: ["F150", "RAM 5000"], show: false },
-    ]
-
-
-    this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
-  }
   //despues se filtra sobre esos array
   filtrarVehiculos() {
     if (this.searchTermVehiculo.length > 0) {
@@ -127,7 +107,6 @@ export class BusquedaFlotaComponent {
   checkFocus() {
     this.mostrarLista = true;
     console.log("focus")
-    console.log(this.datos)
   }
 
   cancelar() {
@@ -149,3 +128,22 @@ export class BusquedaFlotaComponent {
 
 
 }
+
+this.flota = [
+  { grupo: "camionetas", vehiculos: ["HILUX", "AMAROK",], show: false },
+  {
+    grupo: "autos", vehiculos: [
+      "FOCUS",
+      "COROLLA",
+      "CLIO",
+      "FIESTA",
+      "LOGAN",
+      "QQ",
+      "KWID",
+      "UP",
+      "GOL"
+    ], show: false
+  },
+  { grupo: "motos", vehiculos: ["X200", "WAVE"], show: false },
+  { grupo: "camion", vehiculos: ["F150", "RAM 5000"], show: false },
+]
