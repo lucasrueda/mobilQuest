@@ -7,7 +7,8 @@
         </button>
       </ion-col>
       <ion-col no-padding>
-        <busqueda-flota></busqueda-flota>
+        <!-- <busqueda-flota [datos]="datos"></busqueda-flota> -->
+        <busqueda-flota *ngIf="datos" [datos]="[datos.vector_id_grupo, datos.vector_nombre_grupo,datos.id_grupo,datos.dominio]"></busqueda-flota>
       </ion-col>
     </ion-row>
   </div>

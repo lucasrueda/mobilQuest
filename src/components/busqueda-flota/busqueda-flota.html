@@ -3,20 +3,20 @@
   
   <ion-scroll scrollY="true">
   <ion-item-group>
-      <div *ngFor="let g of grupos">
+      <div *ngFor="let f of listaFlotaBusqueda">
         <ion-item-divider color="light">
-          <div (click)="openGroup(g)">
-            <ion-icon class="drop-icon" [name]="(g.show)? 'md-arrow-dropdown' : 'md-arrow-dropright'"></ion-icon>{{g.nombre
+          <div (click)="openGroup(f)">
+            <ion-icon class="drop-icon" [name]="(f.show)? 'md-arrow-dropdown' : 'md-arrow-dropright'"></ion-icon>{{f.grupo
             | uppercase}}
           </div>
         </ion-item-divider>
-        <div *ngIf="g.show" [@enterAnimation]>
-          <ion-item *ngFor="let v of g.vehiculos">
-            <div (click)="vehiculoSeleccionado(v)">{{v.nombre | uppercase}}</div>
+        <div *ngIf="f.show" [@enterAnimation]>
+          <ion-item *ngFor="let v of f.vehiculos">
+            <div (click)="vehiculoSeleccionado(v)">{{v | uppercase}}</div>
           </ion-item>
         </div>
       </div>
-      <ion-item class="boton-toda-flota" *ngIf="!todaLaFlota" no-lines>
+      <ion-item class="boton-toda-flota" *ngIf="showButtonTodaFlota" no-lines>
         <div (click)="allFlota()">Ver toda la flota</div>
       </ion-item>
     </ion-item-group>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, NgZone, trigger, style, animate, transition } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone, trigger, style, animate, transition, Input } from '@angular/core';
 
 @Component({
   selector: 'busqueda-flota',
@@ -20,34 +20,36 @@ import { Component, ElementRef, ViewChild, NgZone, trigger, style, animate, tran
 })
 export class BusquedaFlotaComponent {
 
+  @Input() datos: any;
   mostrarLista: boolean = false;
-  grupos: any;
-  todaLaFlota: boolean = true;
+  flota: any;
+  showButtonTodaFlota: boolean = false;
   searchTermVehiculo: any = '';
   private vehiculos: any; //aqui se guardan los datos originales
-  public listaVehiculosBusqueda: any; //este es un auxiliar
+  public listaFlotaBusqueda: any; //este es un auxiliar
 
-  constructor() {
-    this.grupos = [
-      { nombre: "camionetas", vehiculos: [{ nombre: "hilux" }, { nombre: "amarok" }], show: false },
+  constructor(
+  ) {
+    this.flota = [
+      { grupo: "camionetas", vehiculos: ["HILUX", "AMAROK",], show: false },
       {
-        nombre: "autos", vehiculos: [
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "focus" },
-          { nombre: "corolla" }
+        grupo: "autos", vehiculos: [
+          "FOCUS",
+          "COROLLA",
+          "CLIO",
+          "FIESTA",
+          "LOGAN",
+          "QQ",
+          "KWID",
+          "UP",
+          "GOL"
         ], show: false
       },
-      { nombre: "motos", vehiculos: [{ nombre: "x200" }, { nombre: "crypton" }], show: false },
-
-
+      { grupo: "motos", vehiculos: ["X200", "WAVE"], show: false },
+      { grupo: "camion", vehiculos: ["F150", "RAM 5000"], show: false },
     ]
+
+    this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
   }
 
 
@@ -65,43 +67,53 @@ export class BusquedaFlotaComponent {
     // }, (err) => {
     //   swal("¡Error!", "Problemas de conexion con el sistema", "error");
     // });
-    this.grupos = [
-      { nombre: "camionetas", vehiculos: [{ nombre: "hilux" }, { nombre: "amarok" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-      { nombre: "autos", vehiculos: [{ nombre: "focus" }, { nombre: "corolla" }], show: false },
-
+    this.flota = [
+      { grupo: "camionetas", vehiculos: ["HILUX", "AMAROK",], show: false },
+      {
+        grupo: "autos", vehiculos: [
+          "FOCUS",
+          "COROLLA",
+          "CLIO",
+          "FIESTA",
+          "LOGAN",
+          "QQ",
+          "KWID",
+          "UP",
+          "GOL"
+        ], show: false
+      },
+      { grupo: "motos", vehiculos: ["X200", "WAVE"], show: false },
+      { grupo: "camion", vehiculos: ["F150", "RAM 5000"], show: false },
     ]
+
+
+    this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
   }
   //despues se filtra sobre esos array
   filtrarVehiculos() {
-    // this.datos.transporte = null;
-    if (this.listaVehiculosBusqueda == null) {
-      this.listarVehiculos();
-    }
     if (this.searchTermVehiculo.length > 0) {
-      this.listaVehiculosBusqueda = this.grupos.filter((item) => {
-        // IndexOf() devuelvo la passicion de letra que esta buscando, entonces si yo
-        // hago === 0 significa que le digo que quiero que me devuelvas todos los valores
-        // donde el appellido comienze con R.
-        // si por ejemplo hago > -1 hago que donde encuentre la coincidencia lo devuelva
-        // osea que si un apellido es juarez, y aprieto la R lo va a devolver.
-        return item.vehiculos.toLowerCase().indexOf(this.searchTermVehiculo.toLowerCase()) === 0;
+      this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
+      // const filteredResult = this.flota.filter((item) => {
+      //   return (item.vehiculos.indexOf(this.searchTermVehiculo.toLowerCase()) !== -1);
+      // });
+      // console.log("​BusquedaFlotaComponent -> filtrarVehiculos -> filteredResult", filteredResult)
+      this.listaFlotaBusqueda = this.listaFlotaBusqueda.filter(f => {
+        f.vehiculos = f.vehiculos.filter(v => {
+          const coincidencia = (v.indexOf(this.searchTermVehiculo.toUpperCase()) === 0);
+          if (coincidencia) {
+            this.showButtonTodaFlota = true;
+            f.show = true;
+          }
+          return coincidencia
+        });
+        return f.vehiculos.length > 0;
       });
     } else {
-      this.listaVehiculosBusqueda = this.grupos.filter((item) => {
-        return item.vehiculos.toLowerCase().indexOf('') > -1;
-      });
+      this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
     }
   }
+
+
   // despues se recupera la seleccion
   vehiculoSeleccionado(vehiculo) {
     console.log("​BusquedaFlotaComponent -> vehiculoSeleccionado -> vehiculo", vehiculo)
@@ -115,6 +127,7 @@ export class BusquedaFlotaComponent {
   checkFocus() {
     this.mostrarLista = true;
     console.log("focus")
+    console.log(this.datos)
   }
 
   cancelar() {
@@ -124,14 +137,14 @@ export class BusquedaFlotaComponent {
   openGroup(grupo) {
     console.log("​HomePage -> openGroup -> grupo", grupo.nombre)
     grupo.show = !grupo.show;
-    this.todaLaFlota = false;
+    this.showButtonTodaFlota = true;
   }
 
   allFlota() {
-    for (let g of this.grupos) {
-      g.show = false;
+    for (let f of this.flota) {
+      f.show = false;
     }
-    this.todaLaFlota = true;
+    this.showButtonTodaFlota = false;
   }
 
 
