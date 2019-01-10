@@ -22,6 +22,7 @@ export class BusquedaFlotaComponent {
 
   mostrarLista: boolean = false;
   grupos: any;
+  todaLaFlota: boolean = true;
 
   constructor() {
     this.grupos = [
@@ -48,6 +49,14 @@ export class BusquedaFlotaComponent {
   openGroup(grupo){
 		console.log("​HomePage -> openGroup -> grupo", grupo.nombre)
     grupo.show = !grupo.show;
+    this.todaLaFlota = false;
+  }
+  
+  allFlota(){
+    for(let g of this.grupos){
+      g.show = false;
+    }
+    this.todaLaFlota = true;
   }
 
 
