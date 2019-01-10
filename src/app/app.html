@@ -20,7 +20,7 @@
 </ion-menu>
 
 <ion-menu type="overlay" [content]="content" side="right" id="menu2">
-  <ion-content>
+  <ion-scroll  [style.height.px]="altoMenu" scrollY="true">
     <ion-list>
       <ion-list-header>
         Detalles Test 4
@@ -62,11 +62,10 @@
         <p>Muy buena</p>
       </ion-item>
     </ion-list>
-    <div padding>
-      <button ion-button block>Ver</button>
-    </div>
-
-  </ion-content>
+  </ion-scroll>
+  <div style="height:200px" padding>
+    <button ion-button block>Ver</button>
+  </div>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

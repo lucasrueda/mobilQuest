@@ -1,15 +1,13 @@
-<ion-content>
-  <page-mapasnativo [datos]="datos">
-    <div #search class="searchBarConteiner">
-      <button ion-button icon-only clear menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-searchbar></ion-searchbar>
-    </div>
-    <page-modal #modal id="modal"></page-modal>
-    <div  #expander class="expander">
-      <ion-icon name="arrow-up"></ion-icon>
-      <button>Presiona para ver las acciones rápidas</button>
-    </div>
-  </page-mapasnativo>
-</ion-content>
+<page-mapasnativo [datos]="datos">
+  <div #search class="searchBarConteiner">
+    <button ion-button icon-only clear menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-searchbar></ion-searchbar>
+  </div>
+  <page-modal #modal id="modal"></page-modal>
+  <div #expander class="expander">
+    <ion-icon name="arrow-up"></ion-icon>
+    <button>Presiona para ver las acciones rápidas</button>
+  </div>
+</page-mapasnativo>
