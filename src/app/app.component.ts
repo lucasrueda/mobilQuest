@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 
-import { TabsPage } from '../pages/tabs/tabs';
+import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion-fecha';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 
@@ -14,6 +14,7 @@ import { LoginPage } from '../pages/login/login';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   @ViewChild('content', { read: ElementRef }) contenedor:ElementRef;
+  @ViewChild('fecha', { read: ElementRef }) fecha:ElementRef;
   altoMenu: number;
 
   rootPage: any;
@@ -47,7 +48,8 @@ export class MyApp {
   } 
 
   ngAfterViewInit(){
-    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 200;
+    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 172;
+    console.log(this.fecha.nativeElement.offsetHeight)
   }
 
   logout() {
