@@ -1,0 +1,22 @@
+<ion-searchbar style="    padding-bottom: 2px;" (ionInput)="input()" (ionFocus)="checkFocus()"></ion-searchbar>
+<ion-grid *ngIf="mostrarLista" no-padding>
+  <ion-item-group>
+    <ion-item no-lines style="background-color: #7CB342;
+      color: #FAFAFA;
+      border-radius: 25px;
+      margin-bottom: 2px;">
+      <div (click)="allFlota()">Toda la flota</div>
+    </ion-item>
+    <div *ngFor="let g of grupos">
+      <ion-item-divider color="light">
+        <div (click)="openGroup(g)"> <ion-icon style="font-size: 1.3em; vertical-align: middle;" name="md-arrow-dropright"></ion-icon>{{g.nombre}}
+        </div>
+      </ion-item-divider>
+      <div *ngIf="g.show" [@enterAnimation]>
+        <ion-item *ngFor="let v of g.vehiculos">
+          <div (click)="asd()">{{v}}</div>
+        </ion-item>
+      </div>
+    </div>
+  </ion-item-group>
+</ion-grid>
