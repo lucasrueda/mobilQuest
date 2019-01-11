@@ -6,8 +6,7 @@
           <ion-icon style="padding-top:8px;" name="menu"></ion-icon>
         </button>
       </ion-col>
-      <ion-col no-padding>
-        <!-- <busqueda-flota ></busqueda-flota> -->
+      <ion-col>
         <busqueda-flota *ngIf="datos" (respuesta)="respuestaVehiculoSelect($event)" [vectorIdGrupo]="datos.vector_id_grupo" [vectorNombreGrupo]="datos.vector_nombre_grupo" [idGrupo]="datos.id_grupo" [dominio]="datos.dominio"></busqueda-flota>
       </ion-col>
     </ion-row>

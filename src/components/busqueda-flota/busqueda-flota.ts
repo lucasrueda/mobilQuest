@@ -113,7 +113,7 @@ export class BusquedaFlotaComponent {
     grupo.show = !grupo.show;
   }
   
-  allFlota() {
+  verTodaFlota() {
     for (let f of this.flota) {
       f.show = false;
     }
