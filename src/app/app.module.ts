@@ -21,6 +21,7 @@ import { LoginComponent } from '../components/login/login';
 import { LoginService } from '../components/login/login.service';
 import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion-fecha';
 import { SeleccionFechaService } from '../components/seleccion-fecha/seleccion-fecha.service';
+import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-flota';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SeleccionFechaService } from '../components/seleccion-fecha/seleccion-f
     TabsPage,
     LoginPage,
     LoginComponent,
-    SeleccionFechaComponent
+    SeleccionFechaComponent,
+    BusquedaFlotaComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ import { SeleccionFechaService } from '../components/seleccion-fecha/seleccion-f
     TabsPage,
     LoginPage,
     LoginComponent,
-    SeleccionFechaComponent
+    SeleccionFechaComponent,
+    BusquedaFlotaComponent
   ],
   providers: [
     StatusBar,

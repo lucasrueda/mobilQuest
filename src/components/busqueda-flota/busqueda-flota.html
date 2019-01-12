@@ -1,0 +1,23 @@
+<ion-searchbar placeholder="Ingrese un dominio" (ionInput)="filtrarVehiculos()" (ionFocus)="checkFocus()" [(ngModel)]="searchTermVehiculo" cancelButtonText="Cancelar" showCancelButton="true" (ionCancel)="cancelar()"></ion-searchbar>
+<ion-grid *ngIf="mostrarLista" no-padding>
+  
+  <ion-scroll scrollY="true">
+  <ion-item-group>
+      <div *ngFor="let f of listaFlotaBusqueda">
+        <ion-item-divider [class.sinGrupo]="!f.grupo" color="light">
+          <div (click)="openGroup(f)">
+            <ion-icon class="drop-icon" [name]="(f.show)? 'md-arrow-dropdown' : 'md-arrow-dropright'"></ion-icon>{{(f.grupo)? f.grupo : 'Sin grupo'}}
+          </div>
+        </ion-item-divider>
+        <div *ngIf="f.show" [@enterAnimation]>
+          <ion-item *ngFor="let v of f.vehiculos">
+            <div (click)="vehiculoSeleccionado(v)">{{v.dominio | uppercase}}</div>
+          </ion-item>
+        </div>
+      </div>
+      <ion-item class="boton-toda-flota" *ngIf="showButtonTodaFlota" no-lines>
+        <div (click)="verTodaFlota()">Ver toda la flota</div>
+      </ion-item>
+    </ion-item-group>
+  </ion-scroll>
+  </ion-grid>

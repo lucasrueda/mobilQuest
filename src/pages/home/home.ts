@@ -65,5 +65,7 @@ export class HomePage {
     });
   }
 
-
+  respuestaVehiculoSelect(vehiculo){
+		console.log("​HomePage -> respuestaVehiculoSelect -> vehiculo", vehiculo)
+  }
 }

@@ -1,9 +1,15 @@
 <page-mapasnativo [datos]="datos">
   <div #search class="searchBarConteiner">
-    <button ion-button icon-only clear menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-searchbar></ion-searchbar>
+    <ion-row>
+      <ion-col col-auto no-padding>
+        <button ion-button icon-only clear menuToggle>
+          <ion-icon style="padding-top:8px;" name="menu"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <busqueda-flota *ngIf="datos" (respuesta)="respuestaVehiculoSelect($event)" [vectorIdGrupo]="datos.vector_id_grupo" [vectorNombreGrupo]="datos.vector_nombre_grupo" [idGrupo]="datos.id_grupo" [dominio]="datos.dominio"></busqueda-flota>
+      </ion-col>
+    </ion-row>
   </div>
   <page-modal #modal id="modal"></page-modal>
   <div #expander class="expander">
