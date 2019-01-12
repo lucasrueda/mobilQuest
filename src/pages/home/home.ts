@@ -63,6 +63,9 @@ export class HomePage {
         this.expander.nativeElement.classList.add('slide-in');
       }
     });
+    this.event.subscribe('filtroPorFechas', (datos) => {
+      this.datos = datos;
+    })
   }
 
   respuestaVehiculoSelect(vehiculo){

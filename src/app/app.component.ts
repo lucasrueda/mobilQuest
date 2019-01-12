@@ -14,8 +14,8 @@ import { EstadoVehiculo } from '../models/EstadoVehiculo';
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  @ViewChild('content', { read: ElementRef }) contenedor:ElementRef;
-  @ViewChild('fecha', { read: ElementRef }) fecha:ElementRef;
+  @ViewChild('content', { read: ElementRef }) contenedor: ElementRef;
+  @ViewChild('fecha', { read: ElementRef }) fecha: ElementRef;
   altoMenu: number;
   vehiculo: EstadoVehiculo;
 
@@ -51,9 +51,9 @@ export class MyApp {
           });
         })
     });
-  } 
+  }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 172;
     console.log(this.fecha.nativeElement.offsetHeight)
   }
@@ -71,14 +71,14 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  handleMapClickEvent(){
+  handleMapClickEvent() {
     this.event.subscribe('mapClickEvent', (vehiculo: EstadoVehiculo) => {
       this._zone.run(() => this.vehiculo = vehiculo);
       this.menuCtrl.open('right');
     })
   }
 
-  handleDateFilterResponse(datos){
-    console.log(datos);
+  handleDateFilterResponse(datos) {
+    this.event.publish('filtroPorFechas', datos);
   }
 }

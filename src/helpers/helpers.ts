@@ -103,13 +103,17 @@ const sumaMinutosHorario = (tiempo, hora) => { //FUNCION PARA SUMAR UNA CANTIDAD
   return suma_total;	//alert("HORA="+hora+" H="+hora_inicio+" M="+minutos_inicio+ "\n" + "Le tengo que sumar "+tiempo+" segundos, que son "+m);
 }
 
-const analizarRecorrido = (data) => {
+const analizarRecorrido = (data, dominio) => {
   let puntos_para_recorrido = [];
   let matriz_alertas = [];
   let contador_paradas = 0;
   let total_detenido = 0;
   let kilometraje = 0;
+  let duracion;
+  let tiempo_movimiento;
+  let cod_html_alertas_backup = [];
   let kilometraje_sensor = 0;
+  let cod_html_alertas = [];
   let velocidad_maxima = 0;
   let velocidad_promedio = 0;
   let icono_png;
@@ -168,17 +172,12 @@ const analizarRecorrido = (data) => {
         if (data.velocidad[i] > velocidad_maxima) {
           velocidad_maxima = data.velocidad[i];
         }
-        $("#resumen_del_recorrido").append('<br>- Duración del recorrido: ' + duracion + '<br>- Cantidad de paradas de más de ' + $("#tiempo_min_detencion").val() + ' min: ' + contador_paradas + '<br>- Total detenido: ' + tiempo_detenido(total_detenido) + '<br>- Kilometraje: ' + kilometraje + ' km.<br>');
-        if (vector_cuenta_km[$("#dominios").val()]) {
-          $("#resumen_del_recorrido").append('- Cuenta km de ' + vector_cuenta_km[$("#dominios").val()] + ': ' + kilometraje_sensor + ' km.<br>');
-        }
-        $("#resumen_del_recorrido").append('- Velocidad máxima: ' + velocidad_maxima + ' Km/h.<br>- Velocidad promedio: ' + velocidad_promedio + ' Km/h.');
         break;
       default:
-        if ($('#tiempo_min_detencion').val() <= data.tiempo_detenido[i] / 60) {
+        if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
           contador_paradas = contador_paradas + 1;
           icono_png = "parada";//icono manito	
-          cod_html = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempo_detenido(data.tiempo_detenido[i]) + " Inició nuevamente el recorrido a las " + suma_minutos_horario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
+          cod_html = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + " Inició nuevamente el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
         } else {
           if (data.cod_trama[i] == 32 || data.cod_trama[i] == 77) {//agregado para distinguir cuando es puntito de giro, el codigo 77 es para T_zone
             icono_png = "puntitogiro";
@@ -194,10 +193,10 @@ const analizarRecorrido = (data) => {
         }
         break;
     }
-    var codigo_unificado = 0; // Voy a unificar el codigo, siempre me voy a quedar con el menor del grupo
+    let codigo_unificado = 0; // Voy a unificar el codigo, siempre me voy a quedar con el menor del grupo
     if (data.tipo_alarma[i] != '') {
       icono_png_pelota = "alertas";
-      for (j = 0; j < data.tipo_alarma[i].length && data.nombre_alerta[i] != ''; j++) {
+      for (let j = 0; j < data.tipo_alarma[i].length && data.nombre_alerta[i] != ''; j++) {
         if (data.tipo_alarma[i][j] == 101 || data.tipo_alarma[i][j] == 104 || data.tipo_alarma[i][j] == 106 || data.tipo_alarma[i][j] == 108 || data.tipo_alarma[i][j] == 112 || data.tipo_alarma[i][j] == 115) {
           codigo_unificado = data.tipo_alarma[i][j] - 1;
           data.estado_sensor[i][j] = 1; //emulo que esta en 1
@@ -304,7 +303,6 @@ const analizarRecorrido = (data) => {
               data.tipo_alarma[i][j] = codigo_unificado;
               break;
             default:
-              caso = "";
               break;
           }
           matriz_alertas[codigo_unificado][1].push(i);
@@ -313,40 +311,13 @@ const analizarRecorrido = (data) => {
       }
     }
     if (icono_png_pelota != "alertas" || icono_png != "puntito" || icono_png != "puntitogiro") {
-      agrego_marcador_recorrido(latlng, icono_png, i, cod_html, icono_png, 8);
+     // agrego_marcador_recorrido(latlng, icono_png, i, cod_html, icono_png, 8);
     }
     if (icono_png_pelota == "alertas") {
-      agrego_marcador_recorrido(latlng, icono_png_pelota, i, cod_html_alertas[i], icono_png_pelota, data.tipo_alarma[i].length);
-    }
-    puntos_para_recorrido.push(latlng);
-    //gestion de sentido del recorrido
-    if (i > 0) {
-      var p0 = new google.maps.LatLng(data.latitud[i - 1], data.longitud[i - 1]);
-      var p1 = new google.maps.LatLng(data.latitud[i], data.longitud[i]);
-      var vector = new google.maps.LatLng(p1.lat() - p0.lat(), p1.lng() - p0.lng());
-      var length = Math.sqrt(vector.lat() * vector.lat() + vector.lng() * vector.lng());
-      var normal = new google.maps.LatLng(vector.lat() / length, vector.lng() / length);
-      var middle = new google.maps.LatLng((p1.lat() + p0.lat()) / 2, (p1.lng() + p0.lng()) / 2);
-      var constante = 0.00055;
-      if (length < 0.0019) {
-        constante = 0.00015;
-      }
-      var offsetMiddle = new google.maps.LatLng(normal.lat() * constante, normal.lng() * constante),
-        arrowPart1 = new google.maps.LatLng(-offsetMiddle.lng() * 0.4, offsetMiddle.lat() * 0.4),
-        arrowPart2 = new google.maps.LatLng(offsetMiddle.lng() * 0.4, -offsetMiddle.lat() * 0.4),
-        arrowPoint1 = new google.maps.LatLng(middle.lat() - offsetMiddle.lat() + arrowPart1.lat(), middle.lng() - offsetMiddle.lng() + arrowPart1.lng()),
-        arrowPoint2 = new google.maps.LatLng(middle.lat() - offsetMiddle.lat() + arrowPart2.lat(), middle.lng() - offsetMiddle.lng() + arrowPart2.lng());
-      flechitas_coordenadas = ([arrowPoint1, middle, arrowPoint2]);
-      if (length > 0.0009) {
-        agrego_poligono(flechitas_coordenadas);
-        //flecha[flecha.length-1].setMap(map);	
-      }
+      //agrego_marcador_recorrido(latlng, icono_png_pelota, i, cod_html_alertas[i], icono_png_pelota, data.tipo_alarma[i].length);
     }
     icono_png_pelota = "";
   }
-  establecer_zoom();
-  polilinea_recorrido.setPath(puntos_para_recorrido);
-  polilinea_recorrido.setMap(map);
 }
 
 export { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, analizarRecorrido };
