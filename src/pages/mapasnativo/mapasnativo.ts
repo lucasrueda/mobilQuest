@@ -10,6 +10,7 @@ import {
 } from '@ionic-native/google-maps';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
 import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor } from '../../helpers/helpers'
+import { data } from '../../providers/mapa/data';
 
 @Component({
   selector: 'page-mapasnativo',
@@ -50,7 +51,6 @@ export class MapasnativoPage {
       let iconoURL = this.determinarIcono(parseInt(this.datos.estado_sensor_en_bit[i]));
       let iconoFinal = await this.escrbirCanvas(iconoURL, this.datos.patente[i]);
       let marker: Marker = this.map.addMarkerSync({
-        title: 'Ionic',
         icon: iconoFinal,
         position: {
           lat: this.datos.latitud[i],
@@ -68,6 +68,7 @@ export class MapasnativoPage {
 
   async verInformacion(i:number){
     let vehiculo:EstadoVehiculo = new EstadoVehiculo(
+      this.datos.imei[i],
       this.datos.numero[i],
       this.datos.dominio[i],
       this.datos.patente[i],
@@ -82,6 +83,7 @@ export class MapasnativoPage {
       signalGPS(this.datos.hdop[i])
     );
     console.log(vehiculo);
+    this.events.publish('mapClickEvent', vehiculo);
   }
 
   determinarIcono(estadoMotor) {

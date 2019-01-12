@@ -146,7 +146,4 @@ export class SeleccionFechaComponent {
     alert.present();
   }
 
-
-
-
 }

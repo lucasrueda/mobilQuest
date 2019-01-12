@@ -23,50 +23,50 @@
   <ion-scroll  [style.height.px]="altoMenu" scrollY="true">
     <ion-list>
       <ion-list-header>
-        Detalles Test 4
+        {{ vehiculo?.patente }}
       </ion-list-header>
       <ion-item>
         <ion-icon name="ios-pin-outline" item-start></ion-icon>
         <h2>Dirección</h2>
-        <p text-wrap>Chile 1607, San Miguel de Tucumán, Tucumán, Argentina</p>
+        <p text-wrap>{{ vehiculo?.direccion }}</p>
       </ion-item>
       <ion-item>
         <ion-icon name="ios-refresh" item-start></ion-icon>
         <h2>Actualizado</h2>
-        <p>10 Nov 2018 14:03:24</p>
+        <p>{{ vehiculo?.actualizado }}</p>
       </ion-item>
       <ion-item>
         <ion-icon name="ios-power-outline" item-start></ion-icon>
         <h2>Estado del motor</h2>
-        <p>Apagado</p>
+        <p>{{ vehiculo?.estadoMotor }}</p>
       </ion-item>
       <ion-item>
         <ion-icon name="ios-information-circle-outline" item-start></ion-icon>
         <h2>Tiempo de parada</h2>
-        <p>16 horas y 48 minutos</p>
+        <p>{{ vehiculo?.tiempoParada }}</p>
       </ion-item>
       <ion-item>
         <ion-icon name="ios-bookmark-outline" item-start></ion-icon>
         <h2>Cuenta kilómetros</h2>
-        <p>4748.95 Km</p>
+        <p>{{ vehiculo?.cuentaKilometros }}</p>
         <button ion-button clear item-end>Reset</button>
       </ion-item>
       <ion-item>
         <ion-icon name="ios-battery-dead" item-start></ion-icon>
         <h2>Batería externa conectada</h2>
-        <p>(12.757 V)</p>
+        <p>({{ vehiculo?.bateriaExterna }} V)</p>
       </ion-item>
       <ion-item>
         <ion-icon name="ios-locate-outline" item-start></ion-icon>
         <h2>Señal de GPS</h2>
-        <p>Muy buena</p>
+        <p>{{ vehiculo?.signalGPS }}</p>
       </ion-item>
     </ion-list>
   </ion-scroll>
   <!-- <div style="height:200px" padding>
     <button ion-button block>Ver</button>
   </div> -->
-  <seleccion-fecha #fecha style="display: block;"></seleccion-fecha>
+  <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)" style="display: block;"></seleccion-fecha>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
