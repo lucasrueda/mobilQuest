@@ -54,7 +54,8 @@ export class MyApp {
   }
 
   ngAfterViewInit() {
-    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 172;
+    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 372;
+    // this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 172;
     console.log(this.fecha.nativeElement.offsetHeight)
   }
 

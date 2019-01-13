@@ -1,10 +1,12 @@
 import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
-import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor } from '../../helpers/helpers'
-import { data } from '../../providers/mapa/data';
+import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas } from '../../helpers/helpers'
 
 declare var google;
+declare function require(text:string);
+
+const pathImgs = './assets/imgs/';
 
 @Component({
 	selector: 'mapajshtml',
@@ -13,15 +15,15 @@ declare var google;
 export class Mapajshtml {
 	@Input() datos;
 	apiKey: any = 'AIzaSyA4h0qNqE_K6GuDT5-BH2g2Mx_XcwbLSys';
-
+	
 	constructor(public navCtrl: NavController, public events: Events) { }
-
+	
 	ngOnChanges() {
 		if (this.datos) {
 			this.loadGoogleMaps();
 		}
 	}
-
+	
 	public loadGoogleMaps() {
 		if (typeof google == "undefined" || typeof google.maps == "undefined") {
 			//Load the SDK
@@ -44,7 +46,6 @@ export class Mapajshtml {
 		}
 	}
 
-
 	public initMap() {
 		let mapOptions = {
 			scrollwheel: false,
@@ -59,20 +60,22 @@ export class Mapajshtml {
 		var mapa = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 		google.maps.event.addListener(mapa, 'click', () => {
-			this.events.publish('user:click');			
+			this.events.publish('user:click');
 		});
 
-		this.agregarMarcadores(mapa);
+		if (!this.datos.recorrido) {
+			this.agregarMarcadores(mapa);
+		} else {
+			this.dibujarRecorrido(mapa);
+		}
 	};
 
 	async agregarMarcadores(mapa) {
 		let bounds = new google.maps.LatLngBounds();
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
-			let iconoURL = this.determinarIcono(parseInt("1"));
-			// let iconoURL = this.determinarIcono(parseInt(this.datos.estado_sensor_en_bit[i]));
-			let iconoFinal = await this.escrbirCanvas(iconoURL, 'TEST');
-			// let iconoFinal = await this.escrbirCanvas(iconoURL, this.datos.patente[i]);
+			let iconoURL = this.determinarIcono(parseInt(this.datos.estado_sensor_en_bit[i]));
+			let iconoFinal = await this.escrbirCanvas(iconoURL, this.datos.patente[i]);
 
 			let marker = new google.maps.Marker({
 				position: latLng,
@@ -112,9 +115,9 @@ export class Mapajshtml {
 
 	determinarIcono(estadoMotor) {
 		if (estadoMotor) {
-			return './assets/imgs/encendido_movimiento.png';
+			return pathImgs + 'encendido_movimiento.png';
 		} else {
-			return './assets/imgs/apagado_parada.png';
+			return pathImgs + 'apagado_parada.png';
 		}
 	}
 
@@ -148,80 +151,74 @@ export class Mapajshtml {
 		})
 	}
 
-	// async dibujarPolygono() {
-	// 	// puntos_para_recorrido.push(latlng);
-	// 	//gestion de sentido del recorrido
-	// 	for (let i = 1; i < (this.datos.latitud.length + 1); i++) {
-	// 		// if (i > 0) {
-	// 		let p0 = new LatLng(data.latitud[i - 1], data.longitud[i - 1]);
-	// 		let p1 = new LatLng(data.latitud[i], data.longitud[i]);
-	// 		let vector = new LatLng(p1.lat - p0.lat, p1.lng - p0.lng);
-	// 		let length = Math.sqrt(vector.lat * vector.lat + vector.lng * vector.lng);
-	// 		let normal = new LatLng(vector.lat / length, vector.lng / length);
-	// 		let middle = new LatLng((p1.lat + p0.lat) / 2, (p1.lng + p0.lng) / 2);
-	// 		let constante = 0.00055;
-	// 		if (length < 0.0019) {
-	// 			constante = 0.00015;
-	// 		}
-	// 		let offsetMiddle = new LatLng(normal.lat * constante, normal.lng * constante),
-	// 			arrowPart1 = new LatLng(-offsetMiddle.lng * 0.4, offsetMiddle.lat * 0.4),
-	// 			arrowPart2 = new LatLng(offsetMiddle.lng * 0.4, -offsetMiddle.lat * 0.4),
-	// 			arrowPoint1 = new LatLng(middle.lat - offsetMiddle.lat + arrowPart1.lat, middle.lng - offsetMiddle.lng + arrowPart1.lng),
-	// 			arrowPoint2 = new LatLng(middle.lat - offsetMiddle.lat + arrowPart2.lat, middle.lng - offsetMiddle.lng + arrowPart2.lng);
-	// 		let flechitas_coordenadas = ([arrowPoint1, middle, arrowPoint2]);
-	// 		if (length > 0.0009) {
-	// 			let options = {
-	// 				//path: flechitas_coordenadas,
-	// 				points: flechitas_coordenadas,
-	// 				strokeColor: "#09F",
-	// 				strokeOpacity: 1,
-	// 				fillOpacity: 1,
-	// 				fillColor: "#09F",//Esta linea no la entiende el firefox, por eso muestra el triangulo del sentido negro
-	// 				strokeWidth: 10,
-	// 				zIndex: 11,
-	// 				visible: true,
-	// 				clickable: false
-	// 			}
-	// 			this.map.addPolygon(options);
-	// 		}
-	// 		// }
-	// 	}
-	// }
+	async dibujarRecorrido(mapa) {
+		let bounds = new google.maps.LatLngBounds();
+		for (let i = 0; i < this.datos.latitud.length; i++) {
+			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
+			let state = determinarIconoRecorrido(this.datos, i);
+			let marker = new google.maps.Marker({
+				position: latLng,
+				icon: pathImgs + state.icono + '.png',
+				map: mapa
+			});
+			let infowindow = new google.maps.InfoWindow({
+				content: state.titulo
+			});
+			google.maps.event.addListener(marker, 'click', () => {
+				infowindow.open(mapa, marker);
+			});
+			if (this.datos.tipo_alarma[i] != '') {
+				let state = determinarAlertas(this.datos, i);
+				let MarkerWithLabel = require('markerwithlabel')(google.maps);
+				let AlertaMarker = new MarkerWithLabel({
+					icon: new google.maps.MarkerImage(pathImgs + state.icono + '.png', null, null, new google.maps.Point(2, 52)),
+					position: latLng,
+					map: mapa,
+					draggable: false,
+					title: state.titulo,
+					zIndex: 3,
+					labelContent: 1,
+					labelAnchor: new google.maps.Point(-30, 47),
+				});
+				let infowindow = new google.maps.InfoWindow({
+					content: state.titulo
+				});
+				google.maps.event.addListener(AlertaMarker, 'click', () => {
+					infowindow.open(mapa, AlertaMarker);
+				});
+			}
+			bounds.extend(marker.position);
+		}
+		this.dubujarPolilneas(mapa);
+		mapa.fitBounds(bounds);
+		mapa.setZoom(mapa.getZoom() - 1.4);
+	}
 
-	// dubujarPolilneas() {
-	// 	let coordinates = [];
-	// 	for (let i = 0; i < this.datos.latitud.length; i++) {
-	// 		coordinates.push(new LatLng(this.datos.latitud[i], this.datos.longitud[i]));
-	// 	}
-	// 	this.map.addPolyline({
-	// 		points: coordinates,
-	// 		color: '#AA00FF',
-	// 		width: 10,
-	// 		geodesic: true
-	// 	});
-	// }
-
-	//   var flecha_de_recorrido = {
-	//     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-	//     strokeColor: "#F3510C",//"#E67817",
-	//     strokeWeight: 4,
-	//     scale: 2.5
-	//   };
-	//   var movil = {
-	//     path: google.maps.SymbolPath.CIRCLE,
-	//     scale: 8,
-	//     strokeColor: 'red'
-	//   }; 
-	//   var polilinea_recorrido = new google.maps.Polyline({
-	//     strokeColor: "#000",
-	//     strokeOpacity: 1,
-	//     strokeWeight: 3.5,
-	//     zIndex:9,
-	//     clickable: false,
-	//     icons: [{
-	//     icon: flecha_de_recorrido,
-	//     offset: '50%',
-	//     repeat: '100px'}]
-	//   });
+	dubujarPolilneas(mapa) {
+		let coordinates = [];
+		for (let i = 0; i < this.datos.latitud.length; i++) {
+			coordinates.push(new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]));
+		}
+		let flecha_de_recorrido = {
+			path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+			strokeColor: "#F3510C",//"#E67817",
+			strokeWeight: 4,
+			scale: 2.5
+		};
+		let polilinea_recorrido = new google.maps.Polyline({
+			strokeColor: "#000",
+			strokeOpacity: 1,
+			strokeWeight: 3.5,
+			zIndex: 9,
+			clickable: false,
+			icons: [{
+				icon: flecha_de_recorrido,
+				offset: '50%',
+				repeat: '100px'
+			}]
+		});
+		polilinea_recorrido.setPath(coordinates);
+		polilinea_recorrido.setMap(mapa);
+	}
 }
 

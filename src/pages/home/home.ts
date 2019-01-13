@@ -33,6 +33,11 @@ export class HomePage {
 
   async ionViewDidLoad() {
     this.mostrarOcultarFiltros();
+    this.event.subscribe('filtroPorFechas', (datos) => {
+      let datosRecorrido = datos;
+      datosRecorrido['recorrido'] = true;
+      this.datos = datosRecorrido;
+    })
     this.storage.ready()
       .then(() => {
         this.storage.get('id_cliente').then(async (id_cliente) => {
@@ -64,9 +69,6 @@ export class HomePage {
         this.expander.nativeElement.classList.add('slide-in');
       }
     });
-    this.event.subscribe('filtroPorFechas', (datos) => {
-      this.datos = datos;
-    })
   }
 
   respuestaVehiculoSelect(vehiculo){

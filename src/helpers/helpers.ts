@@ -103,221 +103,181 @@ const sumaMinutosHorario = (tiempo, hora) => { //FUNCION PARA SUMAR UNA CANTIDAD
   return suma_total;	//alert("HORA="+hora+" H="+hora_inicio+" M="+minutos_inicio+ "\n" + "Le tengo que sumar "+tiempo+" segundos, que son "+m);
 }
 
-const analizarRecorrido = (data, dominio) => {
-  let puntos_para_recorrido = [];
-  let matriz_alertas = [];
-  let contador_paradas = 0;
-  let total_detenido = 0;
-  let kilometraje = 0;
-  let duracion;
-  let tiempo_movimiento;
-  let cod_html_alertas_backup = [];
-  let kilometraje_sensor = 0;
-  let cod_html_alertas = [];
-  let velocidad_maxima = 0;
-  let velocidad_promedio = 0;
-  let icono_png;
-  let icono_png_pelota = "";
-  let cod_html = "";
-  let state = {
-    latitud: '',
-    longitud: '',
-    icono: '',
-    titulo: '',
-  }
+const determinarIconoRecorrido = (data, i) => {
   let tiempo_min_detencion = 5;
-
-  for (let i = 0; i < data.latitud.length; i++) {
-    state.latitud = data.latitud[i];
-    state.longitud = data.longitud[i]
-    switch (i) {
-      case (0):
-        if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
-          if (data.latitud.length == 1) {
-            state.icono = "parada";
-            state.titulo = "Desde las " + data.hora_avl[i] + " el vehículo estuvo detenido " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Sin recorrido.";
-          } else {
-            state.icono = "inicio_parada";//icono inicio con manito		
-            state.titulo = "Desde las " + data.hora_avl[i] + " el vehículo estuvo detenido durante " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Inicio el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
-          }
-          contador_paradas = contador_paradas + 1;
+  let ultimoElemento = data.latitud.length - 1;
+  let primerElemento = 0;
+  let state = {
+    icono: '',
+    titulo: ''
+  }
+  switch (i) {
+    case (primerElemento):
+      if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
+        if (data.latitud.length == 1) {
+          state.icono = "parada";
+          state.titulo = "Desde las " + data.hora_avl[i] + " el vehículo estuvo detenido " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Sin recorrido.";
         } else {
-          state.icono = "inicio";//solamente icono inicio
-          state.titulo = "Inicio del recorrido.<br>Velocidad: " + data.velocidad[i] + "<br>Hora: " + data.hora_avl[i];
+          state.icono = "inicio_parada";//icono inicio con manito		
+          state.titulo = "Desde las " + data.hora_avl[i] + " el vehículo estuvo detenido durante " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Inicio el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
         }
-        total_detenido = total_detenido + parseInt(data.tiempo_detenido[i]);
-        if (data.velocidad[i] > velocidad_maxima) {
-          velocidad_maxima = data.velocidad[i];
-        }
-        if (data.latitud.length - 1 != 0) {
-          break;
-        }
-      case (data.latitud.length - 1):
-        if (data.latitud.length - 1 != 0) {
-          if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
-            icono_png = "fin_parada";//icono Final con manito
-            contador_paradas = contador_paradas + 1;
-            cod_html = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Fin del recorrido.";
-          } else {
-            icono_png = "fin";//solamente icono Final
-            cod_html = "Fin del recorrido.<br>Velocidad: " + data.velocidad[i] + "<br>Hora: " + data.hora_avl[i];
-          }
-        }
-        duracion = tiempoDetenido(data.duracion);
-        total_detenido = total_detenido + parseInt(data.tiempo_detenido[i]);
-        kilometraje = Math.round(data.kilometraje * 100) / 100;
-        kilometraje_sensor = Math.round(data.kilometraje_sensor * 100) / 100;
-        tiempo_movimiento = ((data.duracion - total_detenido) / 3600);
-        velocidad_promedio = Math.round((kilometraje / tiempo_movimiento) * 100) / 100;
-        if (data.velocidad[i] > velocidad_maxima) {
-          velocidad_maxima = data.velocidad[i];
-        }
-        break;
-      default:
+      } else {
+        state.icono = "inicio";//solamente icono inicio
+        state.titulo = "Inicio del recorrido.<br>Velocidad: " + data.velocidad[i] + "<br>Hora: " + data.hora_avl[i];
+      }
+      break;
+    case (ultimoElemento):
+      if (data.latitud.length - 1 != 0) {
         if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
-          contador_paradas = contador_paradas + 1;
-          icono_png = "parada";//icono manito	
-          cod_html = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + " Inició nuevamente el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
+          state.icono = "fin_parada";//icono Final con manito
+          state.titulo = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Fin del recorrido.";
         } else {
-          if (data.cod_trama[i] == 32 || data.cod_trama[i] == 77) {//agregado para distinguir cuando es puntito de giro, el codigo 77 es para T_zone
-            icono_png = "puntitogiro";
-          }
-          else {
-            icono_png = "puntito";//solamente puntito
-          }
-          cod_html = "Velocidad: " + data.velocidad[i] + " Km/h. <br>Hora: " + data.hora_avl[i];
+          state.icono = "fin";//solamente icono Final
+          state.titulo = "Fin del recorrido.<br>Velocidad: " + data.velocidad[i] + "<br>Hora: " + data.hora_avl[i];
         }
-        total_detenido = total_detenido + parseInt(data.tiempo_detenido[i]);
-        if (data.velocidad[i] > velocidad_maxima) {
-          velocidad_maxima = data.velocidad[i];
-        }
-        break;
-    }
-    let codigo_unificado = 0; // Voy a unificar el codigo, siempre me voy a quedar con el menor del grupo
-    if (data.tipo_alarma[i] != '') {
-      icono_png_pelota = "alertas";
-      for (let j = 0; j < data.tipo_alarma[i].length && data.nombre_alerta[i] != ''; j++) {
-        if (data.tipo_alarma[i][j] == 101 || data.tipo_alarma[i][j] == 104 || data.tipo_alarma[i][j] == 106 || data.tipo_alarma[i][j] == 108 || data.tipo_alarma[i][j] == 112 || data.tipo_alarma[i][j] == 115) {
-          codigo_unificado = data.tipo_alarma[i][j] - 1;
-          data.estado_sensor[i][j] = 1; //emulo que esta en 1
+      }
+      break;
+    default:
+      if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
+        state.icono = "parada";//icono manito	
+        state.titulo = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + " Inició nuevamente el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
+      } else {
+        if (data.cod_trama[i] == 32 || data.cod_trama[i] == 77) {//agregado para distinguir cuando es puntito de giro, el codigo 77 es para T_zone
+          state.icono = "puntitogiro";
         }
         else {
-          codigo_unificado = data.tipo_alarma[i][j];
+          state.icono = "puntito";//solamente puntito
         }
-        if (!matriz_alertas[codigo_unificado]) {//Si no existe el elemento con ese num de codigo...
-          matriz_alertas[codigo_unificado] = new Array(data.nombre_alerta[i][j], new Array(), '', new Array(), '', new Array());
-          //Una fila X de la matriz tiene las sig columnas: (la X siempre va a ser un codigo de alarma)
-          //col 0:nombre de alerta, col 1:array de indice de posiciones donde aparece. col 2:nombre para el estado_sensor = 1. 
-          //col 3: idem col 1 pero para col 2. Col 4 y 5 son idem con la 2 y 3 pero para el estado_sensor = 0
-        }
-        if (!cod_html_alertas[i]) {
-          cod_html_alertas[i] = "";
-        } else {
-          cod_html_alertas[i] = cod_html_alertas[i] + "<br>";
-        }
-        if (data.caso_alerta[i][j]) {
-          if (data.estado_sensor[i][j] == 1) {//Aqui Si o Si el estado es 0 o 1
-            if (matriz_alertas[codigo_unificado][2] == '') {
-              matriz_alertas[codigo_unificado][2] = data.caso_alerta[i][j];
-            }
-            matriz_alertas[codigo_unificado][3].push(i);
-          } else {
-            if (matriz_alertas[codigo_unificado][4] == '') {
-              matriz_alertas[codigo_unificado][4] = data.caso_alerta[i][j];
-            }
-            matriz_alertas[codigo_unificado][5].push(i);
-          }
-          cod_html_alertas[i] = cod_html_alertas[i] + data.nombre_alerta[i][j] + ": " + data.caso_alerta[i][j] + ". Hora: " + data.hora_alerta[i][j];
-          matriz_alertas[codigo_unificado][1].push(i);
-        } else {
-          if (codigo_unificado == 103) {
-            cod_html_alertas[i] = cod_html_alertas[i] + data.nombre_alerta[i][j] + ": " + data.velocidad[i] + " Km/h. Hora: " + data.hora_alerta[i][j];
-          } else {
-            cod_html_alertas[i] = cod_html_alertas[i] + data.nombre_alerta[i][j] + ". Hora: " + data.hora_alerta[i][j];
-          }
-          switch (data.tipo_alarma[i][j]) {
-            case 100:// como si fuese el estado de sensor =0
-              matriz_alertas[codigo_unificado][0] = "Estado de batería interna";
-              matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][5].push(i);
-              break;
-            case 101:// como si fuese el estado de sensor =1
-              matriz_alertas[codigo_unificado][0] = "Estado de batería interna";
-              matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][3].push(i);
-              data.tipo_alarma[i][j] = codigo_unificado;
-              break;
-            case 103:
-              matriz_alertas[codigo_unificado][0] = "Velocidad";
-              matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][5].push(i);
-              break;
-            case 104:
-              matriz_alertas[codigo_unificado][0] = "Velocidad";
-              matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][3].push(i);
-              data.tipo_alarma[i][j] = codigo_unificado;
-              break;
-            case 105:
-              matriz_alertas[codigo_unificado][0] = "Aceleración";
-              matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][5].push(i);
-              break;
-            case 106:
-              matriz_alertas[codigo_unificado][0] = "Aceleración";
-              matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][3].push(i);
-              data.tipo_alarma[i][j] = codigo_unificado;
-              break;
-            case 107:
-              matriz_alertas[codigo_unificado][0] = "Reporte";
-              matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][5].push(i);
-              break;
-            case 108:
-              matriz_alertas[codigo_unificado][0] = "Reporte";
-              matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][3].push(i);
-              data.tipo_alarma[i][j] = codigo_unificado;
-              break;
-            case 111:
-              matriz_alertas[codigo_unificado][0] = "Estado de batería externa";
-              matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][5].push(i);
-              break;
-            case 112:
-              matriz_alertas[codigo_unificado][0] = "Estado de batería externa";
-              matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][3].push(i);
-              data.tipo_alarma[i][j] = codigo_unificado;
-              break;
-            case 114:
-              matriz_alertas[codigo_unificado][0] = "Ahorro de datos";
-              matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][5].push(i);
-              break;
-            case 115:
-              matriz_alertas[codigo_unificado][0] = "Ahorro de datos";
-              matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
-              matriz_alertas[codigo_unificado][3].push(i);
-              data.tipo_alarma[i][j] = codigo_unificado;
-              break;
-            default:
-              break;
-          }
-          matriz_alertas[codigo_unificado][1].push(i);
-        }
-        cod_html_alertas_backup = cod_html_alertas.slice(0);
+        state.titulo = "Velocidad: " + data.velocidad[i] + " Km/h. <br>Hora: " + data.hora_avl[i];
       }
-    }
-    if (icono_png_pelota != "alertas" || icono_png != "puntito" || icono_png != "puntitogiro") {
-     // agrego_marcador_recorrido(latlng, icono_png, i, cod_html, icono_png, 8);
-    }
-    if (icono_png_pelota == "alertas") {
-      //agrego_marcador_recorrido(latlng, icono_png_pelota, i, cod_html_alertas[i], icono_png_pelota, data.tipo_alarma[i].length);
-    }
-    icono_png_pelota = "";
+      break;
   }
+  return state;
 }
 
-export { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, analizarRecorrido };
+const determinarAlertas = (data, i) => {
+  let matriz_alertas = [];
+  let cod_html_alertas = [];
+  let state = {
+    icono: '',
+    titulo: ''
+  }
+  let codigo_unificado = 0; // Voy a unificar el codigo, siempre me voy a quedar con el menor del grupo
+  state.icono = "alertas";
+  for (let j = 0; j < data.tipo_alarma[i].length && data.nombre_alerta[i] != ''; j++) {
+    if (data.tipo_alarma[i][j] == 101 || data.tipo_alarma[i][j] == 104 || data.tipo_alarma[i][j] == 106 || data.tipo_alarma[i][j] == 108 || data.tipo_alarma[i][j] == 112 || data.tipo_alarma[i][j] == 115) {
+      codigo_unificado = data.tipo_alarma[i][j] - 1;
+      data.estado_sensor[i][j] = 1; //emulo que esta en 1
+    }
+    else {
+      codigo_unificado = data.tipo_alarma[i][j];
+    }
+    if (!matriz_alertas[codigo_unificado]) {//Si no existe el elemento con ese num de codigo...
+      matriz_alertas[codigo_unificado] = new Array(data.nombre_alerta[i][j], new Array(), '', new Array(), '', new Array());
+      //Una fila X de la matriz tiene las sig columnas: (la X siempre va a ser un codigo de alarma)
+      //col 0:nombre de alerta, col 1:array de indice de posiciones donde aparece. col 2:nombre para el estado_sensor = 1. 
+      //col 3: idem col 1 pero para col 2. Col 4 y 5 son idem con la 2 y 3 pero para el estado_sensor = 0
+    }
+    if (!cod_html_alertas[i]) {
+      cod_html_alertas[i] = "";
+    } else {
+      cod_html_alertas[i] = cod_html_alertas[i] + "<br>";
+    }
+    if (data.caso_alerta[i][j]) {
+      if (data.estado_sensor[i][j] == 1) {//Aqui Si o Si el estado es 0 o 1
+        if (matriz_alertas[codigo_unificado][2] == '') {
+          matriz_alertas[codigo_unificado][2] = data.caso_alerta[i][j];
+        }
+        matriz_alertas[codigo_unificado][3].push(i);
+      } else {
+        if (matriz_alertas[codigo_unificado][4] == '') {
+          matriz_alertas[codigo_unificado][4] = data.caso_alerta[i][j];
+        }
+        matriz_alertas[codigo_unificado][5].push(i);
+      }
+      cod_html_alertas[i] = cod_html_alertas[i] + data.nombre_alerta[i][j] + ": " + data.caso_alerta[i][j] + ". Hora: " + data.hora_alerta[i][j];
+      matriz_alertas[codigo_unificado][1].push(i);
+    } else {
+      if (codigo_unificado == 103) {
+        cod_html_alertas[i] = cod_html_alertas[i] + data.nombre_alerta[i][j] + ": " + data.velocidad[i] + " Km/h. Hora: " + data.hora_alerta[i][j];
+      } else {
+        cod_html_alertas[i] = cod_html_alertas[i] + data.nombre_alerta[i][j] + ". Hora: " + data.hora_alerta[i][j];
+      }
+      switch (data.tipo_alarma[i][j]) {
+        case 100:// como si fuese el estado de sensor =0
+          matriz_alertas[codigo_unificado][0] = "Estado de batería interna";
+          matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][5].push(i);
+          break;
+        case 101:// como si fuese el estado de sensor =1
+          matriz_alertas[codigo_unificado][0] = "Estado de batería interna";
+          matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][3].push(i);
+          data.tipo_alarma[i][j] = codigo_unificado;
+          break;
+        case 103:
+          matriz_alertas[codigo_unificado][0] = "Velocidad";
+          matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][5].push(i);
+          break;
+        case 104:
+          matriz_alertas[codigo_unificado][0] = "Velocidad";
+          matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][3].push(i);
+          data.tipo_alarma[i][j] = codigo_unificado;
+          break;
+        case 105:
+          matriz_alertas[codigo_unificado][0] = "Aceleración";
+          matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][5].push(i);
+          break;
+        case 106:
+          matriz_alertas[codigo_unificado][0] = "Aceleración";
+          matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][3].push(i);
+          data.tipo_alarma[i][j] = codigo_unificado;
+          break;
+        case 107:
+          matriz_alertas[codigo_unificado][0] = "Reporte";
+          matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][5].push(i);
+          break;
+        case 108:
+          matriz_alertas[codigo_unificado][0] = "Reporte";
+          matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][3].push(i);
+          data.tipo_alarma[i][j] = codigo_unificado;
+          break;
+        case 111:
+          matriz_alertas[codigo_unificado][0] = "Estado de batería externa";
+          matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][5].push(i);
+          break;
+        case 112:
+          matriz_alertas[codigo_unificado][0] = "Estado de batería externa";
+          matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][3].push(i);
+          data.tipo_alarma[i][j] = codigo_unificado;
+          break;
+        case 114:
+          matriz_alertas[codigo_unificado][0] = "Ahorro de datos";
+          matriz_alertas[codigo_unificado][4] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][5].push(i);
+          break;
+        case 115:
+          matriz_alertas[codigo_unificado][0] = "Ahorro de datos";
+          matriz_alertas[codigo_unificado][2] = data.nombre_alerta[i][j];
+          matriz_alertas[codigo_unificado][3].push(i);
+          data.tipo_alarma[i][j] = codigo_unificado;
+          break;
+        default:
+          break;
+      }
+      matriz_alertas[codigo_unificado][1].push(i);
+    }
+  }
+  state.titulo = cod_html_alertas[i];
+  return state;
+}
+
+export { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas };
