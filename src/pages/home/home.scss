@@ -1,10 +1,14 @@
 page-home {
+    .over_map {
+        position: absolute;
+        width: 100%;
+        z-index: 99;
+    }
     .searchBarConteiner {
         margin-top: 20px;
         -webkit-transform: translate3d(0, -141%, 0);
         transition: transform 0.3s;
     }
-
     page-modal {
         position: absolute;
         width: 100%;

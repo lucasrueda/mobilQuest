@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NavController, Events, ModalController, NavParams } from 'ionic-angular';
 import { MapasnativoPage } from '../mapasnativo/mapasnativo';
+import { Mapajshtml } from '../mapajshtml/mapajshtml';
 import { ModalPage } from '../modal/modal'
 import { MapaProvider } from '../../providers/mapa/mapa';
 import { Storage } from '@ionic/storage';
