@@ -14,12 +14,11 @@ page-home > ion-content > .scroll-content {
 #menu-material {
     .menu-header {
       padding: 5px 15px;
-      background-image: url('../assets/imgs/material-design-background.jpg');
-      background-size: cover;
-      color: white;
+      background: linear-gradient(to right, #ce803c12 40%, #CE803CAA 100%);
       .name {
         font-weight: 500;
         margin-bottom: 3px;
+        color: #004361;
       }
       .e-mail {
         margin-top: 0;

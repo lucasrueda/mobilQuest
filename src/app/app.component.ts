@@ -21,6 +21,7 @@ export class MyApp {
 
   rootPage: any;
   pages: Array<{ title: string, component: any, active: boolean, icon: string }>;
+  nombreCliente: string;
 
   constructor(
     platform: Platform,
@@ -39,29 +40,43 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
-      this.storage.ready()
-        .then(() => {
-          this.storage.get('id_cliente').then((id_cliente) => {
-            if (id_cliente) {
-              this.rootPage = HomePage;
-              this.handleMapClickEvent();
-            } else {
-              this.rootPage = LoginPage;
-            }
-          });
-        })
+      this.checkLogin();
+      this.getNombre();
     });
+  }
+
+  checkLogin() {
+    this.storage.ready()
+      .then(() => {
+        this.storage.get('id_cliente').then((id_cliente) => {
+          if (id_cliente) {
+            this.rootPage = HomePage;
+            this.handleMapClickEvent();
+          } else {
+            this.rootPage = LoginPage;
+          }
+        });
+      })
+  }
+
+  getNombre(){
+    this.storage.ready()
+      .then(() => {
+        this.storage.get('nombre').then((nombre) => {
+          this.nombreCliente = nombre;
+        });
+      })
   }
 
   ngAfterViewInit() {
     this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 243;
   }
-  
-  advFilterOn(isOn){
-    if(isOn){
+
+  advFilterOn(isOn) {
+    if (isOn) {
       this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 330;
-    }else{
-      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 243 ;
+    } else {
+      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 243;
     }
   }
 

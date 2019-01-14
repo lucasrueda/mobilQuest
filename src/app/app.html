@@ -2,9 +2,10 @@
   <ion-content>
     <div class="menu-header">
       <!--material-design-background-->
-      <img class="user-avatar round" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/avatar.jpg'" />
-      <p class="name">Gomez Kevin</p>
-      <p class="e-mail">masterk63@email.com</p>
+      <!-- <img class="user-avatar round" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/avatar.jpg'" /> -->
+      <img style="width: 50%;margin-top: 10px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/login_logo.png'" />
+      <p class="name">{{nombreCliente}}</p>
+      <!-- <p class="e-mail">masterk63@email.com</p> -->
     </div>
     <ion-list no-lines>
       <button menuClose="left" ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">

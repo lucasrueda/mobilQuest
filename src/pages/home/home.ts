@@ -48,7 +48,6 @@ export class HomePage {
           this.id_cliente = id_cliente
           try {
             this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
-            this
           } catch (error) {
             console.log("​catch -> error", error)
           }
