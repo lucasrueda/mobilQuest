@@ -66,7 +66,7 @@
   <!-- <div style="height:200px" padding>
     <button ion-button block>Ver</button>
   </div> -->
-  <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)" style="display: block;"></seleccion-fecha>
+  <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)" (advFilterOn)="advFilterOn($event)" style="display: block;"></seleccion-fecha>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

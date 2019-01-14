@@ -11,6 +11,7 @@ export class SeleccionFechaComponent {
 
   @Input() imei: string;
   @Output() respuesta = new EventEmitter<any>();
+  @Output() advFilterOn = new EventEmitter<any>();
 
   filtroAvanzado: boolean = false;
   filtroRapido: any;
@@ -42,6 +43,7 @@ export class SeleccionFechaComponent {
 
   filtroAvanzadoOption() {
     this.filtroAvanzado = !this.filtroAvanzado;
+    this.advFilterOn.emit(this.filtroAvanzado);
   }
 
   buscarFiltroRapido() {

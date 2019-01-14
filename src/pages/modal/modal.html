@@ -2,8 +2,8 @@
   <h3 class="title">Filtrar por:</h3>
   <div class="modalFilter">
     <div>
-      <button ion-fab mini color="primary">4</button>
-      <span>Total</span>
+      <button (click)="actualizar()" ion-fab mini color="primary"><ion-icon name="ios-refresh" ></ion-icon></button>
+      <span>Actualizar</span>
     </div>
     <div>
       <button ion-fab mini color="red">3</button>
@@ -14,9 +14,14 @@
       <span>Encendidos</span>
     </div>
     <div>
-      <button ion-fab mini color="green" menuToggle="right">1</button>
-      <span>Movimientos</span>
+      <button (click)="actualizar()" ion-fab mini color="green"><ion-icon name="ios-car"></ion-icon>
+      </button>
+      <span>Ver toda la flota</span>
     </div>
+    <!-- <div>
+      <button ion-fab mini color="green" menuToggle="right">1</button>
+      <span>Menbu derecha</span>
+    </div> -->
   </div>
 
 </ion-content>

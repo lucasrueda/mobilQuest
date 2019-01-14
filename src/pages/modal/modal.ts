@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, Events } from 'ionic-angular';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -8,9 +9,18 @@ import { IonicPage, NavController, NavParams, ViewController, Events } from 'ion
 })
 export class ModalPage {
 
-  constructor(public viewCtrl: ViewController, public event: Events) {
+  constructor(
+    public viewCtrl: ViewController, 
+    public event: Events,
+    public navCtrl: NavController,
+    public HomeP: HomePage
+    ) {
     this.event.subscribe('user:click', () => {
       console.log('dissmiseando')
     })
+  }
+
+  actualizar(){
+    this.HomeP.consultarTodo();
   }
 }

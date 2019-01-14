@@ -54,10 +54,17 @@ export class MyApp {
   }
 
   ngAfterViewInit() {
-    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 372;
-    // this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 172;
-    console.log(this.fecha.nativeElement.offsetHeight)
+    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 243;
   }
+  
+  advFilterOn(isOn){
+    if(isOn){
+      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 330;
+    }else{
+      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 243 ;
+    }
+  }
+
 
   logout() {
     this.storage.clear()

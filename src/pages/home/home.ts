@@ -38,6 +38,10 @@ export class HomePage {
       datosRecorrido['recorrido'] = true;
       this.datos = datosRecorrido;
     })
+    this.consultarTodo();
+  }
+
+  public consultarTodo() {
     this.storage.ready()
       .then(() => {
         this.storage.get('id_cliente').then(async (id_cliente) => {
@@ -71,7 +75,7 @@ export class HomePage {
     });
   }
 
-  respuestaVehiculoSelect(vehiculo){
-		console.log("​HomePage -> respuestaVehiculoSelect -> vehiculo", vehiculo)
+  respuestaVehiculoSelect(vehiculo) {
+    console.log("​HomePage -> respuestaVehiculoSelect -> vehiculo", vehiculo)
   }
 }
