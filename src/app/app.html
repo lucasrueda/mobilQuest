@@ -20,10 +20,11 @@
 </ion-menu>
 
 <ion-menu type="overlay" [content]="content" side="right" id="menu2">
-  <ion-scroll  [style.height.px]="altoMenu" scrollY="true">
+  <ion-scroll [style.height.px]="altoMenu" scrollY="true">
     <ion-list>
-      <ion-list-header>
-        {{ vehiculo?.patente }}
+      <ion-list-header menuToggle="right">
+        <ion-icon name="ios-arrow-forward" item-start></ion-icon>
+        <h2>{{ vehiculo?.patente }}</h2>
       </ion-list-header>
       <ion-item>
         <ion-icon name="ios-pin-outline" item-start></ion-icon>
@@ -66,7 +67,8 @@
   <!-- <div style="height:200px" padding>
     <button ion-button block>Ver</button>
   </div> -->
-  <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)" (advFilterOn)="advFilterOn($event)" style="display: block;"></seleccion-fecha>
+  <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)" (advFilterOn)="advFilterOn($event)"
+    style="display: block;"></seleccion-fecha>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
