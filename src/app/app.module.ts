@@ -41,7 +41,8 @@ import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-fl
       monthNames : ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
       monthShortNames : ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
       dayNames : ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'],
-      dayShortNames : ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom']
+      dayShortNames : ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'],
+      mode: 'md'
     }),
     IonicStorageModule.forRoot()
   ],
