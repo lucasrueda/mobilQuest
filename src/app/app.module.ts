@@ -9,9 +9,11 @@ import { HomePage } from '../pages/home/home';
 import { ModalPage } from '../pages/modal/modal';
 import { MapasnativoPage } from '../pages/mapasnativo/mapasnativo';
 import { Mapajshtml } from '../pages/mapajshtml/mapajshtml';
+import { SearchFilterPage } from '../pages/search-filter/search-filter';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Keyboard } from '@ionic-native/keyboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapaProvider } from '../providers/mapa/mapa';
 import { LoginPage } from '../pages/login/login';
@@ -29,6 +31,7 @@ import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-fl
     ModalPage,
     Mapajshtml,
     LoginPage,
+    SearchFilterPage,
     LoginComponent,
     SeleccionFechaComponent,
     BusquedaFlotaComponent
@@ -54,6 +57,7 @@ import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-fl
     ModalPage,
     Mapajshtml,
     LoginPage,
+    SearchFilterPage,
     LoginComponent,
     SeleccionFechaComponent,
     BusquedaFlotaComponent
@@ -64,6 +68,7 @@ import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-fl
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     MapaProvider,
     LoginService,
+    Keyboard,
     SeleccionFechaService
   ]
 })

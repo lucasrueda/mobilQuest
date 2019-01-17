@@ -1,11 +1,10 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NavController, Events, ModalController, NavParams } from 'ionic-angular';
 import { MapasnativoPage } from '../mapasnativo/mapasnativo';
-import { Mapajshtml } from '../mapajshtml/mapajshtml';
-import { ModalPage } from '../modal/modal'
 import { MapaProvider } from '../../providers/mapa/mapa';
 import { Storage } from '@ionic/storage';
 import { obtenerDireccion } from '../../helpers/helpers';
+import { SearchFilterPage } from '../search-filter/search-filter';
 
 @Component({
   selector: 'page-home',
@@ -28,10 +27,11 @@ export class HomePage {
     public _zone: NgZone,
     public modalCtrl: ModalController,
     private storage: Storage
-  ) {
-  }
+  ) {}
 
   async ionViewDidLoad() {
+    const inputs: any = document.getElementById("input").getElementsByTagName("INPUT");
+    inputs[0].disabled = true;
     this.mostrarOcultarFiltros();
     this.event.subscribe('filtroPorFechas', (datos) => {
       let datosRecorrido = datos;
@@ -76,5 +76,9 @@ export class HomePage {
 
   respuestaVehiculoSelect(vehiculo) {
     console.log("​HomePage -> respuestaVehiculoSelect -> vehiculo", vehiculo)
+  }
+
+  test() {
+    this.navCtrl.push(SearchFilterPage);
   }
 }
