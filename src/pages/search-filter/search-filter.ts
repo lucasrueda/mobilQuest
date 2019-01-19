@@ -1,10 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, trigger, style, animate, transition } from '@angular/core';
 import { NavController, NavParams, Searchbar } from 'ionic-angular';
 import { group } from '@angular/core/src/animation/dsl';
 
 @Component({
   selector: 'page-search-filter',
   templateUrl: 'search-filter.html',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({ transform: 'translateX(0)', opacity: 0 }),
+          animate('300ms', style({ transform: 'translateX(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translateX(0)', opacity: 1 }),
+          animate('200ms', style({ transform: 'translateX(0)', opacity: 0 }))
+        ])
+      ]
+    )
+  ]
 })
 export class SearchFilterPage {
   @ViewChild('mainSearchbar') searchBar;

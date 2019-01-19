@@ -5,17 +5,24 @@
 </ion-header>
 
 <ion-content>
-  <div class="chips">
-    <ng-template ngFor let-grupo [ngForOf]="filterGrupos">
-      <ion-chip>
-        <ion-label>{{grupo.nombre}}</ion-label>
-      </ion-chip>
-    </ng-template>
-  </div>
-  <ion-item-group>
-    <ng-template ngFor let-i="index" let-c="count" let-grupo [ngForOf]="filterGrupos">
-      <ion-item-divider color="light">{{grupo.nombre}}</ion-item-divider>
-      <ion-item *ngFor="let auto of grupo.autos">{{auto}}</ion-item>
-    </ng-template>
-  </ion-item-group>
+  <ng-container *ngIf="!filterGrupos.length">
+    <p class="noValues">No se encontraron resultados.</p>
+  </ng-container>
+  <ng-container *ngIf="filterGrupos.length">
+    <div class="chips">
+      <ng-template ngFor let-grupo let-last="last" [ngForOf]="filterGrupos">
+        <button ion-button round outline>Ver recorrido</button>
+        <!-- <ion-chip>
+            <ion-label [style.font-style]="last ? 'italic' : 'normal'">{{grupo.nombre}}</ion-label>
+          </ion-chip> -->
+      </ng-template>
+    </div>
+    <ion-item-group>
+      <ng-template ngFor let-i="index" let-c="count" let-last="last" let-grupo [ngForOf]="filterGrupos">
+        <ion-item-divider color="light" [style.font-style]="last ? 'italic' : 'normal'">{{grupo.nombre}}
+          ({{grupo.autos.length}})</ion-item-divider>
+        <ion-item *ngFor="let auto of grupo.autos" [@enterAnimation]>{{auto}}</ion-item>
+      </ng-template>
+    </ion-item-group>
+  </ng-container>
 </ion-content>

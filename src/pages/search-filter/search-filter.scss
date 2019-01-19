@@ -13,8 +13,13 @@ page-search-filter {
     .searchbar-ios {
         background: none;
     }
-    .chips{
+    .chips {
         display: block;
         margin: 5px;
+    }
+    .noValues {
+        text-align: center;
+        color: #816969;
+        font-size: 18px;
     }
 }
