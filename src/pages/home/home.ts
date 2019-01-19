@@ -76,7 +76,13 @@ export class HomePage {
     console.log("​HomePage -> respuestaVehiculoSelect -> vehiculo", vehiculo)
   }
 
-  test() {
-    this.navCtrl.push(SearchFilterPage, {}, { animation: 'wp-transition' ,duration: 50});
+  openSearch() {
+    let data = {
+      vectorIdGrupo: this.datos.vector_id_grupo,
+      vectorNombreGrupo: this.datos.vector_nombre_grupo,
+      idGrupo: this.datos.id_grupo,
+      dominio: this.datos.dominio
+    }
+    this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
   }
 }
