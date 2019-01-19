@@ -27,11 +27,9 @@ export class HomePage {
     public _zone: NgZone,
     public modalCtrl: ModalController,
     private storage: Storage
-  ) {}
+  ) { }
 
   async ionViewDidLoad() {
-    const inputs: any = document.getElementById("input").getElementsByTagName("INPUT");
-    inputs[0].disabled = true;
     this.mostrarOcultarFiltros();
     this.event.subscribe('filtroPorFechas', (datos) => {
       let datosRecorrido = datos;
@@ -79,6 +77,6 @@ export class HomePage {
   }
 
   test() {
-    this.navCtrl.push(SearchFilterPage);
+    this.navCtrl.push(SearchFilterPage, {}, { animation: 'wp-transition' ,duration: 50});
   }
 }

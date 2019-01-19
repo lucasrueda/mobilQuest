@@ -19,7 +19,7 @@ page-home {
         z-index: 99;
     }
     .searchBarConteiner {
-        margin-top: 20px;
+        margin-top: 25px;
         -webkit-transform: translate3d(0, -141%, 0);
         transition: transform 0.3s;
     }
@@ -56,4 +56,15 @@ page-home {
         -webkit-transform: translate3d(0, 48px, 0);
         transition: transform 0.3s;
     }
+    .whiteSquare {
+        display: block;
+        width: 50px;
+        height: 48px;
+        background: white;
+        margin: 0;
+        padding: 0;
+				border: 0;
+				color: #8b8b8b;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+		}
 }

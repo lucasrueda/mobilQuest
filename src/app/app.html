@@ -1,4 +1,4 @@
-<ion-menu type="overlay" side="left" [content]="content" id="menu-material">
+<ion-menu type="overlay" side="left" [swipeEnabled]="false" [content]="content" id="menu-material">
   <ion-content>
     <div class="menu-header">
       <!--material-design-background-->
@@ -20,7 +20,7 @@
   </ion-content>
 </ion-menu>
 
-<ion-menu type="overlay" [content]="content" side="right" id="menu2">
+<ion-menu type="overlay" [swipeEnabled]="false" [content]="content" side="right" id="menu2">
   <ion-scroll [style.height.px]="altoMenu" scrollY="true">
     <ion-list>
       <ion-list-header menuToggle="right">
