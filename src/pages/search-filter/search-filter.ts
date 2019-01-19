@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Searchbar } from 'ionic-angular';
+import { group } from '@angular/core/src/animation/dsl';
 
 @Component({
   selector: 'page-search-filter',
@@ -32,9 +33,11 @@ export class SearchFilterPage {
   }
 
   onInput(value: string): void {
-    this.filterGrupos = this.grupos.filter( g => g.autos.filter( a => a.toLowerCase().indexOf(value.toLowerCase()) === 0).length > 0);
-    this.filterGrupos.filter( g => g.autos = g.autos.filter( a => a.toLowerCase().indexOf(value.toLowerCase()) === 0));
-    console.log(this.filterGrupos)
+    this.filterGrupos = JSON.parse(JSON.stringify(this.grupos));
+    this.filterGrupos = this.filterGrupos.filter(g => {
+      g.autos = g.autos.filter(a => a.toLowerCase().indexOf(value.toLowerCase()) === 0);
+      return g.autos.length > 0;
+    });
   }
 
   ionViewDidLoad() {
@@ -42,5 +45,4 @@ export class SearchFilterPage {
       this.searchBar.setFocus();
     }, 500);
   }
-
 }
