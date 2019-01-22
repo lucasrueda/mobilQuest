@@ -92,12 +92,4 @@ export class HomePage {
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
   }
-
-  timer() {
-    if ((this.timerCount - 1) > 0) {
-      this.timerCount--;
-    } else {
-      this.timerCount = 60;
-    }
-  }
 }
