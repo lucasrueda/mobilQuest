@@ -18,6 +18,8 @@ export class HomePage {
   displayMenu: boolean = false;
   datos: any;
   id_cliente: number;
+  timerCount: number = 5;
+  timerControl: any;
 
   constructor(
     public navCtrl: NavController,
@@ -37,6 +39,11 @@ export class HomePage {
       this.datos = datosRecorrido;
     })
     this.consultarTodo();
+    this.timerControl = setInterval(() => {
+      ((this.timerCount - 1) > 0) 
+        ? this.timerCount--
+        : this.timerCount = 60;
+    }, 1000);
   }
 
   public consultarTodo() {
@@ -84,5 +91,13 @@ export class HomePage {
       dominio: this.datos.dominio
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
+  }
+
+  timer() {
+    if ((this.timerCount - 1) > 0) {
+      this.timerCount--;
+    } else {
+      this.timerCount = 60;
+    }
   }
 }

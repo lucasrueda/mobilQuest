@@ -5,21 +5,28 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-col>
-    <ion-col col-auto no-padding style="margin-left: calc(100% - 100px);">
+    <ion-col col-auto no-padding class="counter">
+      <ion-chip #chip3>
+        <ion-avatar>
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxMjkgMTI5IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMjkgMTI5IiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PGc+PGc+CiAgICA8Zz4KICAgICAgPHBhdGggZD0ibTEyLjMsNzAuMmMwLDI4LjggMjMuNCw1Mi4yIDUyLjIsNTIuMnM1Mi4yLTIzLjQgNTIuMi01Mi4yYzAtMTQuMy01LjgtMjcuNC0xNS4yLTM2LjhsNC4xLTQuMSAxLjksMS45YzAuOCwwLjggMS44LDEuMiAyLjksMS4yczIuMS0wLjQgMi45LTEuMmMxLjYtMS42IDEuNi00LjIgMC01LjhsLTkuNS05LjVjLTEuNi0xLjYtNC4yLTEuNi01LjgsMC0xLjYsMS42LTEuNiw0LjIgMCw1LjhsMS45LDEuOS00LjUsNC41Yy03LjYtNS42LTE2LjctOS4xLTI2LjctOS45di0zLjVoOS4xYzIuMywwIDQuMS0xLjggNC4xLTQuMXMtMS44LTQuMS00LjEtNC4xaC0yN2MtMi4zLDAtNC4xLDEuOC00LjEsNC4xczEuOCw0LjEgNC4xLDQuMWg5Ljd2My41Yy0yNywyLjEtNDguMiwyNC42LTQ4LjIsNTJ6bTUyLjItNDRjMjQuMy0zLjU1MjcxZS0xNSA0NC4xLDE5LjggNDQuMSw0NC4xIDAsMjQuMy0xOS44LDQ0LjEtNDQuMSw0NC4xLTI0LjMsMC00NC4xLTE5LjgtNDQuMS00NC4xIDAtMjQuNCAxOS44LTQ0LjEgNDQuMS00NC4xeiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBzdHlsZT0iZmlsbDojNjc2QTczIiBkYXRhLW9sZF9jb2xvcj0iIzY3NmE3MyI+PC9wYXRoPgogICAgICA8cGF0aCBkPSJtNjQuNSw3My42aDE3LjVjMi4zLDAgNC4xLTEuOCA0LjEtNC4xIDAtMi4zLTEuOC00LjEtNC4xLTQuMWgtMTMuNHYtMjEuMWMwLTIuMy0xLjgtNC4xLTQuMS00LjEtMi4zLDAtNC4xLDEuOC00LjEsNC4xdjI1LjNjMCwyLjIgMS44LDQgNC4xLDR6IiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iYWN0aXZlLXBhdGgiIHN0eWxlPSJmaWxsOiM2NzZBNzMiIGRhdGEtb2xkX2NvbG9yPSIjNjc2YTczIj48L3BhdGg+CiAgICA8L2c+CiAgPC9nPjwvZz4gPC9zdmc+">
+        </ion-avatar>
+        <ion-label color="gris">{{timerCount}}</ion-label>
+        <button ion-button clear color="gris">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </ion-chip>
+    </ion-col>
+    <ion-col col-auto no-padding>
       <button ion-button icon-only clear class="whiteSquare" style="border-radius: 10px 0px 0px 10px;" (click)="openSearch()">
         <ion-icon name="ios-search"></ion-icon>
       </button>
     </ion-col>
-    <!-- <ion-col>
-      <busqueda-flota  *ngIf="datos" (respuesta)="respuestaVehiculoSelect($event)" [vectorIdGrupo]="datos.vector_id_grupo"
-      [vectorNombreGrupo]="datos.vector_nombre_grupo" [idGrupo]="datos.id_grupo" [dominio]="datos.dominio"></busqueda-flota>
-   </ion-col>  -->
   </ion-row>
 </div>
 <mapajshtml [datos]="datos"></mapajshtml>
 <div class="over_map" style="bottom: -56px;">
   <page-modal #modal id="modal"></page-modal>
-  <div #expander class="expander" >
+  <div #expander class="expander">
     <ion-icon name="arrow-up"></ion-icon>
     <button>Presiona para ver las acciones rápidas</button>
   </div>

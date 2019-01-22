@@ -63,8 +63,18 @@ page-home {
         background: white;
         margin: 0;
         padding: 0;
-				border: 0;
-				color: #8b8b8b;
+        border: 0;
+        color: color($colors, gris);
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-		}
+    }
+    .counter {
+        flex: 2;
+        text-align: center;
+				margin-top: 8px;
+				.chip{
+					box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+                    background: white !important;
+                    min-width: 100px;
+				}
+    }
 }
