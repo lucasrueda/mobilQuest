@@ -24,6 +24,7 @@ export class SearchFilterPage {
   @ViewChild('mainSearchbar') searchBar;
   grupos: Array<{ nombre: string, id: number, autos: Array<string> }> = [];
   filterGrupos: Array<{ nombre: string, id: number, autos: Array<string> }> = [];
+  searchValue: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     const data = this.navParams.get('data');
@@ -43,11 +44,14 @@ export class SearchFilterPage {
         this.grupos.find(x => x.id == null).autos.push(data.dominio[index]);
       }
     });
-    this.filterGrupos = this.grupos;
+    // this.filterGrupos = this.grupos;
+    this.filterGrupos = [...this.grupos.map(obj => ({ ...obj, autos: [...obj.autos] }))];
   }
 
   onInput(value: string): void {
-    this.filterGrupos = JSON.parse(JSON.stringify(this.grupos));
+    this.searchValue = value;
+    // this.filterGrupos = JSON.parse(JSON.stringify(this.grupos));
+    this.filterGrupos = [...this.grupos.map(obj => ({ ...obj, autos: [...obj.autos] }))];
     this.filterGrupos = this.filterGrupos.filter(g => {
       g.autos = g.autos.filter(a => a.toLowerCase().indexOf(value.toLowerCase()) === 0);
       return g.autos.length > 0;
@@ -58,5 +62,15 @@ export class SearchFilterPage {
     setTimeout(() => {
       this.searchBar.setFocus();
     }, 500);
+  }
+
+  filterByGroup(grupo) {
+    // this.filterGrupos = JSON.parse(JSON.stringify(this.grupos));
+    this.filterGrupos = [...this.grupos.map(obj => ({ ...obj, autos: [...obj.autos] }))];
+    this.filterGrupos = this.filterGrupos.filter(g => g.id == grupo.id);
+    this.filterGrupos = this.filterGrupos.filter(g => {
+      g.autos = g.autos.filter(a => a.toLowerCase().indexOf(this.searchValue.toLowerCase()) === 0);
+      return g.autos.length > 0;
+    });
   }
 }
