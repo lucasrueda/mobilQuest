@@ -1,10 +1,10 @@
 import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
-import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas } from '../../helpers/helpers'
+import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota } from '../../helpers/helpers'
 
 declare var google;
-declare function require(text:string);
+declare function require(text: string);
 
 const pathImgs = './assets/imgs/';
 
@@ -15,15 +15,15 @@ const pathImgs = './assets/imgs/';
 export class Mapajshtml {
 	@Input() datos;
 	apiKey: any = 'AIzaSyA4h0qNqE_K6GuDT5-BH2g2Mx_XcwbLSys';
-	
+
 	constructor(public navCtrl: NavController, public events: Events) { }
-	
+
 	ngOnChanges() {
 		if (this.datos) {
 			this.loadGoogleMaps();
 		}
 	}
-	
+
 	public loadGoogleMaps() {
 		if (typeof google == "undefined" || typeof google.maps == "undefined") {
 			//Load the SDK
@@ -74,15 +74,39 @@ export class Mapajshtml {
 		let bounds = new google.maps.LatLngBounds();
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
-			let iconoURL = this.determinarIcono(parseInt(this.datos.estado_sensor_en_bit[i]));
-			let iconoFinal = await this.escrbirCanvas(iconoURL, this.datos.patente[i]);
-
-			let marker = new google.maps.Marker({
+			let iconosURL = determinarIconoDeFlota(this.datos.estado_sensor_en_bit[i], this.datos.velocidad[i], this.datos.direcc[i], this.datos.tiempo_parada[i], this.datos.tiempo_sin_sat[i], this.datos.tiempo_sin_reporte[i], this.datos.min_buffer[i], this.datos.hora_avl_tmp[i]);
+			let x = ((this.datos.dominio[i].length * 7) / 2) - 3;
+			let y = 4;
+			let MarkerWithLabel = require('markerwithlabel')(google.maps);
+			let marker = new MarkerWithLabel({
+				icon: pathImgs + iconosURL.icono + '.png',
+				size: new google.maps.Size(54, 70),
 				position: latLng,
-				icon: iconoFinal,
-				map: mapa
+				map: mapa,
+				draggable: false,
+				zIndex: 1,
+				labelContent: this.datos.dominio[i],
+				labelAnchor: new google.maps.Point(x, y),
+				labelClass: "labels",
+				labelStyle: { opacity: 0.75 }
 			});
-
+			let iconEscudo = new MarkerWithLabel({
+				icon: pathImgs + iconosURL.icono_escudo + '.png',
+				position: latLng,
+				map: mapa,
+				draggable: false,
+				zIndex: 2,
+				labelContent: "" + iconosURL.info_label,
+				labelAnchor: new google.maps.Point(29, 65),
+				labelClass: "labels2",
+			});
+			let iconContorno = new MarkerWithLabel({
+				icon: pathImgs + iconosURL.icono_contorno + '.png',
+				position: latLng,
+				map: mapa,
+				draggable: false,
+				zIndex: 3,
+			});
 			google.maps.event.addListener(marker, 'click', () => {
 				this.verInformacion(i);
 			});
@@ -90,7 +114,9 @@ export class Mapajshtml {
 			bounds.extend(marker.position);
 		}
 		mapa.fitBounds(bounds);
-		mapa.setZoom(mapa.getZoom() - 1.4);
+		google.maps.event.addListenerOnce(mapa, 'idle', () => {
+			mapa.setZoom(mapa.getZoom() - 1);
+		});
 	}
 
 	async verInformacion(i: number) {
@@ -111,44 +137,6 @@ export class Mapajshtml {
 		);
 		console.log(vehiculo);
 		this.events.publish('mapClickEvent', vehiculo);
-	}
-
-	determinarIcono(estadoMotor) {
-		if (estadoMotor) {
-			return pathImgs + 'encendido_movimiento.png';
-		} else {
-			return pathImgs + 'apagado_parada.png';
-		}
-	}
-
-	escrbirCanvas(iconoURL, nombre) {
-		return new Promise((resolve, reject) => {
-			//Creo el canvas 
-			let canvas, ctx;
-			canvas = document.createElement("canvas");
-			ctx = canvas.getContext("2d");
-
-			// Creo el objeto de la imagen 
-			let imageObj = new Image();
-			imageObj.crossOrigin = "Anonymous";
-			imageObj.src = iconoURL;
-			// Espero que ser cargue para poder obtener sus propiedades
-			imageObj.onload = (() => {
-				canvas.width = imageObj.width + 50;
-				canvas.crossOrigin = "Anonymous";
-				canvas.height = imageObj.height + 50;
-				ctx.font = "bold 12pt Arial";
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
-				ctx.drawImage(imageObj, 0, 0);
-				ctx.fillStyle = "blue";
-				ctx.fillText(nombre, 8, 82);
-				ctx.closePath();
-				ctx.fillStyle = "white";
-				ctx.font = "bold 6pt Arial";
-				ctx.fillText('60+', 12, 15);
-				resolve(canvas.toDataURL("image/jpg"));
-			})
-		})
 	}
 
 	async dibujarRecorrido(mapa) {

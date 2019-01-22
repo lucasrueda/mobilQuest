@@ -280,4 +280,102 @@ const determinarAlertas = (data, i) => {
   return state;
 }
 
-export { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas };
+const determinarIconoDeFlota = (estado_motor, velocidad, direccion, tiempo_parada, tiempo_sin_sat, tiempo_sin_reporte, buffer, hora_avl_tmp) => {
+  let icono = "";
+  let icono_escudo = "";
+  let icono_contorno = "transparente";
+  let label = 0;
+  let tiempo_min_detencion = 5;
+  let info_label;
+  let explica_buffer
+  if ((buffer > 12)) {
+    label = 1;
+    info_label = "";
+    icono = "buffer";
+    icono_escudo = "transparente";
+    explica_buffer = "<span id='contenedor_explica_buffer' style='background-color: #FFC'>El rastreador se encuentra descargando datos de memoria.<br> Mientras el dispositivo realiza la descarga, puede generar un recorrido hasta el " + hora_avl_tmp + ". Una vez finalizado este proceso, podrá generar el recorrido con normalidad.<br></span>";
+  } else {
+    if (estado_motor == 1) {
+      if (tiempo_parada >= tiempo_min_detencion) {
+        icono = "encendido_parada";
+        icono_escudo = "transparente";
+      } else {
+        if (velocidad > 0) {
+          icono = "encendido_movimiento";
+          icono_escudo = "flechita";
+        } else {
+          icono = "encendido_movimiento";
+          icono_escudo = "esfera";
+        }
+      }
+    } else {
+      if (tiempo_parada >= tiempo_min_detencion) {
+        icono = "apagado_parada";
+        icono_escudo = "transparente";
+      } else {
+        if (velocidad > 5) {
+          icono = "apagado_movimiento";
+          icono_escudo = "flechita";
+        } else {
+          icono = "apagado_movimiento";
+          icono_escudo = "esfera";
+        }
+      }
+    }
+  }
+  if (icono_escudo == "flechita") {
+    if ((direccion >= 0 && direccion < 22.5) || (direccion < 360 && direccion >= 337.5)) {
+      icono_escudo = "flecha_norte";
+    }
+    if (direccion >= 22.5 && direccion < 67.5) {
+      icono_escudo = "flecha_noreste";
+    }
+    if (direccion >= 67.5 && direccion < 112.5) {
+      icono_escudo = "flecha_este";
+    }
+    if (direccion >= 112.5 && direccion < 157.5) {
+      icono_escudo = "flecha_sureste";
+    }
+    if (direccion >= 157.5 && direccion < 202.5) {
+      icono_escudo = "flecha_sur";
+    }
+    if (direccion >= 202.5 && direccion < 247.5) {
+      icono_escudo = "flecha_suroeste";
+    }
+    if (direccion >= 247.5 && direccion < 292.5) {
+      icono_escudo = "flecha_oeste";
+    }
+    if (direccion >= 292.5 && direccion < 337.5) {
+      icono_escudo = "flecha_noroeste";
+    }
+  }
+  if (tiempo_sin_reporte > 20 || tiempo_sin_sat > 5) {
+    if (tiempo_sin_reporte > 20) {
+      icono_contorno = "contorno_rojo";
+      if (label == 1) {
+        explica_buffer = "<span id='contenedor_explica_buffer' style='background-color: #FFC'>El rastreador se encontraba descargando datos de memoria cuando dejó de reportarse.<br> Hasta que el dispositivo recupere la señal, podrá generar un recorrido completo hasta el " + hora_avl_tmp + ".<br></span>";
+      }
+      if (tiempo_sin_sat > 5) {
+        icono_contorno = "contorno_rojo_amarillo";
+      }
+    } else {
+      icono_contorno = "contorno_amarillo";
+    }
+  }
+  if (label == 0) {
+    if (icono_escudo == "transparente") {
+      if (tiempo_parada > 60) {
+        info_label = "+60";
+      } else {
+        info_label = tiempo_parada;
+      }
+    } else {
+      info_label = Math.round(parseFloat(velocidad));
+    }
+  }
+  return {
+    icono, icono_escudo, icono_contorno, label, info_label
+  }
+}
+
+export { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota };

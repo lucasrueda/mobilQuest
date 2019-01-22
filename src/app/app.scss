@@ -40,3 +40,24 @@ page-home > ion-content > .scroll-content {
       color: #777;
     }
   }
+  
+  .labels {
+    color: red;
+    background-color: white;
+    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-size: 12;
+    font-weight: bold;
+    text-align: center;
+    width: auto; 
+    border: 2px solid black;
+    white-space: nowrap;
+  }
+  .labels2 {
+    color: #FFF;
+    font-family:"Times New Roman", Times, serif;
+    font-size: 12;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;     
+  } 
+
