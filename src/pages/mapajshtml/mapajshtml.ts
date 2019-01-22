@@ -91,7 +91,7 @@ export class Mapajshtml {
 				labelStyle: { opacity: 0.75 }
 			});
 			let iconEscudo = new MarkerWithLabel({
-				icon: pathImgs + iconosURL.icono_escudo + '.png',
+				icon: new google.maps.MarkerImage(pathImgs + iconosURL.icono_escudo + '.png', null, null, new google.maps.Point(5, 35)),
 				position: latLng,
 				map: mapa,
 				draggable: false,
