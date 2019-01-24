@@ -24,8 +24,7 @@
   <ion-scroll [style.height.px]="altoMenu" scrollY="true">
     <ion-list>
       <ion-list-header menuToggle="right">
-        <ion-icon name="ios-arrow-forward" item-start></ion-icon>
-        <h2>{{ vehiculo?.patente }}</h2>
+        <h4>{{ vehiculo?.patente }}</h4>
       </ion-list-header>
       <ion-item>
         <ion-icon name="ios-pin-outline" item-start></ion-icon>
@@ -69,7 +68,7 @@
     <button ion-button block>Ver</button>
   </div> -->
   <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)" (advFilterOn)="advFilterOn($event)"
-    style="display: block;"></seleccion-fecha>
+    style="display: block; border-top: 1px solid #dedede;"></seleccion-fecha>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

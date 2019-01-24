@@ -6,58 +6,73 @@
     opacity: 0;
 }
 
-page-home > ion-content > .scroll-content {
+page-home>ion-content>.scroll-content {
     padding-top: 0 !important;
 }
 
 // Material Design Sidemenu
 #menu-material {
     .menu-header {
-      padding: 5px 15px;
-      background: linear-gradient(to right, #ce803c12 40%, #CE803CAA 100%);
-      .name {
-        font-weight: 500;
-        margin-bottom: 3px;
-        color: #004361;
-      }
-      .e-mail {
-        margin-top: 0;
-        margin-bottom: 5px;
-      }
+        padding: 5px 15px;
+        background: linear-gradient(to right, #ce803c12 40%, #CE803CAA 100%);
+        .name {
+            font-weight: 500;
+            margin-bottom: 3px;
+            color: #004361;
+        }
+        .e-mail {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
     }
     .user-avatar {
-      padding: .5em;
-      height: 12vh;
-      border-radius: 50%;
+        padding: .5em;
+        height: 12vh;
+        border-radius: 50%;
     }
     h3,
     .label,
-    {
-      color: #999;
-      font-weight: 400;
+        {
+        color: #999;
+        font-weight: 400;
     }
     ion-icon {
-      color: #777;
+        color: #777;
     }
-  }
-  
-  .labels {
+}
+
+.labels {
     color: red;
     background-color: white;
     font-family: "Lucida Grande", "Arial", sans-serif;
     font-size: 12;
     font-weight: bold;
     text-align: center;
-    width: auto; 
+    width: auto;
     border: 2px solid black;
     white-space: nowrap;
-  }
-  .labels2 {
-    color: #FFF;
-    font-family:"Times New Roman", Times, serif;
-    font-size: 12;
-    font-weight: bold;
-    text-align: center;
-    width: 40px;     
-  } 
+}
 
+.labels2 {
+  color: #FFF;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12;
+  font-weight: bold;
+  text-align: center;
+  width: 40px;
+}
+
+#menu2{
+  .list-header{
+    margin: 11px 0 -7px 0 !important;
+    border-top: 0 !important;
+  }
+  h4{
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+  }
+  .icon, .label{
+    margin: 0 !important;
+  }
+}

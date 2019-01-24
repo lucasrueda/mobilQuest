@@ -69,14 +69,14 @@ export class MyApp {
   }
 
   ngAfterViewInit() {
-    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 243;
+    this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 208;
   }
 
   advFilterOn(isOn) {
     if (isOn) {
       this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 330;
     } else {
-      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 243;
+      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 208;
     }
   }
 
