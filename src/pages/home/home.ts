@@ -97,7 +97,7 @@ export class HomePage {
   filtrarDatos(data) {
     let auxObject = {};
     data.forEach((patente, i) => {
-      let index = this.datos.patente.indexOf(patente + ' ');
+      let index = this.datos.dominio.indexOf(patente);
       Object.keys(this.datos).forEach(key => {
         if (!auxObject[key]) auxObject[key] = [];
         if (this.datos[key][index] !== undefined)
