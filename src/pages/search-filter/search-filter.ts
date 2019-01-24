@@ -1,5 +1,5 @@
 import { Component, ViewChild, trigger, style, animate, transition } from '@angular/core';
-import { NavController, NavParams, Searchbar } from 'ionic-angular';
+import { NavController, NavParams, Searchbar, Events } from 'ionic-angular';
 import { group } from '@angular/core/src/animation/dsl';
 
 @Component({
@@ -24,9 +24,9 @@ export class SearchFilterPage {
   @ViewChild('mainSearchbar') searchBar;
   grupos: Array<{ nombre: string, id: number, autos: Array<string> }> = [];
   filterGrupos: Array<{ nombre: string, id: number, autos: Array<string> }> = [];
-  searchValue: any;
+  searchValue: any = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public event: Events) {
     const data = this.navParams.get('data');
     for (let index = 0; index < data.vectorIdGrupo.length; index++) {
       let grupo = {
@@ -72,5 +72,12 @@ export class SearchFilterPage {
       g.autos = g.autos.filter(a => a.toLowerCase().indexOf(this.searchValue.toLowerCase()) === 0);
       return g.autos.length > 0;
     });
+    this.event.publish('filtradoDeBusqueda', this.filterGrupos[0].autos);
+    this.navCtrl.pop();
+  }
+
+  filterByOne(auto) {
+    this.event.publish('filtradoDeBusqueda', [auto]);
+    this.navCtrl.pop();
   }
 }

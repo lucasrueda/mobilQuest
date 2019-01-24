@@ -18,7 +18,10 @@
       <ng-template ngFor let-i="index" let-c="count" let-last="last" let-grupo [ngForOf]="filterGrupos">
         <ion-item-divider color="light" [style.font-style]="last ? 'italic' : 'normal'">{{grupo.nombre}}
           ({{grupo.autos.length}})</ion-item-divider>
-        <ion-item *ngFor="let auto of grupo.autos" [@enterAnimation]>{{auto}}</ion-item>
+        <ion-item *ngFor="let auto of grupo.autos" [@enterAnimation]>
+          <p>{{auto}}</p>
+          <button ion-button clear item-end (click)="filterByOne(auto)">Ver</button>
+        </ion-item>
       </ng-template>
     </ion-item-group>
   </ng-container>

@@ -17,6 +17,7 @@ export class HomePage {
 
   displayMenu: boolean = false;
   datos: any;
+  datosDinamicos: any;
   id_cliente: number;
   timerCount: number = 5;
   timerControl: any;
@@ -36,11 +37,14 @@ export class HomePage {
     this.event.subscribe('filtroPorFechas', (datos) => {
       let datosRecorrido = datos;
       datosRecorrido['recorrido'] = true;
-      this.datos = datosRecorrido;
+      this.datosDinamicos = datosRecorrido;
+    })
+    this.event.subscribe('filtradoDeBusqueda', autos => {
+      this.datosDinamicos = this.filtrarDatos(autos);
     })
     this.consultarTodo();
     this.timerControl = setInterval(() => {
-      ((this.timerCount - 1) > 0) 
+      ((this.timerCount - 1) > 0)
         ? this.timerCount--
         : this.timerCount = 60;
     }, 1000);
@@ -53,6 +57,7 @@ export class HomePage {
           this.id_cliente = id_cliente
           try {
             this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
+            this.datosDinamicos = this.datos;
           } catch (error) {
             console.log("​catch -> error", error)
           }
@@ -79,10 +84,6 @@ export class HomePage {
     });
   }
 
-  respuestaVehiculoSelect(vehiculo) {
-    console.log("​HomePage -> respuestaVehiculoSelect -> vehiculo", vehiculo)
-  }
-
   openSearch() {
     let data = {
       vectorIdGrupo: this.datos.vector_id_grupo,
@@ -91,5 +92,18 @@ export class HomePage {
       dominio: this.datos.dominio
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
+  }
+
+  filtrarDatos(data) {
+    let auxObject = {};
+    data.forEach((patente, i) => {
+      let index = this.datos.patente.indexOf(patente + ' ');
+      Object.keys(this.datos).forEach(key => {
+        if (!auxObject[key]) auxObject[key] = [];
+        if (this.datos[key][index] !== undefined)
+          auxObject[key][i] = this.datos[key][index];
+      })
+    });
+    return auxObject;
   }
 }
