@@ -4,6 +4,7 @@ import { EstadoVehiculo } from '../../models/EstadoVehiculo';
 import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota } from '../../helpers/helpers'
 
 declare var google;
+var mapa;
 declare function require(text: string);
 
 const pathImgs = './assets/imgs/';
@@ -57,11 +58,13 @@ export class Mapajshtml {
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
 
-		var mapa = new google.maps.Map(document.getElementById('map'), mapOptions);
+		if (!mapa) {
+			mapa = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-		google.maps.event.addListener(mapa, 'click', () => {
-			this.events.publish('user:click');
-		});
+			google.maps.event.addListener(mapa, 'click', () => {
+				this.events.publish('user:click');
+			});
+		}
 
 		if (!this.datos.recorrido) {
 			this.agregarMarcadores(mapa);
