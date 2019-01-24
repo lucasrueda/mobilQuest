@@ -31,8 +31,8 @@
 <mapajshtml [datos]="datosDinamicos"></mapajshtml>
 <div class="over_map" style="bottom: -56px;">
   <page-modal #modal id="modal"></page-modal>
-  <div #expander class="expander">
+  <div #expander class="expander" (click)="mostrarOcultarFiltros()">
     <ion-icon name="arrow-up"></ion-icon>
-    <button>Presiona para ver las acciones rápidas</button>
+    <button style="background: transparent;">Presiona para ver las acciones rápidas</button>
   </div>
 </div>
