@@ -58,23 +58,43 @@ page-home {
     }
     .whiteSquare {
         display: block;
-        width: 50px;
-        height: 48px;
         background: white;
         margin: 0;
         padding: 0;
-        border: 0;
+        border-radius: 10px;
+        text-align: center;
         color: color($colors, gris);
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     }
     .counter {
         flex: 2;
         text-align: center;
-				margin-top: 8px;
-				.chip{
-					box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-                    background: white !important;
-                    min-width: 100px;
-				}
+        margin-top: 8px;
+        .chip {
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            background: white !important;
+            min-width: 100px;
+        }
+    }
+    .topMenu {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        font-size: 0.7em;
+        color: #0000008a;
+        padding: 2px;
+        div {
+            flex: 1;
+            border-right: 0.5px #9282828a solid;
+        }
+        div:last-child{
+            border-right: 0;
+        }
+        p {
+            margin: 5px 0 0 0 !important;
+        }
+        button{
+            margin: 0 !important;
+        }
     }
 }
