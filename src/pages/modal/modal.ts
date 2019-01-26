@@ -21,6 +21,10 @@ export class ModalPage {
   }
 
   actualizar(){
+    this.HomeP.consultarTodo(true);
+  }
+  
+  verTodaLaFlota(){
     this.HomeP.consultarTodo();
   }
 }

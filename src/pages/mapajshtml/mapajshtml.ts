@@ -6,6 +6,7 @@ import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIco
 declare var google;
 var mapa;
 declare function require(text: string);
+var allMarkersOnMap = [];
 
 const pathImgs = './assets/imgs/';
 
@@ -58,12 +59,15 @@ export class Mapajshtml {
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
 
-		if (!mapa) {
+		if (!this.datos.autoUpdate) {
 			mapa = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 			google.maps.event.addListener(mapa, 'click', () => {
 				this.events.publish('user:click');
 			});
+		}else{
+			allMarkersOnMap.forEach( m => m.setMap(null));
+			allMarkersOnMap = [];
 		}
 
 		if (!this.datos.recorrido) {
@@ -87,39 +91,44 @@ export class Mapajshtml {
 				position: latLng,
 				map: mapa,
 				draggable: false,
-				zIndex: 1,
+				zIndex: 2,
 				labelContent: this.datos.dominio[i],
 				labelAnchor: new google.maps.Point(x, y),
 				labelClass: "labels",
 				labelStyle: { opacity: 0.75 }
 			});
+			allMarkersOnMap.push(marker);
 			let iconEscudo = new MarkerWithLabel({
 				icon: new google.maps.MarkerImage(pathImgs + iconosURL.icono_escudo + '.png', null, null, new google.maps.Point(5, 35)),
 				position: latLng,
 				map: mapa,
 				draggable: false,
-				zIndex: 2,
+				zIndex: 3,
 				labelContent: "" + iconosURL.info_label,
 				labelAnchor: new google.maps.Point(29, 65),
 				labelClass: "labels2",
 			});
+			allMarkersOnMap.push(iconEscudo);
 			let iconContorno = new MarkerWithLabel({
 				icon: pathImgs + iconosURL.icono_contorno + '.png',
 				position: latLng,
 				map: mapa,
 				draggable: false,
-				zIndex: 3,
+				zIndex: 1,
 			});
+			allMarkersOnMap.push(iconContorno);
 			google.maps.event.addListener(marker, 'click', () => {
 				this.verInformacion(i);
 			});
 
 			bounds.extend(marker.position);
 		}
-		mapa.fitBounds(bounds);
-		google.maps.event.addListenerOnce(mapa, 'idle', () => {
-			mapa.setZoom(mapa.getZoom() - 1);
-		});
+		if(!this.datos.autoUpdate){
+			mapa.fitBounds(bounds);
+			google.maps.event.addListenerOnce(mapa, 'idle', () => {
+				mapa.setZoom(mapa.getZoom() - 1);
+			});
+		}
 	}
 
 	async verInformacion(i: number) {

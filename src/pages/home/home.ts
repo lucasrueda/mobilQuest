@@ -37,9 +37,12 @@ export class HomePage {
     this.event.subscribe('filtroPorFechas', (datos) => {
       let datosRecorrido = datos;
       datosRecorrido['recorrido'] = true;
+      datosRecorrido['autoUpdate'] = false;
+      this.datosDinamicos = [];
       this.datosDinamicos = datosRecorrido;
     })
     this.event.subscribe('filtradoDeBusqueda', autos => {
+      this.datosDinamicos.autoUpdate = false;
       this.datosDinamicos = this.filtrarDatos(autos);
     })
     this.consultarTodo();
@@ -50,14 +53,18 @@ export class HomePage {
     }, 1000);
   }
 
-  public consultarTodo() {
+  public consultarTodo(autoUpdate = false) {
     this.storage.ready()
       .then(() => {
         this.storage.get('id_cliente').then(async (id_cliente) => {
           this.id_cliente = id_cliente
           try {
             this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
-            this.datosDinamicos = this.datos;
+            if(!autoUpdate)
+              this.datosDinamicos = this.datos
+            else
+              this.datosDinamicos = this.filtrarDatos(this.datosDinamicos.dominio);
+            this.datosDinamicos.autoUpdate = autoUpdate;
           } catch (error) {
             console.log("​catch -> error", error)
           }
