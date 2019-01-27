@@ -60,7 +60,7 @@ export class LoginService {
         this.storage.ready()
           .then((res: any) => {
             this.storage.set('id_cliente', id_cliente);
-            this.storage.set('nombre', res.cliente[0]);
+            //this.storage.set('nombre', res.cliente[0]);
             return resolve(id_cliente)
           })
       })
