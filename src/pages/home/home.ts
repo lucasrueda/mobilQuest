@@ -19,7 +19,7 @@ export class HomePage {
   datos: any;
   datosDinamicos: any;
   id_cliente: number;
-  timerCount: number = 5;
+  timerCount: number = 60;
   timerControl: any;
 
   constructor(
@@ -47,9 +47,12 @@ export class HomePage {
     })
     this.consultarTodo();
     this.timerControl = setInterval(() => {
-      ((this.timerCount - 1) > 0)
-        ? this.timerCount--
-        : this.timerCount = 60;
+      if((this.timerCount - 1) > 0){
+        this.timerCount--;
+      }else{
+        this.timerCount = 60;
+        this.consultarTodo(true);
+      }
     }, 1000);
   }
 
