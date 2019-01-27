@@ -6,11 +6,11 @@
       <span>Actualizar</span>
     </div>
     <div>
-      <button ion-fab mini color="red">3</button>
+      <button ion-fab mini (click)="filtroApagadoEncendido('0')" color="red">3</button>
       <span>Apagados</span>
     </div>
     <div>
-      <button ion-fab mini color="yellow" menuToggle="left" id="yellow">1</button>
+      <button ion-fab mini (click)="filtroApagadoEncendido('1')" color="yellow" id="yellow">1</button>
       <span>Encendidos</span>
     </div>
     <div>

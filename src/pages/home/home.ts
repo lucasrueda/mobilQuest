@@ -113,4 +113,14 @@ export class HomePage {
     });
     return auxObject;
   }
+
+  filtroRapidoApagadoEncendido(estado){
+    let arrayAutos = [];
+    for (let index = 0; index < this.datos.dominio.length; index++) {
+      if(this.datos.estado_sensor_en_bit[index] === estado){
+        arrayAutos.push(this.datos.dominio[index]);
+      }
+    }
+    this.datosDinamicos = this.filtrarDatos(arrayAutos);
+  }
 }

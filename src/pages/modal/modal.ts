@@ -27,4 +27,8 @@ export class ModalPage {
   verTodaLaFlota(){
     this.HomeP.consultarTodo();
   }
+
+  filtroApagadoEncendido(estado){
+    this.HomeP.filtroRapidoApagadoEncendido(estado);
+  }
 }
