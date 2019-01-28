@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+var demo = true;
+
 router.get('/', (req, res) => {
-    res.render('index',{ title: "URL de ingreso: /auth" });
+    return res.status(200).json({ demo: demo });
 })
 
 module.exports = router;
