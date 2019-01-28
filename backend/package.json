@@ -1,0 +1,44 @@
+{
+  "name": "backend-seed",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "set NODE_ENV=production && nodemon ./bin/www",
+    "dev": "set NODE_ENV=development && nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ingeit/backendseed.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "IngeIT",
+    "email": "ingeit2017@gmail.com",
+    "url": "https://www.ingeit.com.ar"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ingeit/backendseed/issues"
+  },
+  "homepage": "https://github.com/ingeit/backendseed",
+  "dependencies": {
+    "bcrypt": "3.0.0",
+    "cors": "^2.8.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.3",
+    "express-mung": "^0.5.1",
+    "helmet": "^3.13.0",
+    "http-errors": "~1.6.2",
+    "jsonwebtoken": "^8.3.0",
+    "moment": "^2.22.2",
+    "morgan": "~1.9.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "promise-mysql": "^3.3.1",
+    "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
