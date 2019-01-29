@@ -21,8 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(helmet());
 
-// habiltiamos CORS OPTIONS al servidor
-app.options('*', cors())
 app.use('/api', apiRouter);
 //Propia
 app.use((req, res) => {

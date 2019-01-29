@@ -22,6 +22,7 @@ import { LoginService } from '../components/login/login.service';
 import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion-fecha';
 import { SeleccionFechaService } from '../components/seleccion-fecha/seleccion-fecha.service';
 import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-flota';
+import { DemoProvider } from '../providers/demo';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-fl
     MapaProvider,
     LoginService,
     Keyboard,
-    SeleccionFechaService
+    SeleccionFechaService,
+    DemoProvider
   ]
 })
 

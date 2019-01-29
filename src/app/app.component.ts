@@ -3,11 +3,13 @@ import { Platform, Nav, Events, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion-fecha';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { EstadoVehiculo } from '../models/EstadoVehiculo';
+import { DemoProvider } from '../providers/demo';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,6 +26,7 @@ export class MyApp {
   nombreCliente: string;
 
   constructor(
+    public demoPrv: DemoProvider,
     platform: Platform,
     statusBar: StatusBar,
     public event: Events,
@@ -40,8 +43,15 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
-      this.checkLogin();
-      this.getNombre();
+      this.demoPrv.checkDemo()
+        .then(res => {
+          console.log('TCL: MyApp -> res', res)
+          this.checkLogin();
+          this.getNombre();
+        })
+        .catch(err => {
+          console.log('TCL: MyApp -> err', err)
+        })
     });
   }
 
@@ -59,7 +69,7 @@ export class MyApp {
       })
   }
 
-  getNombre(){
+  getNombre() {
     this.storage.ready()
       .then(() => {
         this.storage.get('nombre').then((nombre) => {
