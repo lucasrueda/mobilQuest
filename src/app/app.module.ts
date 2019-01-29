@@ -23,6 +23,7 @@ import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion
 import { SeleccionFechaService } from '../components/seleccion-fecha/seleccion-fecha.service';
 import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-flota';
 import { DemoProvider } from '../providers/demo';
+import { Error404Page } from '../pages/error404/error404';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DemoProvider } from '../providers/demo';
     SearchFilterPage,
     LoginComponent,
     SeleccionFechaComponent,
-    BusquedaFlotaComponent
+    BusquedaFlotaComponent,
+    Error404Page
   ],
   imports: [
     BrowserModule,
@@ -61,7 +63,8 @@ import { DemoProvider } from '../providers/demo';
     SearchFilterPage,
     LoginComponent,
     SeleccionFechaComponent,
-    BusquedaFlotaComponent
+    BusquedaFlotaComponent,
+    Error404Page
   ],
   providers: [
     StatusBar,

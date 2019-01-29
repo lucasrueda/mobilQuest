@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { EstadoVehiculo } from '../models/EstadoVehiculo';
 import { DemoProvider } from '../providers/demo';
+import { Error404Page } from '../pages/error404/error404';
 
 @Component({
   templateUrl: 'app.html'
@@ -44,13 +45,14 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       this.demoPrv.checkDemo()
-        .then(res => {
-          console.log('TCL: MyApp -> res', res)
-          this.checkLogin();
-          this.getNombre();
+        .then((res: any) => {
+          if (res.demo) {
+            this.checkLogin();
+            this.getNombre();
+          }else throw new Error("Demo Expirada");
         })
         .catch(err => {
-          console.log('TCL: MyApp -> err', err)
+          this.nav.setRoot(Error404Page,{mensaje: 'Demo expirada', botonReintentar: false});
         })
     });
   }

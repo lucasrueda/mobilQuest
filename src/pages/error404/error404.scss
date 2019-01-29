@@ -1,0 +1,22 @@
+page-error404 {
+   ion-row{
+      text-align: center;
+      color: black;
+   }
+   ion-grid{
+      margin-top: 50%;
+      background-color: #e0e0e0 !important;
+   }
+
+   ion-content{
+      background-color: #e0e0e0 !important;
+   }
+   h1{
+      font-weight: 900;
+      font-size: 4em;
+   }
+   p{
+      font-size: 2em;
+   }
+
+}
