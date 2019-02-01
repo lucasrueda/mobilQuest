@@ -144,7 +144,9 @@ export class HomePage {
         arrayAutos.push(this.datos.dominio[index]);
       }
     }
-    this.datosDinamicos = filtrarDatos(arrayAutos, this.datos);
+    const dataTemp = filtrarDatos(arrayAutos, this.datos);
+    dataTemp['autoUpdate'] = false;
+    this.datosDinamicos = dataTemp;
   }
 
   obtenerAutosEncendidos() {
