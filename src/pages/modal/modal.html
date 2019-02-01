@@ -6,11 +6,11 @@
       <span>Actualizar</span>
     </div>
     <div>
-      <button ion-fab mini (click)="filtroApagadoEncendido('0')" color="red">3</button>
+      <button ion-fab mini (click)="filtroApagadoEncendido('0')" color="red">{{autosOnOff?.autosApagados}}</button>
       <span>Apagados</span>
     </div>
     <div>
-      <button ion-fab mini (click)="filtroApagadoEncendido('1')" color="yellow" id="yellow">1</button>
+      <button ion-fab mini (click)="filtroApagadoEncendido('1')" color="yellow" id="yellow">{{autosOnOff?.autosEncendidos}}</button>
       <span>Encendidos</span>
     </div>
     <div>

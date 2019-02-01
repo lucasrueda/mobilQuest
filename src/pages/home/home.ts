@@ -23,6 +23,7 @@ export class HomePage {
   timerControl: any;
   pausedInterval: boolean = false;
   loading: any;
+  autosOnOff: any;
 
   constructor(
     public navCtrl: NavController,
@@ -90,6 +91,9 @@ export class HomePage {
           this.id_cliente = id_cliente
           try {
             this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
+            let autosEncendidos = this.obtenerAutosEncendidos();
+            let autosApagados = this.datos.dominio.length - this.obtenerAutosEncendidos();
+            this.autosOnOff = { autosEncendidos, autosApagados }
             if (!autoUpdate)
               this.datosDinamicos = this.datos
             else
@@ -141,6 +145,16 @@ export class HomePage {
       }
     }
     this.datosDinamicos = filtrarDatos(arrayAutos, this.datos);
+  }
+
+  obtenerAutosEncendidos() {
+    let arrayAutos = [];
+    for (let index = 0; index < this.datos.dominio.length; index++) {
+      if (this.datos.estado_sensor_en_bit[index] === '1') {
+        arrayAutos.push(this.datos.dominio[index]);
+      }
+    }
+    return arrayAutos.length;
   }
 
   showLoader(mensaje = '') {
