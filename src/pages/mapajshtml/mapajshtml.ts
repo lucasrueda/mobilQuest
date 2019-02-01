@@ -120,6 +120,12 @@ export class Mapajshtml {
 			google.maps.event.addListener(marker, 'click', () => {
 				this.verInformacion(i);
 			});
+			google.maps.event.addListener(iconEscudo, 'click', () => {
+				this.verInformacion(i);
+			});
+			google.maps.event.addListener(iconContorno, 'click', () => {
+				this.verInformacion(i);
+			});
 
 			bounds.extend(marker.position);
 		}
@@ -136,7 +142,7 @@ export class Mapajshtml {
 			this.datos.imei[i],
 			this.datos.numero[i],
 			this.datos.dominio[i],
-			this.datos.patente[i],
+			this.datos.dominio[i],
 			this.datos.marca[i],
 			this.datos.color[i],
 			await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),

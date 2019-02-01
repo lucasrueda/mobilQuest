@@ -29,9 +29,12 @@ export class SeleccionFechaComponent {
   horaHastaMax: any;
   horaHastaMin: any;
 
+  loading: any;
+
   constructor(
     public alertCtrl: AlertController,
-    private selectFechaSrv: SeleccionFechaService
+    private selectFechaSrv: SeleccionFechaService,
+    public loadingCtrl: LoadingController
   ) {
   }
 
@@ -118,8 +121,10 @@ export class SeleccionFechaComponent {
   }
 
   buscar(fecha_desde, fecha_hasta) {
+    this.showLoader();
     this.selectFechaSrv.buscar(fecha_desde, fecha_hasta, this.imei)
       .then((res: any) => {
+        this.loading.dismiss();
         if (res.hasOwnProperty('respuesta')) {
           console.log("error: ", res.respuesta)
           if (res.respuesta === "SIN_REGISTROS") {
@@ -134,6 +139,7 @@ export class SeleccionFechaComponent {
         }
       })
       .catch(err => {
+        this.loading.dismiss();
         console.log("​SeleccionFechaComponent -> buscarFiltroRapido -> err", err)
         this.presentAlert(`Error (${err})`, 'Comuniquese con un asistente')
       })
@@ -147,5 +153,12 @@ export class SeleccionFechaComponent {
     });
     alert.present();
   }
+
+  showLoader(mensaje = ''){
+    this.loading = this.loadingCtrl.create({
+    content: mensaje
+    });
+    this.loading.present();
+  }  
 
 }

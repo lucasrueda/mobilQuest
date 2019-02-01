@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
-import { NavController, Events, ModalController, NavParams } from 'ionic-angular';
+import { NavController, Events, ModalController, NavParams, LoadingController } from 'ionic-angular';
 import { MapasnativoPage } from '../mapasnativo/mapasnativo';
 import { MapaProvider } from '../../providers/mapa/mapa';
 import { Storage } from '@ionic/storage';
@@ -21,9 +21,12 @@ export class HomePage {
   id_cliente: number;
   timerCount: number = 60;
   timerControl: any;
+  pausedInterval: boolean = false;
+  loading:any;
 
   constructor(
     public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
     public navParams: NavParams,
     public event: Events,
     public mapaSrv: MapaProvider,
@@ -46,27 +49,43 @@ export class HomePage {
       this.datosDinamicos = this.filtrarDatos(autos);
     })
     this.consultarTodo();
+    this.iniciarIntervalo();
+  }
+
+  iniciarIntervalo() {
     this.timerControl = setInterval(() => {
-      if((this.timerCount - 1) > 0){
+      if ((this.timerCount - 1) > 0) {
         this.timerCount--;
-      }else{
+      } else {
         this.timerCount = 60;
         this.consultarTodo(true);
       }
     }, 1000);
   }
 
+  pausarIntervalo() {
+    if(!this.pausedInterval){
+      clearInterval(this.timerControl);
+      this.pausedInterval = true;
+    }else{
+      this.iniciarIntervalo();
+      this.pausedInterval = false;
+    }
+  }
+
   public consultarTodo(autoUpdate = false) {
+    this.showLoader();
     this.storage.ready()
       .then(() => {
+        this.loading.dismiss();
         this.storage.get('id_cliente').then(async (id_cliente) => {
           this.id_cliente = id_cliente
           try {
             this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
-            if(!autoUpdate)
-              this.datosDinamicos = this.datos
+            if (!autoUpdate)
+            this.datosDinamicos = this.datos
             else
-              this.datosDinamicos = this.filtrarDatos(this.datosDinamicos.dominio);
+            this.datosDinamicos = this.filtrarDatos(this.datosDinamicos.dominio);
             this.datosDinamicos.autoUpdate = autoUpdate;
           } catch (error) {
             console.log("​catch -> error", error)
@@ -74,8 +93,8 @@ export class HomePage {
           console.log('mostrando datos', this.datos);
         });
       })
-  }
-
+    }
+    
   mostrarOcultarFiltros() {
     this.search.nativeElement.classList.add('slide-in');
     this.modal.nativeElement.classList.add('slide-in');
@@ -117,13 +136,20 @@ export class HomePage {
     return auxObject;
   }
 
-  filtroRapidoApagadoEncendido(estado){
+  filtroRapidoApagadoEncendido(estado) {
     let arrayAutos = [];
     for (let index = 0; index < this.datos.dominio.length; index++) {
-      if(this.datos.estado_sensor_en_bit[index] === estado){
+      if (this.datos.estado_sensor_en_bit[index] === estado) {
         arrayAutos.push(this.datos.dominio[index]);
       }
     }
     this.datosDinamicos = this.filtrarDatos(arrayAutos);
   }
+
+  showLoader(mensaje = ''){
+    this.loading = this.loadingCtrl.create({
+    content: mensaje
+    });
+    this.loading.present();
+  }  
 }

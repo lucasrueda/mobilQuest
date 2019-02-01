@@ -14,8 +14,8 @@
         </div>
         <div>
           <p>Auto Refrescar</p>
-          <button ion-button clear color="gris">
-            {{timerCount}}<ion-icon name="close-circle" style="margin-left: 4px;"></ion-icon>
+          <button (click)="pausarIntervalo()" ion-button clear color="gris">
+            {{timerCount}}<ion-icon [name]="pausedInterval ? 'play' : 'pause'" color="primary" style="margin-left: 4px;font-size: 12px;"></ion-icon>
           </button>
         </div>
         <div>

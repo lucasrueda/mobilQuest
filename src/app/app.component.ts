@@ -86,7 +86,7 @@ export class MyApp {
 
   advFilterOn(isOn) {
     if (isOn) {
-      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 330;
+      this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 306;
     } else {
       this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 208;
     }
