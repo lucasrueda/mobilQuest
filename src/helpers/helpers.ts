@@ -378,4 +378,26 @@ const determinarIconoDeFlota = (estado_motor, velocidad, direccion, tiempo_parad
   }
 }
 
-export { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota };
+const filtrarDatos = (data, datos) => {
+  let auxObject = {};
+  data.forEach((patente, i) => {
+    let index = datos.dominio.indexOf(patente);
+    Object.keys(datos).forEach(key => {
+      if (!auxObject[key]) auxObject[key] = [];
+      if (datos[key][index] !== undefined)
+        auxObject[key][i] = datos[key][index];
+    })
+  });
+  return auxObject;
+}
+
+export {
+  signalGPS,
+  obtenerDireccion,
+  tiempoDetenido,
+  estadoMotor,
+  determinarIconoRecorrido,
+  determinarAlertas,
+  determinarIconoDeFlota,
+  filtrarDatos
+};

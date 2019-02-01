@@ -3,7 +3,7 @@ import { NavController, Events, ModalController, NavParams, LoadingController } 
 import { MapasnativoPage } from '../mapasnativo/mapasnativo';
 import { MapaProvider } from '../../providers/mapa/mapa';
 import { Storage } from '@ionic/storage';
-import { obtenerDireccion } from '../../helpers/helpers';
+import { filtrarDatos } from '../../helpers/helpers';
 import { SearchFilterPage } from '../search-filter/search-filter';
 
 @Component({
@@ -22,7 +22,7 @@ export class HomePage {
   timerCount: number = 60;
   timerControl: any;
   pausedInterval: boolean = false;
-  loading:any;
+  loading: any;
 
   constructor(
     public navCtrl: NavController,
@@ -43,10 +43,14 @@ export class HomePage {
       datosRecorrido['autoUpdate'] = false;
       this.datosDinamicos = [];
       this.datosDinamicos = datosRecorrido;
-    })
+    });
     this.event.subscribe('filtradoDeBusqueda', autos => {
       this.datosDinamicos.autoUpdate = false;
-      this.datosDinamicos = this.filtrarDatos(autos);
+      this.datosDinamicos = filtrarDatos(autos, this.datos);
+    });
+    this.event.subscribe('verVehiculo', data => {
+      this.datosDinamicos.recorrido = true;
+      this.datosDinamicos = filtrarDatos([data], this.datos);
     })
     this.consultarTodo();
     this.iniciarIntervalo();
@@ -64,10 +68,10 @@ export class HomePage {
   }
 
   pausarIntervalo() {
-    if(!this.pausedInterval){
+    if (!this.pausedInterval) {
       clearInterval(this.timerControl);
       this.pausedInterval = true;
-    }else{
+    } else {
       this.iniciarIntervalo();
       this.pausedInterval = false;
     }
@@ -77,15 +81,17 @@ export class HomePage {
     this.showLoader();
     this.storage.ready()
       .then(() => {
-        this.loading.dismiss();
+        setTimeout(() => {
+          this.loading.dismiss();
+        }, 1000);
         this.storage.get('id_cliente').then(async (id_cliente) => {
           this.id_cliente = id_cliente
           try {
             this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
             if (!autoUpdate)
-            this.datosDinamicos = this.datos
+              this.datosDinamicos = this.datos
             else
-            this.datosDinamicos = this.filtrarDatos(this.datosDinamicos.dominio);
+              this.datosDinamicos = filtrarDatos(this.datosDinamicos.dominio, this.datos);
             this.datosDinamicos.autoUpdate = autoUpdate;
           } catch (error) {
             console.log("​catch -> error", error)
@@ -93,8 +99,8 @@ export class HomePage {
           console.log('mostrando datos', this.datos);
         });
       })
-    }
-    
+  }
+
   mostrarOcultarFiltros() {
     this.search.nativeElement.classList.add('slide-in');
     this.modal.nativeElement.classList.add('slide-in');
@@ -123,18 +129,7 @@ export class HomePage {
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
   }
 
-  filtrarDatos(data) {
-    let auxObject = {};
-    data.forEach((patente, i) => {
-      let index = this.datos.dominio.indexOf(patente);
-      Object.keys(this.datos).forEach(key => {
-        if (!auxObject[key]) auxObject[key] = [];
-        if (this.datos[key][index] !== undefined)
-          auxObject[key][i] = this.datos[key][index];
-      })
-    });
-    return auxObject;
-  }
+
 
   filtroRapidoApagadoEncendido(estado) {
     let arrayAutos = [];
@@ -143,13 +138,13 @@ export class HomePage {
         arrayAutos.push(this.datos.dominio[index]);
       }
     }
-    this.datosDinamicos = this.filtrarDatos(arrayAutos);
+    this.datosDinamicos = filtrarDatos(arrayAutos, this.datos);
   }
 
-  showLoader(mensaje = ''){
+  showLoader(mensaje = '') {
     this.loading = this.loadingCtrl.create({
-    content: mensaje
+      content: mensaje
     });
     this.loading.present();
-  }  
+  }
 }

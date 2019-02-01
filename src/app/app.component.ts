@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { EstadoVehiculo } from '../models/EstadoVehiculo';
 import { DemoProvider } from '../providers/demo';
 import { Error404Page } from '../pages/error404/error404';
+import { filtrarDatos } from '../helpers/helpers';
 
 @Component({
   templateUrl: 'app.html'
@@ -49,10 +50,10 @@ export class MyApp {
           if (res.demo) {
             this.checkLogin();
             this.getNombre();
-          }else throw new Error("Demo Expirada");
+          } else throw new Error("Demo Expirada");
         })
         .catch(err => {
-          this.nav.setRoot(Error404Page,{mensaje: 'Demo expirada', botonReintentar: false});
+          this.nav.setRoot(Error404Page, { mensaje: 'Demo expirada', botonReintentar: false });
         })
     });
   }
@@ -115,5 +116,9 @@ export class MyApp {
 
   handleDateFilterResponse(datos) {
     this.event.publish('filtroPorFechas', datos);
+  }
+  
+  verVehiculo(patente) {
+    this.event.publish('verVehiculo', patente);
   }
 }
