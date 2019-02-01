@@ -45,12 +45,14 @@ export class HomePage {
       this.datosDinamicos = datosRecorrido;
     });
     this.event.subscribe('filtradoDeBusqueda', autos => {
-      this.datosDinamicos.autoUpdate = false;
-      this.datosDinamicos = filtrarDatos(autos, this.datos);
+      const dataTemp = filtrarDatos(autos, this.datos);
+      dataTemp['autoUpdate'] = false;
+      this.datosDinamicos = dataTemp;
     });
     this.event.subscribe('verVehiculo', data => {
-      this.datosDinamicos.recorrido = true;
-      this.datosDinamicos = filtrarDatos([data], this.datos);
+      const dataTemp = filtrarDatos([data], this.datos);
+      dataTemp['autoUpdate'] = false;
+      this.datosDinamicos = dataTemp;
     })
     this.consultarTodo();
     this.iniciarIntervalo();
