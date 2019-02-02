@@ -101,15 +101,16 @@ export class MyApp {
       })
   }
 
-  openPage(page) {
+  openHomePage() {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.setRoot(HomePage);
   }
 
   handleMapClickEvent() {
     this.event.subscribe('mapClickEvent', (vehiculo: EstadoVehiculo) => {
       this._zone.run(() => this.vehiculo = vehiculo);
+      console.log("open menu right")
       this.menuCtrl.open('right');
     })
   }

@@ -12,15 +12,15 @@
           <p>Flota total</p>
           <button ion-button clear mini color="gris">{{this.datosDinamicos?.dominio?.length || '-' }}</button>
         </div>
-        <div>
+        <div (click)="pausarIntervalo()">
           <p>Auto Refrescar</p>
-          <button (click)="pausarIntervalo()" ion-button clear color="gris">
+          <button ion-button clear color="gris">
             {{timerCount}}<ion-icon [name]="pausedInterval ? 'play' : 'pause'" color="primary" style="margin-left: 4px;font-size: 12px;"></ion-icon>
           </button>
         </div>
-        <div>
+        <div (click)="openSearch()">
           <p>Buscar</p>
-          <button ion-button icon-only clear (click)="openSearch()" color="gris">
+          <button ion-button icon-only clear color="gris">
             <ion-icon name="ios-search"></ion-icon>
           </button>
         </div>
