@@ -65,8 +65,8 @@ export class Mapajshtml {
 			google.maps.event.addListener(mapa, 'click', () => {
 				this.events.publish('user:click');
 			});
-		}else{
-			allMarkersOnMap.forEach( m => m.setMap(null));
+		} else {
+			allMarkersOnMap.forEach(m => m.setMap(null));
 			allMarkersOnMap = [];
 		}
 
@@ -129,7 +129,7 @@ export class Mapajshtml {
 
 			bounds.extend(marker.position);
 		}
-		if(!this.datos.autoUpdate){
+		if (!this.datos.autoUpdate) {
 			mapa.fitBounds(bounds);
 			console.log('TCL: Mapajshtml -> agregarMarcadores -> this.datos', this.datos)
 			google.maps.event.addListenerOnce(mapa, 'idle', () => {
@@ -141,21 +141,21 @@ export class Mapajshtml {
 	}
 
 	async verInformacion(i: number) {
-		let vehiculo: EstadoVehiculo = new EstadoVehiculo(
-			this.datos.imei[i],
-			this.datos.numero[i],
-			this.datos.dominio[i],
-			this.datos.dominio[i],
-			this.datos.marca[i],
-			this.datos.color[i],
-			await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),
-			this.datos.hora_avl[i],
-			tiempoDetenido(this.datos.tiempo_parada[i] * 60),
-			estadoMotor(this.datos.estado_sensor_en_bit[i]),
-			Math.round(parseFloat(this.datos.km_total_usuario[i]) * 100) / 100,//cuenta Kilometros
-			this.datos.voltaje_vehiculo[i],
-			signalGPS(this.datos.hdop[i])
-		);
+		let vehiculo: EstadoVehiculo = {
+			imei: this.datos.imei[i],
+			numeroDeLinea: this.datos.numero[i],
+			dominio: this.datos.dominio[i],
+			denominacion: this.datos.dominio[i],
+			marca: this.datos.marca[i],
+			color: this.datos.color[i],
+			direccion: await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),
+			actualizado: this.datos.hora_avl[i],
+			tiempoParada: tiempoDetenido(this.datos.tiempo_parada[i] * 60),
+			estadoMotor: estadoMotor(this.datos.estado_sensor_en_bit[i]),
+			cuentaKilometros: Math.round(parseFloat(this.datos.km_total_usuario[i]) * 100) / 100,//cuenta Kilometros
+			bateriaExterna: this.datos.voltaje_vehiculo[i],
+			signalGPS: signalGPS(this.datos.hdop[i])
+		};
 		console.log(vehiculo);
 		this.events.publish('mapClickEvent', vehiculo);
 	}
