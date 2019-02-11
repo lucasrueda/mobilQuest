@@ -65,8 +65,8 @@ export class Mapajshtml {
 			google.maps.event.addListener(mapa, 'click', () => {
 				this.events.publish('user:click');
 			});
-		}else{
-			allMarkersOnMap.forEach( m => m.setMap(null));
+		} else {
+			allMarkersOnMap.forEach(m => m.setMap(null));
 			allMarkersOnMap = [];
 		}
 
@@ -78,6 +78,7 @@ export class Mapajshtml {
 	};
 
 	async agregarMarcadores(mapa) {
+		let zIndex = 1;
 		let bounds = new google.maps.LatLngBounds();
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
@@ -91,7 +92,7 @@ export class Mapajshtml {
 				position: latLng,
 				map: mapa,
 				draggable: false,
-				zIndex: 2,
+				zIndex: zIndex + 1,
 				labelContent: this.datos.dominio[i],
 				labelAnchor: new google.maps.Point(x, y),
 				labelClass: "labels",
@@ -103,7 +104,7 @@ export class Mapajshtml {
 				position: latLng,
 				map: mapa,
 				draggable: false,
-				zIndex: 3,
+				zIndex: zIndex + 2,
 				labelContent: "" + iconosURL.info_label,
 				labelAnchor: new google.maps.Point(29, 65),
 				labelClass: "labels2",
@@ -114,7 +115,7 @@ export class Mapajshtml {
 				position: latLng,
 				map: mapa,
 				draggable: false,
-				zIndex: 1,
+				zIndex: zIndex,
 			});
 			allMarkersOnMap.push(iconContorno);
 			google.maps.event.addListener(marker, 'click', () => {
@@ -128,8 +129,9 @@ export class Mapajshtml {
 			});
 
 			bounds.extend(marker.position);
+			zIndex = zIndex + 3;
 		}
-		if(!this.datos.autoUpdate){
+		if (!this.datos.autoUpdate) {
 			mapa.fitBounds(bounds);
 			console.log('TCL: Mapajshtml -> agregarMarcadores -> this.datos', this.datos)
 			google.maps.event.addListenerOnce(mapa, 'idle', () => {
@@ -161,6 +163,7 @@ export class Mapajshtml {
 	}
 
 	async dibujarRecorrido(mapa) {
+		let zIndex = 3;
 		let bounds = new google.maps.LatLngBounds();
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
@@ -185,7 +188,7 @@ export class Mapajshtml {
 					map: mapa,
 					draggable: false,
 					title: state.titulo,
-					zIndex: 3,
+					zIndex: zIndex,
 					labelContent: this.datos.tipo_alarma[i].length,
 					labelAnchor: new google.maps.Point(-30, 47),
 				});
@@ -197,6 +200,7 @@ export class Mapajshtml {
 				});
 			}
 			bounds.extend(marker.position);
+			zIndex++;
 		}
 		this.dubujarPolilneas(mapa);
 		mapa.fitBounds(bounds);
