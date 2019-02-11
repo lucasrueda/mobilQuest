@@ -17,6 +17,7 @@ export class HomePage {
 
   displayMenu: boolean = false;
   datos: any;
+  datosSinFiltrar: any;
   datosDinamicos: any;
   id_cliente: number;
   timerCount: number = 60;
@@ -90,7 +91,8 @@ export class HomePage {
         this.storage.get('id_cliente').then(async (id_cliente) => {
           this.id_cliente = id_cliente
           try {
-            this.datos = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
+            this.datosSinFiltrar = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
+            this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
             let autosEncendidos = this.obtenerAutosEncendidos();
             let autosApagados = this.datos.dominio.length - this.obtenerAutosEncendidos();
             this.autosOnOff = { autosEncendidos, autosApagados }
@@ -135,7 +137,21 @@ export class HomePage {
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
   }
 
-
+  filtroVehiculosRepetidos(datosTemp) {
+    let auxObject = {};
+    let index = 0;
+    datosTemp.nombre_sensor.forEach((nombreSensor, i) => {
+      if(nombreSensor == "Estado del motor"){
+        Object.keys(datosTemp).forEach(key => {
+          if (!auxObject[key]) auxObject[key] = [];
+          if (datosTemp[key][i] !== undefined)
+            auxObject[key][index] = datosTemp[key][i];
+        })
+        index++;
+      }
+    });
+    return auxObject;
+  }
 
   filtroRapidoApagadoEncendido(estado) {
     let arrayAutos = [];

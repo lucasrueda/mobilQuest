@@ -186,7 +186,7 @@ export class Mapajshtml {
 					draggable: false,
 					title: state.titulo,
 					zIndex: 3,
-					labelContent: 1,
+					labelContent: this.datos.tipo_alarma[i].length,
 					labelAnchor: new google.maps.Point(-30, 47),
 				});
 				let infowindow = new google.maps.InfoWindow({
