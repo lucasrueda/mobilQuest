@@ -11,7 +11,7 @@ export class DemoProvider {
   }
 
   checkDemo() {
-    return this.http.get('http://ingeit.ddns.net:3009/api').toPromise();
+    return this.http.get('https://ingeit.com.ar/api/mobileQuest').toPromise();
   }
 
 
