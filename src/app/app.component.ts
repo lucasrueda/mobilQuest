@@ -64,7 +64,6 @@ export class MyApp {
         this.storage.get('id_cliente').then((id_cliente) => {
           if (id_cliente) {
             this.rootPage = HomePage;
-            this.handleMapClickEvent();
           } else {
             this.rootPage = LoginPage;
           }
@@ -82,6 +81,7 @@ export class MyApp {
   }
 
   ngAfterViewInit() {
+    this.handleMapClickEvent();
     this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 208;
   }
 

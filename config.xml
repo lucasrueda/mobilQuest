@@ -3,7 +3,7 @@
     <name>MobileQuest</name>
     <description>Seguimiento de flota</description>
     <author email="soporte@ingeit.com.ar" href="http://ingeit.com.ar">Ingeit</author>
-    <content original-src="index.html" src="http://192.168.0.18:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
