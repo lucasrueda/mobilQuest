@@ -60,7 +60,7 @@ export class HomePage {
     this.iniciarIntervalo();
   }
 
-  ionViewWillLeave(){
+  ionViewWillUnload(){
     this.pausarIntervalo();
   }
 
