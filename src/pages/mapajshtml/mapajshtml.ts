@@ -17,6 +17,7 @@ const pathImgs = './assets/imgs/';
 })
 export class Mapajshtml {
 	@Input() datos;
+	@Input() datosSinFiltar;
 	apiKey: any = 'AIzaSyA4h0qNqE_K6GuDT5-BH2g2Mx_XcwbLSys';
 	constructor(public navCtrl: NavController, public events: Events) { }
 
@@ -143,6 +144,8 @@ export class Mapajshtml {
 	}
 
 	async verInformacion(i: number) {
+		let sensores = this.obtenerSensores(this.datos.dominio[i]);
+		console.log(sensores)
 		let vehiculo: EstadoVehiculo = new EstadoVehiculo(
 			this.datos.imei[i],
 			this.datos.numero[i],
@@ -238,6 +241,17 @@ export class Mapajshtml {
 		});
 		polilinea_recorrido.setPath(coordinates);
 		polilinea_recorrido.setMap(mapa);
+	}
+
+	obtenerSensores(dominio) {
+		let indices = this.datosSinFiltar.dominio.reduce((a, e, i) => {
+			if (e === dominio)
+				a.push(i);
+			return a;
+		}, []);
+		return indices.map(i => {
+			return { nombreSensor: this.datosSinFiltar.nombre_sensor[i], valor: this.datosSinFiltar.estado_sensor[i] }
+		});
 	}
 }
 

@@ -28,7 +28,7 @@
     </ion-col>
   </ion-row>
 </div>
-<mapajshtml [datos]="datosDinamicos"></mapajshtml>
+<mapajshtml [datos]="datosDinamicos" [datosSinFiltar]="datosSinFiltrar"></mapajshtml>
 <div class="over_map" style="bottom: -56px;">
   <page-modal #modal [autosOnOff]="autosOnOff" id="modal"></page-modal>
   <div #expander class="expander" (click)="mostrarOcultarFiltros()">
