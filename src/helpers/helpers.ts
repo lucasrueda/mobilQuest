@@ -55,10 +55,6 @@ const tiempoDetenido = (segundos: number) => {
   }
 }
 
-const estadoMotor = estado => {
-  return (parseInt(estado)) ? 'Encendido' : 'Apagado';
-}
-
 const sumaMinutosHorario = (tiempo, hora) => { //FUNCION PARA SUMAR UNA CANTIDAD DE MINUTOS A UN HORARIO -- hora ES LA HORA DE LA PARADA EXPRESADA EN MINUTOS	  
   /*CANTIDAD DE MINUTOS DEL TIEMPO DE PARADA*/
   let m = parseInt(tiempo) / 60;
@@ -395,7 +391,6 @@ export {
   signalGPS,
   obtenerDireccion,
   tiempoDetenido,
-  estadoMotor,
   determinarIconoRecorrido,
   determinarAlertas,
   determinarIconoDeFlota,

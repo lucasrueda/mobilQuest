@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
-import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota } from '../../helpers/helpers'
+import { signalGPS, obtenerDireccion, tiempoDetenido, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota } from '../../helpers/helpers'
 
 declare var google;
 var mapa;
@@ -144,8 +144,6 @@ export class Mapajshtml {
 	}
 
 	async verInformacion(i: number) {
-		let sensores = this.obtenerSensores(this.datos.dominio[i]);
-		console.log(sensores)
 		let vehiculo: EstadoVehiculo = new EstadoVehiculo(
 			this.datos.imei[i],
 			this.datos.numero[i],
@@ -156,7 +154,7 @@ export class Mapajshtml {
 			await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),
 			this.datos.hora_avl[i],
 			tiempoDetenido(this.datos.tiempo_parada[i] * 60),
-			estadoMotor(this.datos.estado_sensor_en_bit[i]),
+			this.obtenerSensores(this.datos.dominio[i]),
 			Math.round(parseFloat(this.datos.km_total_usuario[i]) * 100) / 100,//cuenta Kilometros
 			this.datos.voltaje_vehiculo[i],
 			signalGPS(this.datos.hdop[i])
@@ -250,7 +248,7 @@ export class Mapajshtml {
 			return a;
 		}, []);
 		return indices.map(i => {
-			return { nombreSensor: this.datosSinFiltar.nombre_sensor[i], valor: this.datosSinFiltar.estado_sensor[i] }
+			return { nombre: this.datosSinFiltar.nombre_sensor[i], valor: this.datosSinFiltar.estado_sensor[i] }
 		});
 	}
 }

@@ -110,7 +110,6 @@ export class MyApp {
   handleMapClickEvent() {
     this.event.subscribe('mapClickEvent', (vehiculo: EstadoVehiculo) => {
       this._zone.run(() => this.vehiculo = vehiculo);
-      console.log("open menu right")
       this.menuCtrl.open('right');
     })
   }

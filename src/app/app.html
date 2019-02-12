@@ -3,7 +3,8 @@
     <div class="menu-header">
       <!--material-design-background-->
       <!-- <img class="user-avatar round" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/avatar.jpg'" /> -->
-      <img style="width: 50%;margin-top: 10px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/login_logo.png'" />
+      <img style="width: 50%;margin-top: 10px;" [src]="chosenPicture || placeholder"
+        onerror="this.src='assets/imgs/login_logo.png'" />
       <p class="name">{{nombreCliente}}</p>
       <!-- <p class="e-mail">masterk63@email.com</p> -->
     </div>
@@ -29,7 +30,8 @@
     <ion-list>
       <ion-list-header menuToggle="right">
         <h4>{{ vehiculo?.patente }}</h4>
-        <button style="text-decoration: underline;" ion-button clear item-end (click)="verVehiculo(vehiculo.patente)">Seleccionar vehículo</button>
+        <button style="text-decoration: underline;" ion-button clear item-end
+          (click)="verVehiculo(vehiculo.patente)">Seleccionar vehículo</button>
       </ion-list-header>
       <ion-item>
         <ion-icon name="ios-pin-outline" item-start></ion-icon>
@@ -41,10 +43,10 @@
         <h2>Actualizado</h2>
         <p>{{ vehiculo?.actualizado }}</p>
       </ion-item>
-      <ion-item>
-        <ion-icon name="ios-power-outline" item-start></ion-icon>
-        <h2>Estado del motor</h2>
-        <p>{{ vehiculo?.estadoMotor }}</p>
+      <ion-item *ngFor="let sensor of vehiculo?.sensores">
+        <ion-icon name="ios-pulse-outline" item-start></ion-icon>
+        <h2>{{ sensor.nombre }}</h2>
+        <p text-wrap>{{ sensor.valor }}</p>
       </ion-item>
       <ion-item>
         <ion-icon name="ios-information-circle-outline" item-start></ion-icon>
@@ -72,8 +74,8 @@
   <!-- <div style="height:200px" padding>
     <button ion-button block>Ver</button>
   </div> -->
-  <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)" (advFilterOn)="advFilterOn($event)"
-    style="display: block; border-top: 1px solid #dedede;"></seleccion-fecha>
+  <seleccion-fecha #fecha [imei]="vehiculo?.imei" (respuesta)="handleDateFilterResponse($event)"
+    (advFilterOn)="advFilterOn($event)" style="display: block; border-top: 1px solid #dedede;"></seleccion-fecha>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

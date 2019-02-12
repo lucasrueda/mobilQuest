@@ -12,7 +12,7 @@ import {
   PolygonOptions,
 } from '@ionic-native/google-maps';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
-import { signalGPS, obtenerDireccion, tiempoDetenido, estadoMotor } from '../../helpers/helpers'
+import { signalGPS, obtenerDireccion, tiempoDetenido } from '../../helpers/helpers'
 import { data } from '../../providers/mapa/data';
 
 @Component({
@@ -90,7 +90,7 @@ export class MapasnativoPage {
       await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),
       this.datos.hora_avl[i],
       tiempoDetenido(this.datos.tiempo_parada[i] * 60),
-      estadoMotor(this.datos.estado_sensor_en_bit[i]),
+      "encendido",
       Math.round(parseFloat(this.datos.km_total_usuario[i]) * 100) / 100,//cuenta Kilometros
       this.datos.voltaje_vehiculo[i],
       signalGPS(this.datos.hdop[i])
