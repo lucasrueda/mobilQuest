@@ -7,6 +7,7 @@ declare var google;
 var mapa;
 declare function require(text: string);
 var allMarkersOnMap = [];
+var inforWindowsGlobal;
 
 const pathImgs = './assets/imgs/';
 
@@ -17,7 +18,6 @@ const pathImgs = './assets/imgs/';
 export class Mapajshtml {
 	@Input() datos;
 	apiKey: any = 'AIzaSyA4h0qNqE_K6GuDT5-BH2g2Mx_XcwbLSys';
-
 	constructor(public navCtrl: NavController, public events: Events) { }
 
 	ngOnChanges() {
@@ -177,6 +177,9 @@ export class Mapajshtml {
 				content: state.titulo
 			});
 			google.maps.event.addListener(marker, 'click', () => {
+				if (inforWindowsGlobal)
+					inforWindowsGlobal.close();
+				inforWindowsGlobal = infowindow;
 				infowindow.open(mapa, marker);
 			});
 			if (this.datos.tipo_alarma[i] != '') {
@@ -196,6 +199,9 @@ export class Mapajshtml {
 					content: state.titulo
 				});
 				google.maps.event.addListener(AlertaMarker, 'click', () => {
+					if (inforWindowsGlobal)
+						inforWindowsGlobal.close();
+					inforWindowsGlobal = infowindow;
 					infowindow.open(mapa, AlertaMarker);
 				});
 			}

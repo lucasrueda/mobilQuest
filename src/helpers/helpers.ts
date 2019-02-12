@@ -48,9 +48,9 @@ const tiempoDetenido = (segundos: number) => {
     return minutos + msj_minutos;
   } else {
     if (horas == 1) {
-      return horas + " hora y " + minutos + msj_minutos;
+      return horas + " hora y " + parseInt(minutos.toString()) + msj_minutos;
     } else {
-      return horas + " horas y " + minutos + msj_minutos;
+      return horas + " horas y " + parseInt(minutos.toString()) + msj_minutos;
     }
   }
 }
@@ -90,12 +90,12 @@ const sumaMinutosHorario = (tiempo, hora) => { //FUNCION PARA SUMAR UNA CANTIDAD
       parte_hora = "0" + parte_hora + ":";
     }
     else {
-      parte_hora = parte_hora + ":";
+      parte_hora = parseInt(parte_hora) + ":";
     }
     if (parte_minuto < 10) {
       parte_minuto = 0 + parte_minuto;
     }
-    suma_total = parte_hora + parte_minuto;
+    suma_total = parte_hora + parseInt(parte_minuto.toString());
   }
   else {
     suma_total = "00:" + suma;
