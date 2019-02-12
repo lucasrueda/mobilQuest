@@ -21,7 +21,6 @@ export class ModalPage {
   }
 
   ngOnChanges() {
-    if (this.autosOnOff) console.log('TCL: ModalPage -> autosEncendidos', this.autosOnOff)
   }
 
   actualizar() {

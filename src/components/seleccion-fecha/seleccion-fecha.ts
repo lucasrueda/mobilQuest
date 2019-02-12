@@ -39,7 +39,6 @@ export class SeleccionFechaComponent {
   }
 
   ngOnInit() {
-    console.log("selector fecha INIT")
     this.fechaNow = moment().format('YYYY-MM-DD');
     this.horaNow = moment().format('HH:mm');
   }

@@ -134,7 +134,6 @@ export class Mapajshtml {
 		}
 		if (!this.datos.autoUpdate) {
 			mapa.fitBounds(bounds);
-			console.log('TCL: Mapajshtml -> agregarMarcadores -> this.datos', this.datos)
 			google.maps.event.addListenerOnce(mapa, 'idle', () => {
 				(this.datos.dominio.length > 1)
 					? mapa.setZoom(mapa.getZoom() - 1)

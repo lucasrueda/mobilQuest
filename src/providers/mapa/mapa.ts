@@ -10,7 +10,6 @@ headers.append('Access-Control-Allow-Origin', '*');
 export class MapaProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello MapaProvider Provider');
   }
 
   public consultarTodo(id_cliente) {

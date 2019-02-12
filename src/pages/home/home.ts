@@ -60,6 +60,10 @@ export class HomePage {
     this.iniciarIntervalo();
   }
 
+  ionViewWillLeave(){
+    this.pausarIntervalo();
+  }
+
   iniciarIntervalo() {
     this.timerControl = setInterval(() => {
       if ((this.timerCount - 1) > 0) {
