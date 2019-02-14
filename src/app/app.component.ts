@@ -12,6 +12,7 @@ import { EstadoVehiculo } from '../models/EstadoVehiculo';
 import { DemoProvider } from '../providers/demo';
 import { Error404Page } from '../pages/error404/error404';
 import { filtrarDatos } from '../helpers/helpers';
+import { ReferenciaPage } from '../pages/referencia/referencia';
 
 @Component({
   templateUrl: 'app.html'
@@ -105,6 +106,12 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(HomePage);
+  }
+
+  openReferencia() {
+    // Reset the content nav to have just this page
+    // we wouldn't want the back button to show in this scenario
+    this.nav.push(ReferenciaPage);
   }
 
   handleMapClickEvent() {
