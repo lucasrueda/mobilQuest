@@ -25,6 +25,7 @@ export class HomePage {
   pausedInterval: boolean = false;
   loading: any;
   autosOnOff: any;
+  recorrido: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -40,6 +41,7 @@ export class HomePage {
   async ionViewDidLoad() {
     this.mostrarOcultarFiltros();
     this.event.subscribe('filtroPorFechas', (datos) => {
+      this.recorrido = true;
       let datosRecorrido = datos;
       datosRecorrido['recorrido'] = true;
       datosRecorrido['autoUpdate'] = false;
@@ -47,11 +49,13 @@ export class HomePage {
       this.datosDinamicos = datosRecorrido;
     });
     this.event.subscribe('filtradoDeBusqueda', autos => {
+      this.recorrido = false;
       const dataTemp = filtrarDatos(autos, this.datos);
       dataTemp['autoUpdate'] = false;
       this.datosDinamicos = dataTemp;
     });
     this.event.subscribe('verVehiculo', data => {
+      this.recorrido = false;
       const dataTemp = filtrarDatos([data], this.datos);
       dataTemp['autoUpdate'] = false;
       this.datosDinamicos = dataTemp;
@@ -86,6 +90,7 @@ export class HomePage {
   }
 
   public consultarTodo(autoUpdate = false) {
+    this.recorrido = false;
     this.showLoader();
     this.storage.ready()
       .then(() => {
@@ -158,6 +163,7 @@ export class HomePage {
   }
 
   filtroRapidoApagadoEncendido(estado) {
+    this.recorrido = false;
     let arrayAutos = [];
     for (let index = 0; index < this.datos.dominio.length; index++) {
       if (this.datos.estado_sensor_en_bit[index] === estado) {
@@ -170,6 +176,7 @@ export class HomePage {
   }
 
   obtenerAutosEncendidos() {
+    this.recorrido = false;
     let arrayAutos = [];
     for (let index = 0; index < this.datos.dominio.length; index++) {
       if (this.datos.estado_sensor_en_bit[index] === '1') {

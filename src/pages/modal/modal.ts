@@ -16,7 +16,6 @@ export class ModalPage {
     public HomeP: HomePage
   ) {
     this.event.subscribe('user:click', () => {
-      console.log('dissmiseando')
     })
   }
 

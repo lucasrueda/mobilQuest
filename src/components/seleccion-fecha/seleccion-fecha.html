@@ -1,14 +1,14 @@
 <div class="container">
   <h4>Recorrido</h4>
-  <ion-item style="width: 99%;">
-    <ion-label>Ver avanzados</ion-label>
+  <ion-item style="width: 100%;
+  font-size: 12px;">
+    <ion-label>Filtro avanzado</ion-label>
     <ion-toggle checked="filtroAvanzado" (ionChange)="filtroAvanzadoOption()"></ion-toggle>
   </ion-item>
-
   <!-- FILTRO COMUN -->
   <ion-grid *ngIf="!filtroAvanzado">
     <ion-item style="width: 99%;">
-      <ion-label stacked>Ver recorrido de</ion-label>
+      <ion-label color="primary" stacked>Ver recorrido de</ion-label>
       <ion-select [(ngModel)]="filtroRapido" placeholder="Seleccione una opción" interface="action-sheet" cancelText="Cancelar">
         <ion-option value="15m">Ultimos 15 minutos</ion-option>
         <ion-option value="30m">Ultimos 30 minutos</ion-option>
@@ -40,7 +40,8 @@
       </ion-select>
     </ion-item>
     <button menuToggle="right" ion-button block (click)="buscarFiltroRapido()" color="mobile" round outline [disabled]="!filtroRapido">Ver
-      recorrido</button>
+      recorrido
+    </button>
   </ion-grid>
 
 
@@ -51,15 +52,15 @@
       <ion-col col-8>
         <ion-item no-padding>
           <ion-label class="floatingLabel" floating>Fecha</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaNow" min="1999-01-01"
-            cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="fechaDesde" (ionChange)="fechaDesdeSelect()"></ion-datetime>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaNow" min="1999-01-01" cancelText="Cancelar"
+            doneText="Aceptar" [(ngModel)]="fechaDesde" (ionChange)="fechaDesdeSelect()"></ion-datetime>
         </ion-item>
       </ion-col>
       <ion-col col-4>
         <ion-item no-padding>
           <ion-label class="floatingLabel" floating>Hora</ion-label>
-          <ion-datetime [disabled]="!fechaDesde" displayFormat="HH:mm" pickerFormat="HH:mm" [max]="horaDesdeMax" min="00:00"
-            cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="horaDesde" (ionChange)="horaDesdeSelect()"></ion-datetime>
+          <ion-datetime [disabled]="!fechaDesde" displayFormat="HH:mm" pickerFormat="HH:mm" [max]="horaDesdeMax" min="00:00" cancelText="Cancelar"
+            doneText="Aceptar" [(ngModel)]="horaDesde" (ionChange)="horaDesdeSelect()"></ion-datetime>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -68,21 +69,20 @@
       <ion-col col-8>
         <ion-item no-padding>
           <ion-label class="floatingLabel" floating>Fecha</ion-label>
-          <ion-datetime [disabled]="!fechaDesde && !horaDesde" displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY"
-            [max]="fechaHastaMax" [min]="fechaHastaMin" cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="fechaHasta"
-            (ionChange)="fechaHastaSelect()"></ion-datetime>
+          <ion-datetime [disabled]="!fechaDesde && !horaDesde" displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY" [max]="fechaHastaMax"
+            [min]="fechaHastaMin" cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="fechaHasta" (ionChange)="fechaHastaSelect()"></ion-datetime>
         </ion-item>
       </ion-col>
       <ion-col col-4>
         <ion-item no-padding>
           <ion-label class="floatingLabel" floating>Hora</ion-label>
-          <ion-datetime [disabled]="!fechaHasta" displayFormat="HH:mm" [(ngModel)]="horaHasta" [max]="horaHastaMax"
-            [min]="horaHastaMin"></ion-datetime>
+          <ion-datetime [disabled]="!fechaHasta" displayFormat="HH:mm" [(ngModel)]="horaHasta" [max]="horaHastaMax" [min]="horaHastaMin"></ion-datetime>
         </ion-item>
       </ion-col>
     </ion-row>
     <button menuToggle="right" ion-button block (click)="buscarAvanzado()" color="mobile" round outline [disabled]="!fechaDesde || !horaDesde || !fechaHasta || !horaHasta">Ver
-      recorrido</button>
+      recorrido
+    </button>
   </ion-grid>
-  
+
 </div>
