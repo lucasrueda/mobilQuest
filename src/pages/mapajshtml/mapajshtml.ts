@@ -164,10 +164,13 @@ export class Mapajshtml {
 
 	async dibujarRecorrido(mapa) {
 		let zIndex = 3;
+		let cantidadParadas = 0;
+		let tiempo_min_detencion = 5;
 		let bounds = new google.maps.LatLngBounds();
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
-			let state = determinarIconoRecorrido(this.datos, i);
+			let state = determinarIconoRecorrido(this.datos, i, tiempo_min_detencion);
+			cantidadParadas += state.parada;
 			let marker = new google.maps.Marker({
 				position: latLng,
 				icon: pathImgs + state.icono + '.png',
@@ -207,6 +210,19 @@ export class Mapajshtml {
 			}
 			bounds.extend(marker.position);
 			zIndex++;
+		}
+		const duracion = tiempoDetenido(this.datos.duracion);
+		const total_detenido = parseInt(this.datos.tiempo_detenido.reduce((a, b) => a + b));
+		const tiempo_movimiento = ((this.datos.duracion - total_detenido) / 3600);
+		const resumen = {
+			inicio_analisis: this.datos.inicio_analisis,
+			fin_analisis: this.datos.fin_analisis,
+			duracion,
+			cantidadParadas,
+			tiempo_min_detencion,
+			kilometraje: Math.round(this.datos.kilometraje * 100) / 100,
+			velocidad_maxima: Math.max(...this.datos.velocidad),
+			get velocidad_promedio() { return Math.round((this.kilometraje / tiempo_movimiento) * 100) / 100 }
 		}
 		this.dubujarPolilneas(mapa);
 		mapa.fitBounds(bounds);

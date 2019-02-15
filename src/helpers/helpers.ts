@@ -99,13 +99,13 @@ const sumaMinutosHorario = (tiempo, hora) => { //FUNCION PARA SUMAR UNA CANTIDAD
   return suma_total;	//alert("HORA="+hora+" H="+hora_inicio+" M="+minutos_inicio+ "\n" + "Le tengo que sumar "+tiempo+" segundos, que son "+m);
 }
 
-const determinarIconoRecorrido = (data, i) => {
-  let tiempo_min_detencion = 5;
+const determinarIconoRecorrido = (data, i, tiempo_min_detencion) => {
   let ultimoElemento = data.latitud.length - 1;
   let primerElemento = 0;
   let state = {
     icono: '',
-    titulo: ''
+    titulo: '',
+    parada: 0
   }
   switch (i) {
     case (primerElemento):
@@ -117,26 +117,29 @@ const determinarIconoRecorrido = (data, i) => {
           state.icono = "inicio_parada";//icono inicio con manito		
           state.titulo = "Desde las " + data.hora_avl[i] + " el vehículo estuvo detenido durante " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Inicio el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
         }
+        state.parada++;
       } else {
         state.icono = "inicio";//solamente icono inicio
         state.titulo = "Inicio del recorrido.<br>Velocidad: " + data.velocidad[i] + "<br>Hora: " + data.hora_avl[i];
       }
       break;
-    case (ultimoElemento):
+      case (ultimoElemento):
       if (data.latitud.length - 1 != 0) {
         if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
           state.icono = "fin_parada";//icono Final con manito
           state.titulo = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + "<br>Fin del recorrido.";
+          state.parada++;
         } else {
           state.icono = "fin";//solamente icono Final
           state.titulo = "Fin del recorrido.<br>Velocidad: " + data.velocidad[i] + "<br>Hora: " + data.hora_avl[i];
         }
       }
       break;
-    default:
+      default:
       if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
         state.icono = "parada";//icono manito	
         state.titulo = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + " Inició nuevamente el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
+        state.parada++;
       } else {
         if (data.cod_trama[i] == 32 || data.cod_trama[i] == 77) {//agregado para distinguir cuando es puntito de giro, el codigo 77 es para T_zone
           state.icono = "puntitogiro";
