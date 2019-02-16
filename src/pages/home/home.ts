@@ -74,7 +74,7 @@ export class HomePage {
         this.timerCount--;
       } else {
         this.timerCount = 60;
-        this.consultarTodo(true);
+        !this.recorrido && this.consultarTodo(true);
       }
     }, 1000);
   }
@@ -90,7 +90,6 @@ export class HomePage {
   }
 
   public consultarTodo(autoUpdate = false) {
-    this.recorrido = false;
     this.showLoader();
     this.storage.ready()
       .then(() => {

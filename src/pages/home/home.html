@@ -1,7 +1,4 @@
 <div #search class="searchBarConteiner over_map">
-  <ion-fab *ngIf="recorrido" top right edge>
-    <button ion-fab mini><ion-icon name="information"></ion-icon></button>
-  </ion-fab>
   <ion-row style="padding: 0 5px;">
     <ion-col class="whiteSquare">
       <div class="topMenu">
@@ -32,6 +29,11 @@
   </ion-row>
 </div>
 <mapajshtml [datos]="datosDinamicos" [datosSinFiltar]="datosSinFiltrar"></mapajshtml>
+<div class="verRecorrido" *ngIf="recorrido">
+  <div class="whiteSquareRecorrido">
+    <button ion-button clear small menuToggle="right" color="gris">Resumen</button>
+  </div>
+</div>
 <div class="over_map" style="bottom: -56px;">
   <page-modal #modal [autosOnOff]="autosOnOff" id="modal"></page-modal>
   <div #expander class="expander" (click)="mostrarOcultarFiltros()">

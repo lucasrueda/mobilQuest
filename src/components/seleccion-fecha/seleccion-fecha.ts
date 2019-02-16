@@ -133,7 +133,6 @@ export class SeleccionFechaComponent {
           }
         } else {
           console.log("Todo ok")
-					console.log("​SeleccionFechaComponent -> buscar -> res", res)
           this.respuesta.emit(res);
         }
       })

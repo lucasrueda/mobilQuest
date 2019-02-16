@@ -45,12 +45,12 @@ const tiempoDetenido = (segundos: number) => {
     msj_minutos = " minutos.";
   }
   if (horas == 0) {
-    return minutos + msj_minutos;
+    return parseInt(minutos.toString()) + msj_minutos;
   } else {
     if (horas == 1) {
-      return horas + " hora y " + parseInt(minutos.toString()) + msj_minutos;
+      return parseInt(horas.toString()) + " hora y " + parseInt(minutos.toString()) + msj_minutos;
     } else {
-      return horas + " horas y " + parseInt(minutos.toString()) + msj_minutos;
+      return parseInt(horas.toString()) + " horas y " + parseInt(minutos.toString()) + msj_minutos;
     }
   }
 }

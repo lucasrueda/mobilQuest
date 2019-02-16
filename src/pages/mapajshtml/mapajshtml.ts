@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
 import { signalGPS, obtenerDireccion, tiempoDetenido, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota } from '../../helpers/helpers'
+import { Resumen } from '../../models/Resumen';
 
 declare var google;
 var mapa;
@@ -211,19 +212,7 @@ export class Mapajshtml {
 			bounds.extend(marker.position);
 			zIndex++;
 		}
-		const duracion = tiempoDetenido(this.datos.duracion);
-		const total_detenido = parseInt(this.datos.tiempo_detenido.reduce((a, b) => a + b));
-		const tiempo_movimiento = ((this.datos.duracion - total_detenido) / 3600);
-		const resumen = {
-			inicio_analisis: this.datos.inicio_analisis,
-			fin_analisis: this.datos.fin_analisis,
-			duracion,
-			cantidadParadas,
-			tiempo_min_detencion,
-			kilometraje: Math.round(this.datos.kilometraje * 100) / 100,
-			velocidad_maxima: Math.max(...this.datos.velocidad),
-			get velocidad_promedio() { return Math.round((this.kilometraje / tiempo_movimiento) * 100) / 100 }
-		}
+		this.obternerResumenRecorrido(cantidadParadas, tiempo_min_detencion);
 		this.dubujarPolilneas(mapa);
 		mapa.fitBounds(bounds);
 		mapa.setZoom(mapa.getZoom() - 1.4);
@@ -265,6 +254,26 @@ export class Mapajshtml {
 		return indices.map(i => {
 			return { nombre: this.datosSinFiltar.nombre_sensor[i], valor: this.datosSinFiltar.estado_sensor[i] }
 		});
+	}
+
+	obternerResumenRecorrido(cantidadParadas, tiempo_min_detencion){
+		const duracion = tiempoDetenido(this.datos.duracion);
+		const total_detenido = parseInt(this.datos.tiempo_detenido.reduce((a, b) => a + b));
+		const total_detenido_string = tiempoDetenido(total_detenido);
+		const tiempo_movimiento = ((this.datos.duracion - total_detenido) / 3600);
+		const resumen: Resumen = {
+			inicio_analisis: this.datos.inicio_analisis,
+			fin_analisis: this.datos.fin_analisis,
+			duracion_recorrido: duracion,
+			cantidad_de_paradas: cantidadParadas,
+			tiempo_min_detencion,
+			total_detenido: total_detenido_string,
+			kilometraje: Math.round(this.datos.kilometraje * 100) / 100,
+			velocidad_maxima: Math.max(...this.datos.velocidad),
+			get velocidad_promedio() { return Math.round((this.kilometraje / tiempo_movimiento) * 100) / 100 }
+		}
+		this.events.publish('resumen', resumen);
+		console.log('TCL: Mapajshtml -> obternerResumenRecorrido -> resumen', resumen)
 	}
 }
 

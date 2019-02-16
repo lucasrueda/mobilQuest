@@ -12,6 +12,7 @@ import { EstadoVehiculo } from '../models/EstadoVehiculo';
 import { DemoProvider } from '../providers/demo';
 import { Error404Page } from '../pages/error404/error404';
 import { ReferenciaPage } from '../pages/referencia/referencia';
+import { Resumen } from '../models/Resumen';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,7 +22,9 @@ export class MyApp {
   @ViewChild('content', { read: ElementRef }) contenedor: ElementRef;
   @ViewChild('fecha', { read: ElementRef }) fecha: ElementRef;
   altoMenu: number;
+  recorrido:boolean = false;
   vehiculo: EstadoVehiculo;
+  resumen: Resumen;
 
   rootPage: any;
   pages: Array<{ title: string, component: any, active: boolean, icon: string }>;
@@ -82,6 +85,7 @@ export class MyApp {
 
   ngAfterViewInit() {
     this.handleMapClickEvent();
+    this.handleRecorrido();
     this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 208;
   }
 
@@ -114,9 +118,17 @@ export class MyApp {
   }
 
   handleMapClickEvent() {
+    this.recorrido = false;
     this.event.subscribe('mapClickEvent', (vehiculo: EstadoVehiculo) => {
       this._zone.run(() => this.vehiculo = vehiculo);
       this.menuCtrl.open('right');
+    })
+  }
+  
+  handleRecorrido() {
+    this.recorrido = true;
+    this.event.subscribe('recorrido', (resumen: Resumen) => {
+      this._zone.run(() => this.resumen = resumen);
     })
   }
 
