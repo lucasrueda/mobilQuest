@@ -118,16 +118,16 @@ export class MyApp {
   }
 
   handleMapClickEvent() {
-    this.recorrido = false;
     this.event.subscribe('mapClickEvent', (vehiculo: EstadoVehiculo) => {
+      this.recorrido = false;
       this._zone.run(() => this.vehiculo = vehiculo);
       this.menuCtrl.open('right');
     })
   }
   
   handleRecorrido() {
-    this.recorrido = true;
     this.event.subscribe('recorrido', (resumen: Resumen) => {
+      this.recorrido = true;
       this._zone.run(() => this.resumen = resumen);
     })
   }

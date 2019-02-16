@@ -272,7 +272,7 @@ export class Mapajshtml {
 			velocidad_maxima: Math.max(...this.datos.velocidad),
 			get velocidad_promedio() { return Math.round((this.kilometraje / tiempo_movimiento) * 100) / 100 }
 		}
-		this.events.publish('resumen', resumen);
+		this.events.publish('recorrido', resumen);
 		console.log('TCL: Mapajshtml -> obternerResumenRecorrido -> resumen', resumen)
 	}
 }
