@@ -84,45 +84,37 @@
       </ion-list-header>
       <ion-item-divider color="light">Resumen del recorrigo</ion-item-divider>
       <ion-item>
-        <ion-icon name="ios-pin-outline" item-start></ion-icon>
         <h2>Inicio del análisis:</h2>
         <p text-wrap>{{ resumen?.inicio_analisis }}</p>
       </ion-item>
       <ion-item>
-        <ion-icon name="ios-refresh" item-start></ion-icon>
         <h2>Fin del análisis:</h2>
         <p>{{ resumen?.fin_analisis }}</p>
       </ion-item>
       <ion-item>
-        <ion-icon name="ios-information-circle-outline" item-start></ion-icon>
         <h2>Duración del recorrido:</h2>
         <p>{{ resumen?.duracion_recorrido }}</p>
       </ion-item>
       <ion-item>
-        <ion-icon name="ios-bookmark-outline" item-start></ion-icon>
         <h2>Cantidad de paradas de más de {{resumen?.tiempo_min_detencion}} min:</h2>
         <p>{{ resumen?.cantidad_de_paradas }}</p>
         <!-- <button ion-button clear item-end>Reset</button> -->
       </ion-item>
       <ion-item>
-        <ion-icon name="ios-battery-dead" item-start></ion-icon>
         <h2>Total detenido:</h2>
-        <p>({{ resumen?.total_detenido }} V)</p>
+        <p>{{ resumen?.total_detenido }}</p>
       </ion-item>
       <ion-item>
-        <ion-icon name="ios-locate-outline" item-start></ion-icon>
         <h2>Kilometraje:</h2>
-        <p>{{ resumen?.kilometraje }}</p>
+        <p>{{ resumen?.kilometraje }} km.</p>
       </ion-item>
       <ion-item>
-        <ion-icon name="ios-locate-outline" item-start></ion-icon>
         <h2>Velocidad máxima:</h2>
-        <p>{{ resumen?.velocidad_maxima }}</p>
+        <p>{{ resumen?.velocidad_maxima }} Km/h.</p>
       </ion-item>
       <ion-item>
-        <ion-icon name="ios-locate-outline" item-start></ion-icon>
         <h2>Velocidad promedio:</h2>
-        <p>{{ resumen?.velocidad_promedio }}</p>
+        <p>{{ resumen?.velocidad_promedio }} Km/h.</p>
       </ion-item>
     </ion-list>
   </ion-scroll>

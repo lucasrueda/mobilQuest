@@ -261,6 +261,9 @@ export class Mapajshtml {
 		const total_detenido = parseInt(this.datos.tiempo_detenido.reduce((a, b) => a + b));
 		const total_detenido_string = tiempoDetenido(total_detenido);
 		const tiempo_movimiento = ((this.datos.duracion - total_detenido) / 3600);
+		const kilometraje = Math.round(this.datos.kilometraje * 100) / 100;
+		let velocidad_promedio = Math.round((kilometraje / tiempo_movimiento) * 100) / 100;
+		if(isNaN(velocidad_promedio)) velocidad_promedio = 0;
 		const resumen: Resumen = {
 			inicio_analisis: this.datos.inicio_analisis,
 			fin_analisis: this.datos.fin_analisis,
@@ -268,9 +271,9 @@ export class Mapajshtml {
 			cantidad_de_paradas: cantidadParadas,
 			tiempo_min_detencion,
 			total_detenido: total_detenido_string,
-			kilometraje: Math.round(this.datos.kilometraje * 100) / 100,
+			kilometraje,
 			velocidad_maxima: Math.max(...this.datos.velocidad),
-			get velocidad_promedio() { return Math.round((this.kilometraje / tiempo_movimiento) * 100) / 100 }
+			velocidad_promedio
 		}
 		this.events.publish('recorrido', resumen);
 		console.log('TCL: Mapajshtml -> obternerResumenRecorrido -> resumen', resumen)
