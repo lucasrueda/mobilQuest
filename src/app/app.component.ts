@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ViewChild, ElementRef, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Platform, Nav, Events, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -22,7 +22,7 @@ export class MyApp {
   @ViewChild('content', { read: ElementRef }) contenedor: ElementRef;
   @ViewChild('fecha', { read: ElementRef }) fecha: ElementRef;
   altoMenu: number;
-  recorrido:boolean = false;
+  recorrido: boolean = false;
   vehiculo: EstadoVehiculo;
   resumen: Resumen;
 
@@ -36,6 +36,7 @@ export class MyApp {
     statusBar: StatusBar,
     public event: Events,
     public menuCtrl: MenuController,
+    private cdRef: ChangeDetectorRef,
     splashScreen: SplashScreen,
     public _zone: NgZone,
     private storage: Storage,
@@ -59,6 +60,8 @@ export class MyApp {
           this.nav.setRoot(Error404Page, { mensaje: 'Demo expirada', botonReintentar: false });
         })
     });
+    this.handleMapClickEvent();
+    this.handleRecorrido();
   }
 
   checkLogin() {
@@ -84,8 +87,6 @@ export class MyApp {
   }
 
   ngAfterViewInit() {
-    this.handleMapClickEvent();
-    this.handleRecorrido();
     this.altoMenu = (this.contenedor.nativeElement.offsetHeight) - 208;
   }
 
@@ -119,23 +120,21 @@ export class MyApp {
 
   handleMapClickEvent() {
     this.event.subscribe('mapClickEvent', (vehiculo: EstadoVehiculo) => {
-      this.recorrido = false;
-      this._zone.run(() => this.vehiculo = vehiculo);
+      this._zone.run(() => { this.vehiculo = vehiculo; this.recorrido = false; this.cdRef.detectChanges(); });
       this.menuCtrl.open('right');
     })
   }
-  
+
   handleRecorrido() {
     this.event.subscribe('recorrido', (resumen: Resumen) => {
-      this.recorrido = true;
-      this._zone.run(() => this.resumen = resumen);
+      this._zone.run(() => { this.resumen = resumen; this.recorrido = true; this.cdRef.detectChanges(); });
     })
   }
 
   handleDateFilterResponse(datos) {
     this.event.publish('filtroPorFechas', datos);
   }
-  
+
   verVehiculo(patente) {
     this.event.publish('verVehiculo', patente);
   }
