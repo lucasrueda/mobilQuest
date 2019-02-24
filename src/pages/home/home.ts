@@ -44,6 +44,7 @@ export class HomePage {
     this.mostrarOcultarFiltros();
     this.event.subscribe('filtroPorFechas', (datos) => {
       this.recorrido = true;
+      this.event.publish('user:click');
       this.nombreVehiculo = datos.nombreVehiculo;
       let datosRecorrido = datos;
       datosRecorrido['recorrido'] = true;
