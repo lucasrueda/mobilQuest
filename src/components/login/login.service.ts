@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { MapaProvider } from '../../providers/mapa/mapa';
+import { Events } from 'ionic-angular';
 
 const headers = new HttpHeaders();
 headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -13,6 +14,7 @@ export class LoginService {
   constructor(
     public http: HttpClient,
     private storage: Storage,
+    public event: Events,
     private mapaPrv: MapaProvider
   ) {
 
@@ -56,11 +58,13 @@ export class LoginService {
 
   storageInfo(id_cliente) {
     return new Promise((resolve, reject) => {
-      this.mapaPrv.consultarTodo(id_cliente).then(res => {
+      this.mapaPrv.consultarTodo(id_cliente).then((res: any) => {
         this.storage.ready()
-          .then((res: any) => {
+          .then(() => {
             this.storage.set('id_cliente', id_cliente);
-            //this.storage.set('nombre', res.cliente[0]);
+            let nombre = res[0].cliente[0];
+            this.storage.set('nombre', nombre);
+            this.event.publish('nombreCliente', nombre);
             return resolve(id_cliente)
           })
       })

@@ -62,6 +62,7 @@ export class MyApp {
     });
     this.handleMapClickEvent();
     this.handleRecorrido();
+    this.handleLoginClientName();
   }
 
   checkLogin() {
@@ -128,6 +129,12 @@ export class MyApp {
   handleRecorrido() {
     this.event.subscribe('recorrido', (resumen: Resumen) => {
       this._zone.run(() => { this.resumen = resumen; this.recorrido = true; this.cdRef.detectChanges(); });
+    })
+  }
+
+  handleLoginClientName() {
+    this.event.subscribe('nombreCliente', (nombre: string) => {
+      this._zone.run(() => { this.nombreCliente = nombre });
     })
   }
 
