@@ -14,6 +14,7 @@ export class HomePage {
   @ViewChild('search', { read: ElementRef }) search: ElementRef;
   @ViewChild('modal', { read: ElementRef }) modal: ElementRef;
   @ViewChild('expander', { read: ElementRef }) expander: ElementRef;
+  @ViewChild('nombreRecorrido', { read: ElementRef }) nombreRecorrido: ElementRef;
 
   displayMenu: boolean = false;
   datos: any;
@@ -26,6 +27,7 @@ export class HomePage {
   loading: any;
   autosOnOff: any;
   recorrido: boolean = false;
+  nombreVehiculo: string;
 
   constructor(
     public navCtrl: NavController,
@@ -42,6 +44,7 @@ export class HomePage {
     this.mostrarOcultarFiltros();
     this.event.subscribe('filtroPorFechas', (datos) => {
       this.recorrido = true;
+      this.nombreVehiculo = datos.nombreVehiculo;
       let datosRecorrido = datos;
       datosRecorrido['recorrido'] = true;
       datosRecorrido['autoUpdate'] = false;
@@ -90,7 +93,7 @@ export class HomePage {
   }
 
   public consultarTodo(autoUpdate = false) {
-    this.showLoader();
+    !autoUpdate && this.showLoader();
     this.storage.ready()
       .then(() => {
         setTimeout(() => {
@@ -121,16 +124,19 @@ export class HomePage {
     this.search.nativeElement.classList.add('slide-in');
     this.modal.nativeElement.classList.add('slide-in');
     this.expander.nativeElement.classList.remove('slide-in');
+    this.nombreRecorrido.nativeElement.classList.remove('slide-in');
     this.event.subscribe('user:click', () => {
       this._zone.run(() => this.displayMenu = !this.displayMenu)
       if (this.displayMenu) {
         this.search.nativeElement.classList.add('slide-in');
         this.modal.nativeElement.classList.add('slide-in');
         this.expander.nativeElement.classList.remove('slide-in');
+        this.nombreRecorrido.nativeElement.classList.remove('slide-in');
       } else {
         this.search.nativeElement.classList.remove('slide-in');
         this.modal.nativeElement.classList.remove('slide-in');
         this.expander.nativeElement.classList.add('slide-in');
+        this.nombreRecorrido.nativeElement.classList.add('slide-in');
       }
     });
   }

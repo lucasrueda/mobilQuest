@@ -1,3 +1,12 @@
+<div #nombreRecorrido class="nombreRecorridoConteiner over_map" [hidden]="!recorrido">
+  <ion-row style="padding: 0 5px;">
+    <ion-col class="whiteSquare">
+      <div class="nombreRecorrido">
+        {{nombreVehiculo}}
+      </div>
+    </ion-col>
+  </ion-row>
+</div>
 <div #search class="searchBarConteiner over_map">
   <ion-row style="padding: 0 5px;">
     <ion-col class="whiteSquare">
@@ -15,7 +24,8 @@
         <div (click)="pausarIntervalo()">
           <p>Auto Refrescar</p>
           <button ion-button clear color="gris">
-            {{timerCount}}<ion-icon [name]="pausedInterval ? 'play' : 'pause'" color="primary" style="margin-left: 4px;font-size: 12px;"></ion-icon>
+            {{timerCount}}<ion-icon [name]="pausedInterval ? 'play' : 'pause'" color="primary"
+              style="margin-left: 4px;font-size: 12px;"></ion-icon>
           </button>
         </div>
         <div (click)="openSearch()">

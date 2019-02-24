@@ -118,4 +118,13 @@ page-home {
         color: color($colors, gris);
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     }
+    .nombreRecorrido{
+        padding: 10px;
+        font-size: 14px
+    }
+    .nombreRecorridoConteiner {
+        margin-top: 25px;
+        -webkit-transform: translate3d(0, -160%, 0);
+        transition: transform 0.3s;
+    }
 }

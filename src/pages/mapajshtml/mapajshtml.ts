@@ -148,7 +148,7 @@ export class Mapajshtml {
 			this.datos.imei[i],
 			this.datos.numero[i],
 			this.datos.dominio[i],
-			this.datos.dominio[i],
+			this.datos.patente[i],
 			this.datos.marca[i],
 			this.datos.color[i],
 			await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),
