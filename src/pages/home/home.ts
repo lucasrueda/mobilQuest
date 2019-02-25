@@ -147,7 +147,8 @@ export class HomePage {
       vectorIdGrupo: this.datos.vector_id_grupo,
       vectorNombreGrupo: this.datos.vector_nombre_grupo,
       idGrupo: this.datos.id_grupo,
-      dominio: this.datos.dominio
+      dominio: this.datos.dominio,
+      patente: this.datos.patente
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
   }
