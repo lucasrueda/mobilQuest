@@ -48,6 +48,7 @@ export class MyApp {
 
     platform.ready().then(() => {
       statusBar.styleLightContent();
+      statusBar.backgroundColorByHexString('#6B7A90');
       splashScreen.hide();
       this.demoPrv.checkDemo()
         .then((res: any) => {

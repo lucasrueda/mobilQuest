@@ -22,7 +22,6 @@ page-home {
         z-index: 99;
     }
     .searchBarConteiner {
-        margin-top: 25px;
         -webkit-transform: translate3d(0, -146%, 0);
         transition: transform 0.3s;
     }
@@ -61,12 +60,11 @@ page-home {
     }
     .whiteSquare {
         display: block;
-        background: white;
+        background: #AFBDCF;
         margin: 0;
         padding: 0;
-        border-radius: 10px;
         text-align: center;
-        color: color($colors, gris);
+        color: color($colors, mobileB);
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     }
     .counter {
