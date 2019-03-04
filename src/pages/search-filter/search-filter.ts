@@ -42,7 +42,7 @@ export class SearchFilterPage {
         patente: data.patente[index],
         dominio: data.dominio[index]
       }
-      if (id) {
+      if (id && this.grupos.find(x => x.id == id)) {
         this.grupos.find(x => x.id == id).autos.push(auto);
       } else {
         this.grupos.find(x => x.id == null).autos.push(auto);
