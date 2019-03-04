@@ -29,12 +29,14 @@ export class SearchFilterPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public event: Events) {
     const data = this.navParams.get('data');
     for (let index = 0; index < data.vectorIdGrupo.length; index++) {
-      let grupo = {
-        nombre: data.vectorNombreGrupo[index],
-        id: data.vectorIdGrupo[index],
-        autos: []
+      if(data.vectorNombreGrupo[index]){
+        let grupo = {
+          nombre: data.vectorNombreGrupo[index],
+          id: data.vectorIdGrupo[index],
+          autos: []
+        }
+        this.grupos.push(grupo);
       }
-      this.grupos.push(grupo);
     }
     this.grupos.push({ nombre: 'Sin Grupo', id: null, autos: [] });
     data.idGrupo.forEach((id, index) => {
