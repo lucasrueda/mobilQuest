@@ -123,7 +123,7 @@ const determinarIconoRecorrido = (data, i, tiempo_min_detencion) => {
         state.titulo = "Inicio del recorrido.<br>Velocidad: " + data.velocidad[i] + "<br>Hora: " + data.hora_avl[i];
       }
       break;
-      case (ultimoElemento):
+    case (ultimoElemento):
       if (data.latitud.length - 1 != 0) {
         if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
           state.icono = "fin_parada";//icono Final con manito
@@ -135,7 +135,7 @@ const determinarIconoRecorrido = (data, i, tiempo_min_detencion) => {
         }
       }
       break;
-      default:
+    default:
       if (tiempo_min_detencion <= data.tiempo_detenido[i] / 60) {
         state.icono = "parada";//icono manito	
         state.titulo = "A las " + data.hora_avl[i] + " el vehículo se detuvo durante " + tiempoDetenido(data.tiempo_detenido[i]) + " Inició nuevamente el recorrido a las " + sumaMinutosHorario(data.tiempo_detenido[i], data.hora_avl[i]) + ".";
@@ -378,7 +378,7 @@ const determinarIconoDeFlota = (estado_motor, velocidad, direccion, tiempo_parad
 }
 
 const filtrarDatos = (data, datos) => {
-  let auxObject = {};
+  let auxObject: any = {};
   data.forEach((patente, i) => {
     let index = datos.dominio.indexOf(patente);
     Object.keys(datos).forEach(key => {
@@ -386,6 +386,17 @@ const filtrarDatos = (data, datos) => {
       if (datos[key][index] !== undefined)
         auxObject[key][i] = datos[key][index];
     })
+  });
+  auxObject['vector_id_grupo'] = [];
+  auxObject['vector_nombre_grupo'] = [];
+  auxObject.id_grupo.forEach( idGrupoVehiculo => {
+    if(idGrupoVehiculo){
+      if(auxObject.vector_id_grupo.indexOf(idGrupoVehiculo) === -1){
+        let index = datos.vector_id_grupo.indexOf(idGrupoVehiculo);
+        auxObject.vector_id_grupo.push(datos.vector_id_grupo[index]);
+        auxObject.vector_nombre_grupo.push(datos.vector_nombre_grupo[index]);
+      }
+    }
   });
   return auxObject;
 }

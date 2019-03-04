@@ -144,11 +144,11 @@ export class HomePage {
 
   openSearch() {
     let data = {
-      vectorIdGrupo: this.datos.vector_id_grupo,
-      vectorNombreGrupo: this.datos.vector_nombre_grupo,
-      idGrupo: this.datos.id_grupo,
-      dominio: this.datos.dominio,
-      patente: this.datos.patente
+      vectorIdGrupo: this.datosDinamicos.vector_id_grupo,
+      vectorNombreGrupo: this.datosDinamicos.vector_nombre_grupo,
+      idGrupo: this.datosDinamicos.id_grupo,
+      dominio: this.datosDinamicos.dominio,
+      patente: this.datosDinamicos.patente
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
   }
