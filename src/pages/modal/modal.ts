@@ -8,6 +8,7 @@ import { HomePage } from '../home/home';
 })
 export class ModalPage {
   @Input() autosOnOff;
+  switched:boolean = false;
 
   constructor(
     public viewCtrl: ViewController,
@@ -32,5 +33,10 @@ export class ModalPage {
 
   filtroApagadoEncendido(estado) {
     this.HomeP.filtroRapidoApagadoEncendido(estado);
+  }
+
+  switchValue(){
+    console.log(this.switched)
+    this.switched = !this.switched;
   }
 }

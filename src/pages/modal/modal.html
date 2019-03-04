@@ -1,23 +1,34 @@
-<ion-content padding>
-  <h3 class="title">Filtrar por:</h3>
+<div class="switcher">
+  <div class="switcherContainer" (click)="switchValue()">
+    <span>Alertas</span>
+    <span>Filtros</span>
+    <div [class.switched]="switched"></div>
+  </div>
+</div>
+<ion-content>
   <div class="modalFilter">
     <div>
-      <button (click)="actualizar()" ion-fab mini color="primary"><ion-icon name="ios-refresh" ></ion-icon></button>
-      <span>Actualizar</span>
-    </div>
-    <div>
-      <button [disabled]="autosOnOff?.autosApagados === 0" ion-fab mini (click)="filtroApagadoEncendido('0')" color="red">{{autosOnOff?.autosApagados}}</button>
-      <span>Apagados</span>
-    </div>
-    <div>
-      <button [disabled]="autosOnOff?.autosEncendidos === 0" ion-fab mini (click)="filtroApagadoEncendido('1')" color="yellow" id="yellow">{{autosOnOff?.autosEncendidos}}</button>
-      <span>Encendidos</span>
-    </div>
-    <div>
-      <button (click)="verTodaLaFlota()" ion-fab mini color="green"><ion-icon name="ios-car"></ion-icon>
+      <button (click)="actualizar()" ion-fab mini color="primary">
+        <ion-icon name="ios-refresh"></ion-icon>
       </button>
-      <span>Ver toda la flota</span>
+    </div>
+    <div>
+      <button (click)="actualizar()" ion-fab mini color="primary">
+        <ion-icon name="ios-refresh"></ion-icon>
+      </button>
+    </div>
+    <div>
+      <button [disabled]="autosOnOff?.autosApagados === 0" ion-fab mini (click)="filtroApagadoEncendido('0')"
+        color="red">{{autosOnOff?.autosApagados}}</button>
+    </div>
+    <div>
+      <button [disabled]="autosOnOff?.autosEncendidos === 0" ion-fab mini (click)="filtroApagadoEncendido('1')"
+        color="yellow" id="yellow">{{autosOnOff?.autosEncendidos}}</button>
+    </div>
+    <div>
+      <button (click)="verTodaLaFlota()" ion-fab mini color="green">
+        <ion-icon name="ios-car"></ion-icon>
+      </button>
     </div>
   </div>
-
 </ion-content>
