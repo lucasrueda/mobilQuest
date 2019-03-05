@@ -68,7 +68,7 @@ export class HomePage {
     this.iniciarIntervalo();
   }
 
-  ionViewWillUnload(){
+  ionViewWillUnload() {
     this.pausarIntervalo();
   }
 
@@ -105,9 +105,7 @@ export class HomePage {
           try {
             this.datosSinFiltrar = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
             this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
-            let autosEncendidos = this.obtenerAutosEncendidos();
-            let autosApagados = this.datos.dominio.length - this.obtenerAutosEncendidos();
-            this.autosOnOff = { autosEncendidos, autosApagados }
+            this.calcularFiltrosAlertas(this.datos)
             if (!autoUpdate)
               this.datosDinamicos = this.datos
             else
@@ -154,16 +152,29 @@ export class HomePage {
   }
 
   filtroVehiculosRepetidos(datosTemp) {
-    let auxObject = {};
+    let auxObject: any = {};
     let index = 0;
-    datosTemp.nombre_sensor.forEach((nombreSensor, i) => {
-      if(nombreSensor == "Estado del motor"){
-        Object.keys(datosTemp).forEach(key => {
-          if (!auxObject[key]) auxObject[key] = [];
-          if (datosTemp[key][i] !== undefined)
-            auxObject[key][index] = datosTemp[key][i];
-        })
-        index++;
+    let arrayAutos = []
+    datosTemp.imei.forEach((imei, i) => {
+      if (arrayAutos.indexOf(imei) === -1){
+        arrayAutos.push(imei);
+          Object.keys(datosTemp).forEach(key => {
+            if (!auxObject[key]) auxObject[key] = [];
+            if (datosTemp[key][i] !== undefined)
+              auxObject[key][index] = datosTemp[key][i];
+          })
+          index++;
+      }
+    });
+    auxObject['vector_id_grupo'] = [];
+    auxObject['vector_nombre_grupo'] = [];
+    auxObject.id_grupo.forEach(idGrupoVehiculo => {
+      if (idGrupoVehiculo) {
+        if (auxObject.vector_id_grupo.indexOf(idGrupoVehiculo) === -1) {
+          let index = datosTemp.vector_id_grupo.indexOf(idGrupoVehiculo);
+          auxObject.vector_id_grupo.push(datosTemp.vector_id_grupo[index]);
+          auxObject.vector_nombre_grupo.push(datosTemp.vector_nombre_grupo[index]);
+        }
       }
     });
     return auxObject;
@@ -191,6 +202,14 @@ export class HomePage {
       }
     }
     return arrayAutos.length;
+  }
+
+  calcularFiltrosAlertas(datos) {
+    // Autos encendidos y apagados
+    let autosEncendidos = this.obtenerAutosEncendidos();
+    let autosApagados = this.datos.dominio.length - this.obtenerAutosEncendidos();
+    this.autosOnOff = { autosEncendidos, autosApagados }
+    // En movimiento y reposo
   }
 
   showLoader(mensaje = '') {

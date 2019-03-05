@@ -11,7 +11,7 @@
   <ng-container *ngIf="filterGrupos.length">
     <div class="chips">
       <ng-template ngFor let-grupo let-last="last" [ngForOf]="filterGrupos">
-        <button ion-button round outline small class="buttonLikeChip" (click)="filterByGroup(grupo)">{{grupo.nombre}}</button>
+        <button ion-button round outline small class="buttonLikeChip" *ngIf="grupo.autos.length" (click)="filterByGroup(grupo)">{{grupo.nombre}}</button>
       </ng-template>
     </div>
     <ion-item-group>
