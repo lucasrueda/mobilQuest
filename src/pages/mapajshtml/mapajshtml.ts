@@ -138,7 +138,7 @@ export class Mapajshtml {
 			google.maps.event.addListenerOnce(mapa, 'idle', () => {
 				(this.datos.dominio.length > 1)
 					? mapa.setZoom(mapa.getZoom() - 1)
-					: mapa.setZoom(mapa.getZoom() - 4)
+					: mapa.setZoom(16)
 			});
 		}
 	}
