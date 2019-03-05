@@ -6,7 +6,7 @@
   </div>
 </div>
 <ion-content>
-  <div class="modalFilter">
+  <div class="modalFilter" *ngIf="!switched">
     <div>
       <button (click)="actualizar()" ion-fab mini color="primary">
         <ion-icon name="ios-refresh"></ion-icon>
@@ -28,6 +28,39 @@
     <div>
       <button (click)="verTodaLaFlota()" ion-fab mini color="green">
         <ion-icon name="ios-car"></ion-icon>
+      </button>
+    </div>
+  </div>
+  <div class="modalFilter" *ngIf="switched">
+    <div>
+      <button (click)="actualizar()" ion-fab mini color="primary">
+        <i class="fas fa-battery-quarter"></i>
+      </button>
+    </div>
+    <div>
+      <button (click)="actualizar()" ion-fab mini color="primary">
+        <i class="material-icons">
+          report_off
+        </i>
+      </button>
+    </div>
+    <div>
+      <button ion-fab mini color="primary">
+        <i class="material-icons">
+          battery_unknown
+        </i>
+      </button>
+    </div>
+    <div>
+      <button ion-fab mini color="primary">
+        <i class="material-icons">
+          gps_off
+        </i>
+      </button>
+    </div>
+    <div>
+      <button ion-fab mini color="primary">
+        Panic
       </button>
     </div>
   </div>
