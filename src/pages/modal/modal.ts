@@ -20,7 +20,6 @@ export class ModalPage {
   }
 
   ngOnChanges() {
-    console.log(this.filtrosAlertas)
   }
 
   actualizar() {

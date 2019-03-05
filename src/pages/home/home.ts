@@ -228,12 +228,41 @@ export class HomePage {
     return { reposo: arrayReposo, movimiento: arrayMovimiento };
   }
 
+  calcularAlertas() {
+    this.recorrido = false;
+    let vector_baja_bat = [];
+    let vector_sin_reporte = [];
+    let vector_sin_bat = [];
+    let vector_sin_gps = [];
+    let vector_estado_panico = [];
+    for (let index = 0; index < this.datos.dominio.length; index++) {
+      if (this.datos.voltaje_avl[index] <= this.datos.bateria_baja[index]) {
+        vector_baja_bat.push(this.datos.dominio[index]);
+      }
+      if (this.datos.voltaje_vehiculo[index] < 5) {
+        vector_sin_bat.push(this.datos.dominio[index]);
+      }
+      if (this.datos.tiempo_sin_sat[index] > 5) {
+        vector_sin_gps.push(this.datos.dominio[index]);
+      }
+      if (this.datos.tiempo_sin_reporte[index] > 20) {
+        vector_sin_reporte.push(this.datos.dominio[index]);
+      }
+      if (this.datos.estado_panico[index] != null) {
+        vector_estado_panico.push(this.datos.dominio[index]);
+      }
+    }
+    return { vector_baja_bat, vector_sin_bat, vector_sin_reporte, vector_sin_gps, vector_estado_panico };
+  }
+
   calcularFiltrosAlertas() {
     // Autos encendidos y apagados
     let autosEncendidosApagados = this.obtenerAutosEncendidos();
     // En movimiento y reposo
     let autosEnReposoMovimiento = this.autosEnReposoMovimiento();
-    this.filtrosAlertas = { autosEncendidosApagados, autosEnReposoMovimiento }
+    //Calculo de alertas
+    let alertas = this.calcularAlertas();
+    this.filtrosAlertas = { autosEncendidosApagados, autosEnReposoMovimiento, alertas }
   }
 
   showLoader(mensaje = '') {
