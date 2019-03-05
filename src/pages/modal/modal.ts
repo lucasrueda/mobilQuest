@@ -7,7 +7,7 @@ import { HomePage } from '../home/home';
   templateUrl: 'modal.html',
 })
 export class ModalPage {
-  @Input() autosOnOff;
+  @Input() filtrosAlertas;
   switched:boolean = false;
 
   constructor(
@@ -16,11 +16,11 @@ export class ModalPage {
     public navCtrl: NavController,
     public HomeP: HomePage
   ) {
-    this.event.subscribe('user:click', () => {
-    })
+
   }
 
   ngOnChanges() {
+    console.log(this.filtrosAlertas)
   }
 
   actualizar() {
@@ -35,8 +35,11 @@ export class ModalPage {
     this.HomeP.filtroRapidoApagadoEncendido(estado);
   }
 
+  filtroReposoMovimiento(arrayAutos){
+    this.HomeP.filtroReposoMovimiento(arrayAutos);
+  }
+
   switchValue(){
-    console.log(this.switched)
     this.switched = !this.switched;
   }
 }

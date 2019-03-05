@@ -25,7 +25,7 @@ export class HomePage {
   timerControl: any;
   pausedInterval: boolean = false;
   loading: any;
-  autosOnOff: any;
+  filtrosAlertas: any;
   recorrido: boolean = false;
   nombreVehiculo: string;
 
@@ -105,7 +105,7 @@ export class HomePage {
           try {
             this.datosSinFiltrar = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
             this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
-            this.calcularFiltrosAlertas(this.datos)
+            this.calcularFiltrosAlertas();
             if (!autoUpdate)
               this.datosDinamicos = this.datos
             else
@@ -156,14 +156,14 @@ export class HomePage {
     let index = 0;
     let arrayAutos = []
     datosTemp.imei.forEach((imei, i) => {
-      if (arrayAutos.indexOf(imei) === -1){
+      if (arrayAutos.indexOf(imei) === -1) {
         arrayAutos.push(imei);
-          Object.keys(datosTemp).forEach(key => {
-            if (!auxObject[key]) auxObject[key] = [];
-            if (datosTemp[key][i] !== undefined)
-              auxObject[key][index] = datosTemp[key][i];
-          })
-          index++;
+        Object.keys(datosTemp).forEach(key => {
+          if (!auxObject[key]) auxObject[key] = [];
+          if (datosTemp[key][i] !== undefined)
+            auxObject[key][index] = datosTemp[key][i];
+        })
+        index++;
       }
     });
     auxObject['vector_id_grupo'] = [];
@@ -193,6 +193,13 @@ export class HomePage {
     this.datosDinamicos = dataTemp;
   }
 
+  filtroReposoMovimiento(arrayAutos) {
+    this.recorrido = false;
+    const dataTemp = filtrarDatos(arrayAutos, this.datos);
+    dataTemp['autoUpdate'] = false;
+    this.datosDinamicos = dataTemp;
+  }
+
   obtenerAutosEncendidos() {
     this.recorrido = false;
     let arrayAutos = [];
@@ -204,12 +211,29 @@ export class HomePage {
     return arrayAutos.length;
   }
 
-  calcularFiltrosAlertas(datos) {
+  autosEnReposoMovimiento() {
+    this.recorrido = false;
+    let arrayReposo = [];
+    let arrayMovimiento = [];
+    for (let index = 0; index < this.datos.dominio.length; index++) {
+      if (this.datos.cod_sensor[index] === 15) {
+        if (this.datos.estado_sensor_en_bit[index] == 1) {
+          arrayMovimiento.push(this.datos.dominio[index]);
+        } else {
+          arrayReposo.push(this.datos.dominio[index]);
+        }
+      }
+    }
+    return { reposo: arrayReposo, movimiento: arrayMovimiento };
+  }
+
+  calcularFiltrosAlertas() {
     // Autos encendidos y apagados
     let autosEncendidos = this.obtenerAutosEncendidos();
     let autosApagados = this.datos.dominio.length - this.obtenerAutosEncendidos();
-    this.autosOnOff = { autosEncendidos, autosApagados }
     // En movimiento y reposo
+    let autosEnReposoMovimiento = this.autosEnReposoMovimiento();
+    this.filtrosAlertas = { autosEncendidos, autosApagados, autosEnReposoMovimiento }
   }
 
   showLoader(mensaje = '') {
