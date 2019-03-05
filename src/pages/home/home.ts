@@ -197,17 +197,15 @@ export class HomePage {
           a.push(i);
         return a;
       }, []);
-      let estado_sensor_en_bit = [];
-      let cod_sensor = [];
       indices.forEach(i => {
-        estado_sensor_en_bit.push(this.datosSinFiltrar.estado_sensor_en_bit[i]);
-        cod_sensor.push(this.datosSinFiltrar.cod_sensor[i])
+        if (this.datosSinFiltrar.cod_sensor[i] === 1) {
+          if (this.datosSinFiltrar.estado_sensor_en_bit[i] === "1") {
+            autosEncendidos.push(this.datos.dominio[index]);
+          } else {
+            autosApagados.push(this.datos.dominio[index]);
+          }
+        }
       });
-      if ((estado_sensor_en_bit.indexOf("1") > -1) && (cod_sensor.indexOf(1) > -1)) {
-        autosEncendidos.push(this.datos.dominio[index]);
-      } else {
-        autosApagados.push(this.datos.dominio[index]);
-      }
     }
     return { encendidos: autosEncendidos, apagados: autosApagados };
   }
