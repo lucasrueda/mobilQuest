@@ -200,9 +200,11 @@ export class HomePage {
       indices.forEach(i => {
         if (this.datosSinFiltrar.cod_sensor[i] === 1) {
           if (this.datosSinFiltrar.estado_sensor_en_bit[i] === "1") {
-            autosEncendidos.push(this.datos.dominio[index]);
+            if(autosEncendidos.indexOf(this.datos.dominio[index]) === -1)            
+              autosEncendidos.push(this.datos.dominio[index]);
           } else {
-            autosApagados.push(this.datos.dominio[index]);
+            if(autosApagados.indexOf(this.datos.dominio[index]) === -1)
+              autosApagados.push(this.datos.dominio[index]);
           }
         }
       });
