@@ -8,20 +8,20 @@
 <ion-content>
   <div class="modalFilter" *ngIf="!switched">
     <div>
-      <button *ngIf="filtrosAlertas?.autosEnReposoMovimiento.reposo.length" ion-fab mini (click)="filtroReposoMovimiento(filtrosAlertas?.autosEnReposoMovimiento.reposo)"
+      <button *ngIf="filtrosAlertas?.autosEnReposoMovimiento.reposo.length" ion-fab mini (click)="filtro(filtrosAlertas?.autosEnReposoMovimiento.reposo)"
         color="red">{{filtrosAlertas?.autosEnReposoMovimiento.reposo.length}}</button>
     </div>
     <div>
-      <button *ngIf="filtrosAlertas?.autosEnReposoMovimiento.movimiento.length" ion-fab mini (click)="filtroReposoMovimiento(filtrosAlertas?.autosEnReposoMovimiento.movimiento)"
+      <button *ngIf="filtrosAlertas?.autosEnReposoMovimiento.movimiento.length" ion-fab mini (click)="filtro(filtrosAlertas?.autosEnReposoMovimiento.movimiento)"
         color="red">{{filtrosAlertas?.autosEnReposoMovimiento.movimiento.length}}</button>
     </div>
     <div>
-      <button *ngIf="filtrosAlertas?.autosApagados" ion-fab mini (click)="filtroApagadoEncendido('0')"
-        color="red">{{filtrosAlertas?.autosApagados}}</button>
+      <button *ngIf="filtrosAlertas?.autosEncendidosApagados.apagados.length" ion-fab mini (click)="filtro(filtrosAlertas?.autosEncendidosApagados.apagados)"
+        color="red">{{filtrosAlertas?.autosEncendidosApagados.apagados.length}}</button>
     </div>
     <div>
-      <button *ngIf="filtrosAlertas?.autosEncendidos" ion-fab mini (click)="filtroApagadoEncendido('1')"
-        color="yellow" id="yellow">{{filtrosAlertas?.autosEncendidos}}</button>
+      <button *ngIf="filtrosAlertas?.autosEncendidosApagados.encendidos" ion-fab mini (click)="filtro(filtrosAlertas?.autosEncendidosApagados.encendidos)"
+        color="yellow" id="yellow">{{filtrosAlertas?.autosEncendidosApagados.encendidos.length}}</button>
     </div>
     <div>
       <button (click)="verTodaLaFlota()" ion-fab mini color="green">

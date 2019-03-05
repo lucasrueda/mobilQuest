@@ -84,7 +84,7 @@ export class Mapajshtml {
 		let bounds = new google.maps.LatLngBounds();
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
-			let iconosURL = determinarIconoDeFlota(this.datos.estado_sensor_en_bit[i], this.datos.velocidad[i], this.datos.direcc[i], this.datos.tiempo_parada[i], this.datos.tiempo_sin_sat[i], this.datos.tiempo_sin_reporte[i], this.datos.min_buffer[i], this.datos.hora_avl_tmp[i]);
+			let iconosURL = determinarIconoDeFlota(this.obtnerIconoVerde(this.datos.dominio[i]), this.datos.velocidad[i], this.datos.direcc[i], this.datos.tiempo_parada[i], this.datos.tiempo_sin_sat[i], this.datos.tiempo_sin_reporte[i], this.datos.min_buffer[i], this.datos.hora_avl_tmp[i]);
 			let x = ((this.datos.dominio[i].length * 7) / 2) - 3;
 			let y = 4;
 			let MarkerWithLabel = require('markerwithlabel')(google.maps);
@@ -256,14 +256,14 @@ export class Mapajshtml {
 		});
 	}
 
-	obternerResumenRecorrido(cantidadParadas, tiempo_min_detencion){
+	obternerResumenRecorrido(cantidadParadas, tiempo_min_detencion) {
 		const duracion = tiempoDetenido(this.datos.duracion);
 		const total_detenido = parseInt(this.datos.tiempo_detenido.reduce((a, b) => a + b));
 		const total_detenido_string = tiempoDetenido(total_detenido);
 		const tiempo_movimiento = ((this.datos.duracion - total_detenido) / 3600);
 		const kilometraje = Math.round(this.datos.kilometraje * 100) / 100;
 		let velocidad_promedio = Math.round((kilometraje / tiempo_movimiento) * 100) / 100;
-		if(isNaN(velocidad_promedio)) velocidad_promedio = 0;
+		if (isNaN(velocidad_promedio)) velocidad_promedio = 0;
 		const resumen: Resumen = {
 			inicio_analisis: this.datos.inicio_analisis,
 			fin_analisis: this.datos.fin_analisis,
@@ -277,6 +277,21 @@ export class Mapajshtml {
 		}
 		this.events.publish('recorrido', resumen);
 		console.log('TCL: Mapajshtml -> obternerResumenRecorrido -> resumen', resumen)
+	}
+
+	obtnerIconoVerde(dominio) {
+		let icono_verde = 0;
+		let indices = this.datosSinFiltar.dominio.reduce((a, e, i) => {
+			if (e === dominio)
+				a.push(i);
+			return a;
+		}, []);
+		indices.forEach( i => {
+			if ((this.datosSinFiltar.cod_sensor[i] == 6 && this.datosSinFiltar.estado_sensor_en_bit[i] == 1) || (this.datosSinFiltar.cod_sensor[i] == 14 && this.datosSinFiltar.estado_sensor_en_bit[i] == 0) || (this.datosSinFiltar.cod_sensor[i] == 1 && this.datosSinFiltar.estado_sensor_en_bit[i] == 1)) {
+				icono_verde = 1;
+			}
+		});
+		return icono_verde;
 	}
 }
 

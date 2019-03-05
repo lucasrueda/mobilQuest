@@ -31,12 +31,8 @@ export class ModalPage {
     this.HomeP.consultarTodo();
   }
 
-  filtroApagadoEncendido(estado) {
-    this.HomeP.filtroRapidoApagadoEncendido(estado);
-  }
-
-  filtroReposoMovimiento(arrayAutos){
-    this.HomeP.filtroReposoMovimiento(arrayAutos);
+  filtro(arrayAutos){
+    this.HomeP.filtroModal(arrayAutos);
   }
 
   switchValue(){
