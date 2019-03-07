@@ -9,6 +9,7 @@ import { HomePage } from '../home/home';
 export class ModalPage {
   @Input() filtrosAlertas;
   switched:boolean = false;
+  switchedMapa:boolean = false;
 
   constructor(
     public viewCtrl: ViewController,
@@ -36,5 +37,10 @@ export class ModalPage {
 
   switchValue(){
     this.switched = !this.switched;
+  }
+
+  switcherMapa(){
+    this.switchedMapa = !this.switchedMapa;
+    this.event.publish('mapType', this.switchedMapa)
   }
 }

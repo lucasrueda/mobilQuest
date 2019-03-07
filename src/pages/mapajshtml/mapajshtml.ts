@@ -20,7 +20,13 @@ export class Mapajshtml {
 	@Input() datos;
 	@Input() datosSinFiltar;
 	apiKey: any = 'AIzaSyA4h0qNqE_K6GuDT5-BH2g2Mx_XcwbLSys';
-	constructor(public navCtrl: NavController, public events: Events) { }
+	constructor(public navCtrl: NavController, public events: Events) { 
+		this.events.subscribe('mapType', type => {
+			type
+				? mapa.setMapTypeId(google.maps.MapTypeId.SATELLITE)
+				: mapa.setMapTypeId(google.maps.MapTypeId.ROADMAP)
+		})
+	}
 
 	ngOnChanges() {
 		if (this.datos) {
