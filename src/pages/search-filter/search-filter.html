@@ -19,7 +19,7 @@
         <ion-item-divider color="light">{{grupo.nombre}}
           ({{grupo.autos.length}})</ion-item-divider>
         <ion-item *ngFor="let auto of grupo.autos" [@enterAnimation] (click)="filterByOne(auto)">
-          <p text-wrap>{{auto.patente}}</p>
+          <p text-wrap>{{auto.dominio}}</p>
           <button ion-button clear item-end>Ver</button>
         </ion-item>
       </ng-template>

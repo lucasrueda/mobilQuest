@@ -105,7 +105,7 @@ export class HomePage {
           try {
             this.datosSinFiltrar = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
             this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
-            this.calcularFiltrosAlertas();
+            this.calcularFiltrosAlertas(this.datos);
             if (!autoUpdate)
               this.datosDinamicos = this.datos
             else
@@ -187,24 +187,24 @@ export class HomePage {
     this.datosDinamicos = dataTemp;
   }
 
-  obtenerAutosEncendidos() {
+  obtenerAutosEncendidos(datos) {
     this.recorrido = false;
     let autosEncendidos = [];
     let autosApagados = [];
-    for (let index = 0; index < this.datos.dominio.length; index++) {
+    for (let index = 0; index < datos.dominio.length; index++) {
       let indices = this.datosSinFiltrar.dominio.reduce((a, e, i) => {
-        if (e === this.datos.dominio[index])
+        if (e === datos.dominio[index])
           a.push(i);
         return a;
       }, []);
       indices.forEach(i => {
         if (this.datosSinFiltrar.cod_sensor[i] === 1) {
           if (this.datosSinFiltrar.estado_sensor_en_bit[i] === "1") {
-            if(autosEncendidos.indexOf(this.datos.dominio[index]) === -1)            
-              autosEncendidos.push(this.datos.dominio[index]);
+            if (autosEncendidos.indexOf(datos.dominio[index]) === -1)
+              autosEncendidos.push(datos.dominio[index]);
           } else {
-            if(autosApagados.indexOf(this.datos.dominio[index]) === -1)
-              autosApagados.push(this.datos.dominio[index]);
+            if (autosApagados.indexOf(datos.dominio[index]) === -1)
+              autosApagados.push(datos.dominio[index]);
           }
         }
       });
@@ -212,56 +212,56 @@ export class HomePage {
     return { encendidos: autosEncendidos, apagados: autosApagados };
   }
 
-  autosEnReposoMovimiento() {
+  autosEnReposoMovimiento(datos) {
     this.recorrido = false;
     let arrayReposo = [];
     let arrayMovimiento = [];
-    for (let index = 0; index < this.datos.dominio.length; index++) {
-      if (this.datos.cod_sensor[index] === 15) {
-        if (this.datos.estado_sensor_en_bit[index] == 1) {
-          arrayMovimiento.push(this.datos.dominio[index]);
+    for (let index = 0; index < datos.dominio.length; index++) {
+      if (datos.cod_sensor[index] === 15) {
+        if (datos.estado_sensor_en_bit[index] == 1) {
+          arrayMovimiento.push(datos.dominio[index]);
         } else {
-          arrayReposo.push(this.datos.dominio[index]);
+          arrayReposo.push(datos.dominio[index]);
         }
       }
     }
     return { reposo: arrayReposo, movimiento: arrayMovimiento };
   }
 
-  calcularAlertas() {
+  calcularAlertas(datos) {
     this.recorrido = false;
     let vector_baja_bat = [];
     let vector_sin_reporte = [];
     let vector_sin_bat = [];
     let vector_sin_gps = [];
     let vector_estado_panico = [];
-    for (let index = 0; index < this.datos.dominio.length; index++) {
-      if (this.datos.voltaje_avl[index] <= this.datos.bateria_baja[index]) {
-        vector_baja_bat.push(this.datos.dominio[index]);
+    for (let index = 0; index < datos.dominio.length; index++) {
+      if (datos.voltaje_avl[index] <= datos.bateria_baja[index]) {
+        vector_baja_bat.push(datos.dominio[index]);
       }
-      if (this.datos.voltaje_vehiculo[index] < 5) {
-        vector_sin_bat.push(this.datos.dominio[index]);
+      if (datos.voltaje_vehiculo[index] < 5) {
+        vector_sin_bat.push(datos.dominio[index]);
       }
-      if (this.datos.tiempo_sin_sat[index] > 5) {
-        vector_sin_gps.push(this.datos.dominio[index]);
+      if (datos.tiempo_sin_sat[index] > 5) {
+        vector_sin_gps.push(datos.dominio[index]);
       }
-      if (this.datos.tiempo_sin_reporte[index] > 20) {
-        vector_sin_reporte.push(this.datos.dominio[index]);
+      if (datos.tiempo_sin_reporte[index] > 20) {
+        vector_sin_reporte.push(datos.dominio[index]);
       }
-      if (this.datos.estado_panico[index] != null) {
-        vector_estado_panico.push(this.datos.dominio[index]);
+      if (datos.estado_panico[index] != null) {
+        vector_estado_panico.push(datos.dominio[index]);
       }
     }
     return { vector_baja_bat, vector_sin_bat, vector_sin_reporte, vector_sin_gps, vector_estado_panico };
   }
 
-  calcularFiltrosAlertas() {
+  calcularFiltrosAlertas(datos) {
     // Autos encendidos y apagados
-    let autosEncendidosApagados = this.obtenerAutosEncendidos();
+    let autosEncendidosApagados = this.obtenerAutosEncendidos(datos);
     // En movimiento y reposo
-    let autosEnReposoMovimiento = this.autosEnReposoMovimiento();
+    let autosEnReposoMovimiento = this.autosEnReposoMovimiento(datos);
     //Calculo de alertas
-    let alertas = this.calcularAlertas();
+    let alertas = this.calcularAlertas(datos);
     this.filtrosAlertas = { autosEncendidosApagados, autosEnReposoMovimiento, alertas }
   }
 
