@@ -28,7 +28,7 @@ export class HomePage {
   filtrosAlertas: any;
   recorrido: boolean = false;
   nombreVehiculo: string;
-  datosPreFiltroModal: { seAplicoFiltro: boolean, datos: any; } = { seAplicoFiltro: false, datos: [] };
+  datosPreFiltros: { seAplicoFiltro: boolean, datos: any; } = { seAplicoFiltro: false, datos: [] };
 
   constructor(
     public navCtrl: NavController,
@@ -58,7 +58,12 @@ export class HomePage {
       const dataTemp = filtrarDatos(autos, this.datos);
       dataTemp['autoUpdate'] = false;
       this.calcularFiltrosAlertas(dataTemp);
-      this.datosPreFiltroModal.seAplicoFiltro = false;
+      if(autos.length === 1){
+        this.datosPreFiltros.seAplicoFiltro = true;
+        this.datosPreFiltros.datos = this.datos;
+      }else{
+        this.datosPreFiltros.seAplicoFiltro = false;
+      }
       this.datosDinamicos = dataTemp;
     });
     this.event.subscribe('verVehiculo', data => {
@@ -113,7 +118,7 @@ export class HomePage {
             this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
             if (!autoUpdate) {
               this.datosDinamicos = this.datos;
-              this.datosPreFiltroModal.seAplicoFiltro = false;
+              this.datosPreFiltros.seAplicoFiltro = false;
             } else {
               this.datosDinamicos = filtrarDatos(this.datosDinamicos.dominio, this.datos);
             }
@@ -149,7 +154,7 @@ export class HomePage {
   }
 
   openSearch() {
-    let arrayToSearch = this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos : this.datosDinamicos;
+    let arrayToSearch = this.datosPreFiltros.seAplicoFiltro ? this.datosPreFiltros.datos : this.datosDinamicos;
     let data = {
       vectorIdGrupo: arrayToSearch.vector_id_grupo,
       vectorNombreGrupo: arrayToSearch.vector_nombre_grupo,
@@ -194,9 +199,9 @@ export class HomePage {
     this.recorrido = false;
     const dataTemp = filtrarDatos(arrayAutos, this.datos);
     dataTemp['autoUpdate'] = false;
-    if (!this.datosPreFiltroModal.seAplicoFiltro) {
-      this.datosPreFiltroModal.datos = this.datosDinamicos;
-      this.datosPreFiltroModal.seAplicoFiltro = true;
+    if (!this.datosPreFiltros.seAplicoFiltro) {
+      this.datosPreFiltros.datos = this.datosDinamicos;
+      this.datosPreFiltros.seAplicoFiltro = true;
     }
     this.datosDinamicos = dataTemp;
   }
