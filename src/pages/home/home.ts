@@ -149,18 +149,13 @@ export class HomePage {
   }
 
   openSearch() {
-    // let arrayToSearch = this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos : this.datosDinamicos;
-    // if (this.datosPreFiltroModal.seAplicoFiltro) {
-    //   arrayToSearch = this.datosPreFiltroModal.datos;
-    // }else{
-    //   arrayToSearch = 
-    // }
+    let arrayToSearch = this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos : this.datosDinamicos;
     let data = {
-      vectorIdGrupo: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.vector_id_grupo : this.datosDinamicos.vector_id_grupo,
-      vectorNombreGrupo: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.vector_nombre_grupo : this.datosDinamicos.vector_nombre_grupo,
-      idGrupo: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.id_grupo : this.datosDinamicos.id_grupo,
-      dominio: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.dominio : this.datosDinamicos.dominio,
-      patente: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.patente : this.datosDinamicos.patente,
+      vectorIdGrupo: arrayToSearch.vector_id_grupo,
+      vectorNombreGrupo: arrayToSearch.vector_nombre_grupo,
+      idGrupo: arrayToSearch.id_grupo,
+      dominio: arrayToSearch.dominio,
+      patente: arrayToSearch.patente,
       todos: this.datos
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
