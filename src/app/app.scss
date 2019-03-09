@@ -81,3 +81,12 @@ page-home>ion-content>.scroll-content {
         margin: 0 !important;
     }
 }
+
+.loading-md .loading-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+  .spinner-crescent circle {
+    stroke: #fbfbfb !important;
+    stroke-width: 12px !important;
+  }
+}
