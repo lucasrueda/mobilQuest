@@ -56,6 +56,7 @@ export class HomePage {
       this.recorrido = false;
       const dataTemp = filtrarDatos(autos, this.datos);
       dataTemp['autoUpdate'] = false;
+      this.calcularFiltrosAlertas(dataTemp);
       this.datosDinamicos = dataTemp;
     });
     this.event.subscribe('verVehiculo', data => {
@@ -105,11 +106,11 @@ export class HomePage {
           try {
             this.datosSinFiltrar = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
             this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
-            this.calcularFiltrosAlertas(this.datos);
             if (!autoUpdate)
               this.datosDinamicos = this.datos
             else
               this.datosDinamicos = filtrarDatos(this.datosDinamicos.dominio, this.datos);
+            this.calcularFiltrosAlertas(this.datosDinamicos);            
             this.datosDinamicos.autoUpdate = autoUpdate;
           } catch (error) {
             console.log("​catch -> error", error)
