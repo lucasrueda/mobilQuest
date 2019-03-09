@@ -13,9 +13,8 @@ page-home>ion-content>.scroll-content {
 // Material Design Sidemenu
 #menu-material {
     .menu-header {
-        padding: 5px 15px;
-        // background: linear-gradient(to right, #ffede2 50%, #e9ae7a 100%);
-        background: #e9ae7a;
+        padding: 15px; // background: linear-gradient(to right, #ffede2 50%, #e9ae7a 100%);
+        background: white;
         .name {
             font-weight: 500;
             margin-bottom: 3px;
@@ -25,6 +24,11 @@ page-home>ion-content>.scroll-content {
             margin-top: 0;
             margin-bottom: 5px;
         }
+        img {
+          width: 200px;
+          margin: 0 auto;
+          display: block;
+      }
     }
     .user-avatar {
         padding: .5em;
@@ -32,8 +36,7 @@ page-home>ion-content>.scroll-content {
         border-radius: 50%;
     }
     h3,
-    .label,
-        {
+    .label {
         color: #999;
         font-weight: 400;
     }
@@ -55,25 +58,26 @@ page-home>ion-content>.scroll-content {
 }
 
 .labels2 {
-  color: #FFF;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 12;
-  font-weight: bold;
-  text-align: center;
-  width: 40px;
+    color: #FFF;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;
 }
 
-#menu2{
-  .list-header{
-    margin: 11px 0 -7px 0 !important;
-    border-top: 0 !important;
-  }
-  h4{
-    font-size: 2rem;
-    font-weight: 500;
-    color: black;
-  }
-  .icon, .label{
-    margin: 0 !important;
-  }
+#menu2 {
+    .list-header {
+        margin: 11px 0 -7px 0 !important;
+        border-top: 0 !important;
+    }
+    h4 {
+        font-size: 2rem;
+        font-weight: 500;
+        color: black;
+    }
+    .icon,
+    .label {
+        margin: 0 !important;
+    }
 }
