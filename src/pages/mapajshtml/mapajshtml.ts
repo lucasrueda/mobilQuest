@@ -20,7 +20,7 @@ export class Mapajshtml {
 	@Input() datos;
 	@Input() datosSinFiltar;
 	apiKey: any = 'AIzaSyA4h0qNqE_K6GuDT5-BH2g2Mx_XcwbLSys';
-	constructor(public navCtrl: NavController, public events: Events) { 
+	constructor(public navCtrl: NavController, public events: Events) {
 		this.events.subscribe('mapType', type => {
 			type
 				? mapa.setMapTypeId(google.maps.MapTypeId.SATELLITE)
@@ -177,10 +177,16 @@ export class Mapajshtml {
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
 			let state = determinarIconoRecorrido(this.datos, i, tiempo_min_detencion);
+			let icon;
+			if (state.icono === "puntitogiro" || state.icono === "puntito") {
+				icon = new google.maps.MarkerImage(pathImgs + state.icono + '.png', null, null, new google.maps.Point(3, 3));
+			} else {
+				icon = pathImgs + state.icono + '.png'
+			}
 			cantidadParadas += state.parada;
 			let marker = new google.maps.Marker({
 				position: latLng,
-				icon: pathImgs + state.icono + '.png',
+				icon,
 				map: mapa
 			});
 			let infowindow = new google.maps.InfoWindow({
@@ -292,7 +298,7 @@ export class Mapajshtml {
 				a.push(i);
 			return a;
 		}, []);
-		indices.forEach( i => {
+		indices.forEach(i => {
 			if ((this.datosSinFiltar.cod_sensor[i] == 6 && this.datosSinFiltar.estado_sensor_en_bit[i] == 1) || (this.datosSinFiltar.cod_sensor[i] == 14 && this.datosSinFiltar.estado_sensor_en_bit[i] == 0) || (this.datosSinFiltar.cod_sensor[i] == 1 && this.datosSinFiltar.estado_sensor_en_bit[i] == 1)) {
 				icono_verde = 1;
 			}
