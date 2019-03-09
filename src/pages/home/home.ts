@@ -28,6 +28,7 @@ export class HomePage {
   filtrosAlertas: any;
   recorrido: boolean = false;
   nombreVehiculo: string;
+  datosPreFiltroModal: { seAplicoFiltro: boolean, datos: any; } = { seAplicoFiltro: false, datos: [] };
 
   constructor(
     public navCtrl: NavController,
@@ -57,6 +58,7 @@ export class HomePage {
       const dataTemp = filtrarDatos(autos, this.datos);
       dataTemp['autoUpdate'] = false;
       this.calcularFiltrosAlertas(dataTemp);
+      this.datosPreFiltroModal.seAplicoFiltro = false;
       this.datosDinamicos = dataTemp;
     });
     this.event.subscribe('verVehiculo', data => {
@@ -109,11 +111,13 @@ export class HomePage {
           try {
             this.datosSinFiltrar = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
             this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
-            if (!autoUpdate)
-              this.datosDinamicos = this.datos
-            else
+            if (!autoUpdate) {
+              this.datosDinamicos = this.datos;
+              this.datosPreFiltroModal.seAplicoFiltro = false;
+            } else {
               this.datosDinamicos = filtrarDatos(this.datosDinamicos.dominio, this.datos);
-            this.calcularFiltrosAlertas(this.datosDinamicos);            
+            }
+            this.calcularFiltrosAlertas(this.datosDinamicos);
             this.datosDinamicos.autoUpdate = autoUpdate;
           } catch (error) {
             console.log("​catch -> error", error)
@@ -145,12 +149,18 @@ export class HomePage {
   }
 
   openSearch() {
+    // let arrayToSearch = this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos : this.datosDinamicos;
+    // if (this.datosPreFiltroModal.seAplicoFiltro) {
+    //   arrayToSearch = this.datosPreFiltroModal.datos;
+    // }else{
+    //   arrayToSearch = 
+    // }
     let data = {
-      vectorIdGrupo: this.datosDinamicos.vector_id_grupo,
-      vectorNombreGrupo: this.datosDinamicos.vector_nombre_grupo,
-      idGrupo: this.datosDinamicos.id_grupo,
-      dominio: this.datosDinamicos.dominio,
-      patente: this.datosDinamicos.patente,
+      vectorIdGrupo: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.vector_id_grupo : this.datosDinamicos.vector_id_grupo,
+      vectorNombreGrupo: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.vector_nombre_grupo : this.datosDinamicos.vector_nombre_grupo,
+      idGrupo: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.id_grupo : this.datosDinamicos.id_grupo,
+      dominio: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.dominio : this.datosDinamicos.dominio,
+      patente: this.datosPreFiltroModal.seAplicoFiltro ? this.datosPreFiltroModal.datos.patente : this.datosDinamicos.patente,
       todos: this.datos
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
@@ -189,6 +199,10 @@ export class HomePage {
     this.recorrido = false;
     const dataTemp = filtrarDatos(arrayAutos, this.datos);
     dataTemp['autoUpdate'] = false;
+    if (!this.datosPreFiltroModal.seAplicoFiltro) {
+      this.datosPreFiltroModal.datos = this.datosDinamicos;
+      this.datosPreFiltroModal.seAplicoFiltro = true;
+    }
     this.datosDinamicos = dataTemp;
   }
 
