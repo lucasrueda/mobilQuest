@@ -15,16 +15,19 @@
 <ion-content>
   <div class="modalFilter" *ngIf="!switched">
     <div *ngIf="filtrosAlertas?.autosEnReposoMovimiento.reposo.length">
-      <button ion-fab mini (click)="filtro(filtrosAlertas?.autosEnReposoMovimiento.reposo)" style="background-color: #DC552C;">{{filtrosAlertas?.autosEnReposoMovimiento.reposo.length}}</button>
+      <button ion-fab mini (click)="filtro(filtrosAlertas?.autosEnReposoMovimiento.reposo)"
+        style="background-color: #DC552C;">{{filtrosAlertas?.autosEnReposoMovimiento.reposo.length}}</button>
       <span>Reposo</span>
     </div>
     <div *ngIf="filtrosAlertas?.autosEnReposoMovimiento.movimiento.length">
-      <button ion-fab mini (click)="filtro(filtrosAlertas?.autosEnReposoMovimiento.movimiento)" style="background-color: #018976;">{{filtrosAlertas?.autosEnReposoMovimiento.movimiento.length}}</button>
+      <button ion-fab mini (click)="filtro(filtrosAlertas?.autosEnReposoMovimiento.movimiento)"
+        style="background-color: #018976;">{{filtrosAlertas?.autosEnReposoMovimiento.movimiento.length}}</button>
       <span>Movimiento</span>
     </div>
     <div>
       <button [disabled]="!filtrosAlertas?.autosEncendidosApagados.apagados.length" ion-fab mini
-        (click)="filtro(filtrosAlertas?.autosEncendidosApagados.apagados)" color="red">{{filtrosAlertas?.autosEncendidosApagados.apagados.length}}</button>
+        (click)="filtro(filtrosAlertas?.autosEncendidosApagados.apagados)"
+        color="red">{{filtrosAlertas?.autosEncendidosApagados.apagados.length}}</button>
       <span>Apagados</span>
     </div>
     <div>
@@ -42,40 +45,49 @@
   </div>
 
   <div class="modalFilter" *ngIf="switched">
-    <div *ngIf="filtrosAlertas?.alertas.vector_baja_bat.length">
-      <button (click)="filtro(filtrosAlertas?.alertas.vector_baja_bat)" ion-fab mini style="background-color: #E68E09;">
-        <!-- <i class="fas fa-battery-quarter"></i> -->
-        {{filtrosAlertas?.alertas.vector_baja_bat.length}}
-      </button>
-      <span>Baja bateria</span>
-    </div>
-    <div *ngIf="filtrosAlertas?.alertas.vector_sin_reporte.length">
-      <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_reporte)" ion-fab mini style="background-color: #DC552C;">
-        <!-- <i class="material-icons">report_off</i> -->
-        {{filtrosAlertas?.alertas.vector_sin_reporte.length}}
-      </button>
-      <span>Sin reportar</span>
+    <ng-container *ngIf="hayAlertas">
+      <div *ngIf="filtrosAlertas?.alertas.vector_baja_bat.length">
+        <button (click)="filtro(filtrosAlertas?.alertas.vector_baja_bat)" ion-fab mini
+          style="background-color: #E68E09;">
+          <!-- <i class="fas fa-battery-quarter"></i> -->
+          {{filtrosAlertas?.alertas.vector_baja_bat.length}}
+        </button>
+        <span>Baja bateria</span>
+      </div>
+      <div *ngIf="filtrosAlertas?.alertas.vector_sin_reporte.length">
+        <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_reporte)" ion-fab mini
+          style="background-color: #DC552C;">
+          <!-- <i class="material-icons">report_off</i> -->
+          {{filtrosAlertas?.alertas.vector_sin_reporte.length}}
+        </button>
+        <span>Sin reportar</span>
 
-    </div>
-    <div *ngIf="filtrosAlertas?.alertas.vector_sin_bat.length">
-      <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_bat)" ion-fab mini color="red">
-        <!-- <i class="material-icons">battery_unknown</i> -->
-        {{filtrosAlertas?.alertas.vector_sin_bat.length}}
-      </button>
-      <span>Bateria desconectada</span>
-    </div>
-    <div *ngIf="filtrosAlertas?.alertas.vector_sin_gps.length">
-      <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_gps)" ion-fab mini style="background-color: #2C5166;">
-        <!-- <i class="material-icons">gps_off</i> -->
-        {{filtrosAlertas?.alertas.vector_sin_gps.length}}
-      </button>
-      <span>Sin señal GPS</span>
-    </div>
-    <div *ngIf="filtrosAlertas?.alertas.vector_estado_panico.length">
-      <button (click)="filtro(filtrosAlertas?.alertas.vector_estado_panico)" ion-fab mini style="background-color: #52267D;">
-        {{filtrosAlertas?.alertas.vector_estado_panico.length}}
-      </button>
-      <span>Panico</span>
-    </div>
+      </div>
+      <div *ngIf="filtrosAlertas?.alertas.vector_sin_bat.length">
+        <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_bat)" ion-fab mini color="red">
+          <!-- <i class="material-icons">battery_unknown</i> -->
+          {{filtrosAlertas?.alertas.vector_sin_bat.length}}
+        </button>
+        <span>Bateria desconectada</span>
+      </div>
+      <div *ngIf="filtrosAlertas?.alertas.vector_sin_gps.length">
+        <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_gps)" ion-fab mini
+          style="background-color: #2C5166;">
+          <!-- <i class="material-icons">gps_off</i> -->
+          {{filtrosAlertas?.alertas.vector_sin_gps.length}}
+        </button>
+        <span>Sin señal GPS</span>
+      </div>
+      <div *ngIf="filtrosAlertas?.alertas.vector_estado_panico.length">
+        <button (click)="filtro(filtrosAlertas?.alertas.vector_estado_panico)" ion-fab mini
+          style="background-color: #52267D;">
+          {{filtrosAlertas?.alertas.vector_estado_panico.length}}
+        </button>
+        <span>Panico</span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!hayAlertas">
+      <p style="font-size: 20px;">No se registraron alertas</p>
+    </ng-container>
   </div>
 </ion-content>

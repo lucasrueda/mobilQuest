@@ -10,7 +10,7 @@ export class ModalPage {
   @Input() filtrosAlertas;
   switched:boolean = false;
   switchedMapa:boolean = false;
-
+  hayAlertas: boolean = false;
   constructor(
     public viewCtrl: ViewController,
     public event: Events,
@@ -21,6 +21,14 @@ export class ModalPage {
   }
 
   ngOnChanges() {
+    if(this.filtrosAlertas){
+      for(let alerta in this.filtrosAlertas.alertas){
+        if(this.filtrosAlertas.alertas[alerta].length){
+          return this.hayAlertas = true;
+        }
+      }
+      this.hayAlertas = false;
+    }
   }
 
   actualizar() {
