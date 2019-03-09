@@ -31,4 +31,7 @@ page-search-filter {
     ion-item p {
         font-size: 18px !important;
     }
+    .scroll-content{
+        height: calc(100% - 56px) !important;
+    }
 }

@@ -10,9 +10,10 @@
   </ng-container>
   <ng-container *ngIf="filterGrupos.length">
     <div class="chips">
-      <ng-template ngFor let-grupo let-last="last" [ngForOf]="filterGrupos">
-        <button ion-button round outline small class="buttonLikeChip" *ngIf="grupo.autos.length" (click)="filterByGroup(grupo)">{{grupo.nombre}}</button>
+      <ng-template ngFor let-grupo let-last="last" [ngForOf]="gruposChips">
+        <button ion-button round outline small class="buttonLikeChip" (click)="filterByGroup(grupo)">{{grupo.nombre}}</button>
       </ng-template>
+      <button ion-button round outline small class="buttonLikeChip" (click)="todaLaFlota()">Toda la flota</button>
     </div>
     <ion-item-group>
       <ng-template ngFor let-i="index" let-c="count" let-last="last" let-grupo [ngForOf]="filterGrupos">

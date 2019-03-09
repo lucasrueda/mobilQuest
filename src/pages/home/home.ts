@@ -65,6 +65,9 @@ export class HomePage {
       dataTemp['autoUpdate'] = false;
       this.datosDinamicos = dataTemp;
     })
+    this.event.subscribe('consultarTodo', () => {
+      this.consultarTodo();
+    })
     this.consultarTodo();
     this.iniciarIntervalo();
   }
@@ -147,7 +150,8 @@ export class HomePage {
       vectorNombreGrupo: this.datosDinamicos.vector_nombre_grupo,
       idGrupo: this.datosDinamicos.id_grupo,
       dominio: this.datosDinamicos.dominio,
-      patente: this.datosDinamicos.patente
+      patente: this.datosDinamicos.patente,
+      todos: this.datos
     }
     this.navCtrl.push(SearchFilterPage, { data }, { animation: 'wp-transition', duration: 50 });
   }
