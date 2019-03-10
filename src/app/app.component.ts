@@ -140,7 +140,7 @@ export class MyApp {
   }
 
   handleDateFilterResponse(datos) {
-    datos.nombreVehiculo = this.vehiculo.patente;
+    datos.nombreVehiculo = this.vehiculo.denominacion;
     this.event.publish('filtroPorFechas', datos);
   }
 

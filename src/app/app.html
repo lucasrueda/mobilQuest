@@ -35,7 +35,7 @@
   <ion-scroll [style.height.px]="altoMenu" scrollY="true">
     <ion-list *ngIf="!recorrido">
       <ion-list-header menuToggle="right">
-        <h4>{{ vehiculo?.patente }}</h4>
+        <h4>{{ vehiculo?.denominacion }}</h4>
         <button style="text-decoration: underline;" ion-button clear item-end
           (click)="verVehiculo(vehiculo.denominacion)">Seleccionar
           vehículo</button>
