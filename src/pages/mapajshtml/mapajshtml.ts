@@ -9,6 +9,7 @@ var mapa;
 declare function require(text: string);
 var allMarkersOnMap = [];
 var inforWindowsGlobal;
+var mapTypeId;
 
 const pathImgs = './assets/imgs/';
 
@@ -22,9 +23,13 @@ export class Mapajshtml {
 	apiKey: any = 'AIzaSyA4h0qNqE_K6GuDT5-BH2g2Mx_XcwbLSys';
 	constructor(public navCtrl: NavController, public events: Events) {
 		this.events.subscribe('mapType', type => {
-			type
-				? mapa.setMapTypeId(google.maps.MapTypeId.SATELLITE)
-				: mapa.setMapTypeId(google.maps.MapTypeId.ROADMAP)
+			if (type) {
+				mapa.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+				mapTypeId = google.maps.MapTypeId.SATELLITE;
+			} else {
+				mapa.setMapTypeId(google.maps.MapTypeId.ROADMAP)
+				mapTypeId = google.maps.MapTypeId.ROADMAP;
+			}
 		})
 	}
 
@@ -57,6 +62,7 @@ export class Mapajshtml {
 	}
 
 	public initMap() {
+		if (!mapa) mapTypeId = google.maps.MapTypeId.ROADMAP;
 		let mapOptions = {
 			scrollwheel: false,
 			navigationControl: false,
@@ -64,7 +70,7 @@ export class Mapajshtml {
 			scaleControl: false,
 			draggable: true,
 			disableDefaultUI: true,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
+			mapTypeId
 		}
 
 		if (!this.datos.autoUpdate) {
