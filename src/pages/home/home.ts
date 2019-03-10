@@ -154,7 +154,12 @@ export class HomePage {
   }
 
   openSearch() {
-    let arrayToSearch = this.datosPreFiltros.seAplicoFiltro ? this.datosPreFiltros.datos : this.datosDinamicos;
+    let arrayToSearch = 
+      this.datosPreFiltros.seAplicoFiltro 
+        ? this.datosPreFiltros.datos 
+        : this.recorrido 
+            ? this.datos
+            : this.datosDinamicos;
     let data = {
       vectorIdGrupo: arrayToSearch.vector_id_grupo,
       vectorNombreGrupo: arrayToSearch.vector_nombre_grupo,
