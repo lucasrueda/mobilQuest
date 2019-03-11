@@ -93,7 +93,9 @@ export class MapasnativoPage {
       "encendido",
       Math.round(parseFloat(this.datos.km_total_usuario[i]) * 100) / 100,//cuenta Kilometros
       this.datos.voltaje_vehiculo[i],
-      signalGPS(this.datos.hdop[i])
+      signalGPS(this.datos.hdop[i]),
+      '',
+      ''
     );
     console.log(vehiculo);
     this.events.publish('mapClickEvent', vehiculo);
