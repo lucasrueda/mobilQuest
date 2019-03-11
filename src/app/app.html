@@ -3,11 +3,10 @@
     <div class="menu-header">
       <!--material-design-background-->
       <!-- <img class="user-avatar round" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/avatar.jpg'" /> -->
-      <img [src]="chosenPicture || placeholder"
-        onerror="this.src='assets/imgs/logo_V2.png'" />
-        <hr/>
-        <p class="name">{{nombreCliente}}</p>
-        <hr/>
+      <img [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/logo_V2.png'" />
+      <hr />
+      <p class="name">{{nombreCliente}}</p>
+      <hr />
       <!-- <p class="e-mail">masterk63@email.com</p> -->
     </div>
     <ion-list no-lines>
@@ -34,12 +33,51 @@
 <ion-menu type="overlay" [swipeEnabled]="false" [content]="content" side="right" id="menu2">
   <ion-scroll [style.height.px]="altoMenu" scrollY="true">
     <ion-list *ngIf="!recorrido">
-      <ion-list-header menuToggle="right">
+      <!-- <ion-list-header menuToggle="right">
         <h4>{{ vehiculo?.denominacion }}</h4>
         <button style="text-decoration: underline;" ion-button clear item-end
           (click)="verVehiculo(vehiculo.denominacion)">Seleccionar
           vehículo</button>
-      </ion-list-header>
+      </ion-list-header> -->
+      <ion-item (click)="datosVehiculo = !datosVehiculo">
+        <ion-icon name="ios-arrow-dropdown-outline" *ngIf="!datosVehiculo" item-start></ion-icon>
+        <ion-icon name="ios-arrow-dropup-outline" *ngIf="datosVehiculo" item-start></ion-icon>
+        <h2>Datos del vehículo</h2>
+        <p text-wrap *ngIf="!datosVehiculo">Click mas informacion</p>
+        <p text-wrap *ngIf="datosVehiculo">Click menos informacion</p>
+      </ion-item>
+      <ng-container *ngIf="datosVehiculo">
+        <ion-item>
+          <ion-icon name="ios-phone-portrait-outline" item-start></ion-icon>
+          <h2>Numero de linea</h2>
+          <p text-wrap>{{ vehiculo?.numeroDeLinea }}</p>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="ios-barcode-outline" item-start></ion-icon>
+          <h2>Denominacion</h2>
+          <p text-wrap>{{ vehiculo?.denominacion }}</p>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="ios-barcode-outline" item-start></ion-icon>
+          <h2>Patente</h2>
+          <p text-wrap>{{ vehiculo?.patente }}</p>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="ios-pricetag-outline" item-start></ion-icon>
+          <h2>Marca</h2>
+          <p text-wrap>{{ vehiculo?.marca }}</p>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="ios-car-outline" item-start></ion-icon>
+          <h2>Modelo</h2>
+          <p text-wrap>{{ vehiculo?.modelo }}</p>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="ios-color-fill-outline" item-start></ion-icon>
+          <h2>Color</h2>
+          <p text-wrap>{{ vehiculo?.color }}</p>
+        </ion-item>
+      </ng-container>
       <ion-item>
         <ion-icon name="ios-pin-outline" item-start></ion-icon>
         <h2>Dirección</h2>

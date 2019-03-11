@@ -25,6 +25,7 @@ export class MyApp {
   recorrido: boolean = false;
   vehiculo: EstadoVehiculo;
   resumen: Resumen;
+  datosVehiculo:boolean = false;
 
   rootPage: any;
   pages: Array<{ title: string, component: any, active: boolean, icon: string }>;

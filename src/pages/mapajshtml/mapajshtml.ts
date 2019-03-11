@@ -162,6 +162,7 @@ export class Mapajshtml {
 			this.datos.dominio[i],
 			this.datos.patente[i],
 			this.datos.marca[i],
+			this.datos.modelo[i],
 			this.datos.color[i],
 			await obtenerDireccion(this.datos.latitud[i], this.datos.longitud[i]),
 			this.datos.hora_avl[i],
