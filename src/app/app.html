@@ -114,6 +114,11 @@
         <h2>Señal de GPS</h2>
         <p>{{ vehiculo?.signalGPS }}</p>
       </ion-item>
+      <ion-item *ngIf="vehiculo?.horometro">
+        <ion-icon name="ios-clock-outline" item-start></ion-icon>
+        <h2>Horómetro</h2>
+        <p>{{ vehiculo?.horometro }} Hs.</p>
+      </ion-item>
     </ion-list>
     <ion-list *ngIf="recorrido">
       <ion-list-header menuToggle="right">

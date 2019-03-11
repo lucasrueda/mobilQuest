@@ -20,6 +20,10 @@ const signalGPS = hdop => {
   }
 }
 
+const horometro = Horometro_usuario => {
+  return Math.round((Horometro_usuario/3600)*100)/100;
+}
+
 const obtenerDireccion = (lat, long) => {
   return Geocoder.geocode({
     "position": new LatLng(lat, long)
@@ -408,5 +412,6 @@ export {
   determinarIconoRecorrido,
   determinarAlertas,
   determinarIconoDeFlota,
-  filtrarDatos
+  filtrarDatos,
+  horometro
 };

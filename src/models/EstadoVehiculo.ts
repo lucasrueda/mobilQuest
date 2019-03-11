@@ -8,8 +8,9 @@ export class EstadoVehiculo extends Vehiculo {
     cuentaKilometros: string;
     bateriaExterna: string;
     signalGPS: string;
+    horometro: string;
 
-    constructor(imei, numeroDeLinea, denominacion, patente, marca, modelo, color, direccion, actualizado, tiempoParada, sensores, cuentaKilometros, bateriaExterna, signalGPS) {
+    constructor(imei, numeroDeLinea, denominacion, patente, marca, modelo, color, direccion, actualizado, tiempoParada, sensores, cuentaKilometros, bateriaExterna, signalGPS, horometro) {
         super(imei, numeroDeLinea, denominacion, patente, marca, modelo, color);
         this.direccion = direccion;
         this.actualizado = actualizado;
@@ -18,5 +19,6 @@ export class EstadoVehiculo extends Vehiculo {
         this.cuentaKilometros = cuentaKilometros;
         this.bateriaExterna = bateriaExterna;
         this.signalGPS = signalGPS;
+        this.horometro = horometro;
     }
 }

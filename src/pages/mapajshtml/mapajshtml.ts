@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { EstadoVehiculo } from '../../models/EstadoVehiculo';
-import { signalGPS, obtenerDireccion, tiempoDetenido, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota } from '../../helpers/helpers'
+import { signalGPS, horometro, obtenerDireccion, tiempoDetenido, determinarIconoRecorrido, determinarAlertas, determinarIconoDeFlota } from '../../helpers/helpers'
 import { Resumen } from '../../models/Resumen';
 
 declare var google;
@@ -170,7 +170,8 @@ export class Mapajshtml {
 			this.obtenerSensores(this.datos.dominio[i]),
 			Math.round(parseFloat(this.datos.km_total_usuario[i]) * 100) / 100,//cuenta Kilometros
 			this.datos.voltaje_vehiculo[i],
-			signalGPS(this.datos.hdop[i])
+			signalGPS(this.datos.hdop[i]),
+			horometro(this.datos.Horometro_usuario[i])
 		);
 		console.log(vehiculo);
 		this.events.publish('mapClickEvent', vehiculo);
