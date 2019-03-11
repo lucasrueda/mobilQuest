@@ -152,6 +152,13 @@ export class Mapajshtml {
 					? mapa.setZoom(mapa.getZoom() - 1)
 					: mapa.setZoom(16)
 			});
+		} else {
+			if(this.datos.dominio.length === 1){
+				mapa.fitBounds(bounds);
+				google.maps.event.addListenerOnce(mapa, 'idle', () => {
+					mapa.setZoom(16)
+				});
+			}
 		}
 	}
 
