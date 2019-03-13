@@ -49,6 +49,8 @@ export class SeleccionFechaComponent {
   }
 
   buscarFiltroRapido() {
+    this.fechaNow = moment().format('YYYY-MM-DD');
+    this.horaNow = moment().format('HH:mm');
     const fecha_hasta = `${this.fechaNow} ${this.horaNow}`
     const cantidad = this.filtroRapido.substring(0, this.filtroRapido.length - 1);
     const magnitud = this.filtroRapido[this.filtroRapido.length - 1];
@@ -69,6 +71,8 @@ export class SeleccionFechaComponent {
   }
 
   horaDesdeSelect() {
+    this.fechaNow = moment().format('YYYY-MM-DD');
+    this.horaNow = moment().format('HH:mm');
     if (this.fechaDesde && this.horaDesde) {
       const fechaElegida = `${this.fechaDesde} ${this.horaDesde}`;
       let fechaHastaLimiteMax: any = moment(moment(fechaElegida).add('1', 'd').format('YYYY-MM-DD HH:mm'));
