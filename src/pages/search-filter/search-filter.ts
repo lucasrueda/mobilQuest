@@ -92,7 +92,7 @@ export class SearchFilterPage {
     // this.filterGrupos = JSON.parse(JSON.stringify(this.grupos));
     this.filterGrupos = [...this.grupos.map(obj => ({ ...obj, autos: [...obj.autos] }))];
     this.filterGrupos = this.filterGrupos.filter(g => {
-      g.autos = g.autos.filter(a => a.patente.toLowerCase().indexOf(value.toLowerCase()) > -1);
+      g.autos = g.autos.filter(a => a.dominio.toLowerCase().indexOf(value.toLowerCase()) > -1);
       return g.autos.length > 0;
     });
   }
