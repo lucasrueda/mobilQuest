@@ -59,7 +59,7 @@ export class MyApp {
           } else throw new Error("Demo Expirada");
         })
         .catch(err => {
-          this.nav.setRoot(Error404Page, { mensaje: 'Demo expirada', botonReintentar: false });
+          this.nav.setRoot(Error404Page, { mensaje: 'No se detecto conexion a internet', botonReintentar: false });
         })
     });
     this.handleMapClickEvent();

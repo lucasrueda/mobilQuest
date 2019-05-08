@@ -1,19 +1,29 @@
 <div class="switcher">
-  <div class="switcherContainer" (click)="switchValue()">
-    <span>Alertas</span>
-    <span>Filtros</span>
-    <div [class.switched]="switched"></div>
+  <div class="switcherContainer">
+    <div (click)="switchValue()" [class.actived]="!switched">
+      <ion-icon name="alert" style="margin-right: 5px;"></ion-icon>
+      <span>Alertas</span>
+    </div>
+    <div style="max-width: 52px;">
+      <button (click)="verTodaLaFlota()" ion-fab mini
+        style="background-color: blue;margin: -13px auto;width: 50px;height: 50px;">
+        <ion-icon name="ios-car"></ion-icon>
+      </button>
+    </div>
+    <div (click)="switchValue()" [class.actived]="switched">
+      <ion-icon name="ios-funnel" style="margin-right: 5px;"></ion-icon>
+      <span>Filtros</span>
+    </div>
   </div>
 </div>
 <div class="switcherMapa">
-  <div class="switcherContainer" (click)="switcherMapa()">
-    <span>Satelite</span>
-    <span>Mapa</span>
-    <div [class.switched]="switchedMapa"></div>
-  </div>
+  <button (click)="switcherMapa()" ion-fab mini
+    style="background-color:white;margin: -13px auto;width: 50px;height: 50px;color: gray;">
+    <ion-icon name="md-map"></ion-icon>
+  </button>
 </div>
 <ion-content>
-  <div class="modalFilter" *ngIf="!switched">
+  <div class="modalFilter" *ngIf="switched">
     <div *ngIf="filtrosAlertas?.autosEnReposoMovimiento.reposo.length">
       <button ion-fab mini (click)="filtro(filtrosAlertas?.autosEnReposoMovimiento.reposo)"
         style="background-color: #DC552C;">{{filtrosAlertas?.autosEnReposoMovimiento.reposo.length}}</button>
@@ -27,7 +37,7 @@
     <div>
       <button [disabled]="!filtrosAlertas?.autosEncendidosApagados.apagados.length" ion-fab mini
         (click)="filtro(filtrosAlertas?.autosEncendidosApagados.apagados)"
-        color="red">{{filtrosAlertas?.autosEncendidosApagados.apagados.length}}</button>
+        style="background-color: #fe871e;">{{filtrosAlertas?.autosEncendidosApagados.apagados.length}}</button>
       <span>Apagados</span>
     </div>
     <div>
@@ -36,19 +46,13 @@
         id="yellow">{{filtrosAlertas?.autosEncendidosApagados.encendidos.length}}</button>
       <span>Encendidos</span>
     </div>
-    <div>
-      <button (click)="verTodaLaFlota()" ion-fab mini style="background-color: blue;">
-        <ion-icon name="ios-car"></ion-icon>
-      </button>
-      <span>Toda la flota</span>
-    </div>
   </div>
 
-  <div class="modalFilter" *ngIf="switched">
+  <div class="modalFilter" *ngIf="!switched">
     <ng-container *ngIf="hayAlertas">
       <div *ngIf="filtrosAlertas?.alertas.vector_baja_bat.length">
         <button (click)="filtro(filtrosAlertas?.alertas.vector_baja_bat)" ion-fab mini
-          style="background-color: #E68E09;">
+          style="background-color: #b1700f;">
           <!-- <i class="fas fa-battery-quarter"></i> -->
           {{filtrosAlertas?.alertas.vector_baja_bat.length}}
         </button>
@@ -56,7 +60,7 @@
       </div>
       <div *ngIf="filtrosAlertas?.alertas.vector_sin_reporte.length">
         <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_reporte)" ion-fab mini
-          style="background-color: #DC552C;">
+          style="background-color: #ff0101;">
           <!-- <i class="material-icons">report_off</i> -->
           {{filtrosAlertas?.alertas.vector_sin_reporte.length}}
         </button>
@@ -72,7 +76,7 @@
       </div>
       <div *ngIf="filtrosAlertas?.alertas.vector_sin_gps.length">
         <button (click)="filtro(filtrosAlertas?.alertas.vector_sin_gps)" ion-fab mini
-          style="background-color: #2C5166;">
+          style="background-color: #dede00;">
           <!-- <i class="material-icons">gps_off</i> -->
           {{filtrosAlertas?.alertas.vector_sin_gps.length}}
         </button>

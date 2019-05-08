@@ -42,7 +42,7 @@
       <ion-item (click)="datosVehiculo = !datosVehiculo">
         <ion-icon name="ios-arrow-dropdown-outline" *ngIf="!datosVehiculo" item-start></ion-icon>
         <ion-icon name="ios-arrow-dropup-outline" *ngIf="datosVehiculo" item-start></ion-icon>
-        <h2>Datos del vehículo</h2>
+        <h2>Datos de {{ vehiculo?.denominacion }}</h2>
         <p text-wrap *ngIf="!datosVehiculo">Click mas informacion</p>
         <p text-wrap *ngIf="datosVehiculo">Click menos informacion</p>
       </ion-item>
