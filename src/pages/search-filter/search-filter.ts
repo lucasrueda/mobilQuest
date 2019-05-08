@@ -54,7 +54,7 @@ export class SearchFilterPage {
       }
     });
     // this.filterGrupos = this.grupos;
-    if(!this.grupos[this.grupos.length-1].autos.length)
+    if (!this.grupos[this.grupos.length - 1].autos.length)
       this.grupos.pop();
 
     this.filterGrupos = [...this.grupos.map(obj => ({ ...obj, autos: [...obj.autos] }))];
@@ -82,7 +82,7 @@ export class SearchFilterPage {
         this.gruposChips.find(x => x.id == null).autos.push(auto);
       }
     });
-    if(!this.gruposChips[this.gruposChips.length-1].autos.length)
+    if (!this.gruposChips[this.gruposChips.length - 1].autos.length)
       this.gruposChips.pop();
   }
 
@@ -110,15 +110,15 @@ export class SearchFilterPage {
       g.autos = g.autos.filter(a => a.patente.toLowerCase().indexOf(this.searchValue.toLowerCase()) === 0);
       return g.autos.length > 0;
     });
-    this.event.publish('filtradoDeBusqueda', this.filterGrupos[0].autos.map(x => x.dominio));
+    this.event.publish('filtradoDeBusqueda', { vehiculos: this.filterGrupos[0].autos.map(x => x.dominio), nombre: grupo.nombre });
     this.navCtrl.pop();
   }
 
   filterByOne(auto) {
-    this.event.publish('filtradoDeBusqueda', [auto.dominio]);
+    this.event.publish('filtradoDeBusqueda', { vehiculos: [auto.dominio], nombre: auto.dominio });
     this.navCtrl.pop();
   }
-  
+
   todaLaFlota() {
     this.event.publish('consultarTodo');
     this.navCtrl.pop();

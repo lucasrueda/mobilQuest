@@ -7,6 +7,15 @@
     </ion-col>
   </ion-row>
 </div>
+<div class="nombreSearchFilter over_map" *ngIf="mostrarDatosfiltradoDeBusqueda.activo">
+  <ion-row>
+    <ion-col class="whiteSquare2">
+      <div class="nombreRecorrido">
+        {{mostrarDatosfiltradoDeBusqueda.nombre}}
+      </div>
+    </ion-col>
+  </ion-row>
+</div>
 <div #search class="searchBarConteiner over_map">
   <ion-row>
     <ion-col class="whiteSquare">

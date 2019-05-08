@@ -1,138 +1,145 @@
 page-home {
-    ion-fab {
-        top: 60px !important;
+  ion-fab {
+    top: 60px !important;
+  }
+  ion-searchbar {
+    padding-bottom: 2px !important;
+    padding-left: 0px !important;
+  }
+  .searchbar-input {
+    border-radius: 10px !important; // border-top-left-radius: 0px !important;
+    // border-bottom-left-radius: 0px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    height: 4rem !important;
+    padding-left: 45px !important;
+  }
+  .searchbar-ios {
+    background: none;
+  }
+  .over_map {
+    position: absolute;
+    width: 100%;
+    z-index: 99;
+  }
+  .searchBarConteiner {
+    -webkit-transform: translate3d(0, -146%, 0);
+    transition: transform 0.3s;
+  }
+  page-modal {
+    position: absolute;
+    width: 100%;
+    top: unset;
+    // height: 110px;
+    height: 132px;
+    bottom: 0;
+    -webkit-transform: translate3d(0, 140%, 0);
+    transition: transform 0.3s;
+    .scroll-content {
+      background-color: #afbdcf;
+      box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.3);
     }
-    ion-searchbar {
-        padding-bottom: 2px !important;
-        padding-left: 0px !important;
+  }
+  .slide-in {
+    -webkit-transform: translate3d(0, 0, 0) !important;
+  }
+  .expander {
+    width: 100%;
+    height: 48px;
+    padding: 12px 16px;
+    border: none;
+    font-size: 14px;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.54);
+    text-align: center;
+    background: white;
+    position: absolute !important;
+    bottom: 48px;
+    top: unset;
+    -webkit-transform: translate3d(0, 48px, 0);
+    transition: transform 0.3s;
+  }
+  .whiteSquare {
+    display: block;
+    background: #afbdcf;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: color($colors, mobileB);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+  .whiteSquare2 {
+    display: block;
+    margin: 0;
+    background: white;
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    border-radius: 0px 0px 10px 10px;
+  }
+  .counter {
+    flex: 2;
+    text-align: center;
+    margin-top: 8px;
+    .chip {
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+      background: white !important;
+      min-width: 100px;
     }
-    .searchbar-input {
-        border-radius: 10px !important; // border-top-left-radius: 0px !important;
-        // border-bottom-left-radius: 0px !important;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-        height: 4rem !important;
-        padding-left: 45px !important;
+  }
+  .topMenu {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 0.7em;
+    color: #0000008a;
+    padding: 2px;
+    div {
+      flex: 1;
+      border-right: 0.5px #9282828a solid;
     }
-    .searchbar-ios {
-        background: none;
+    div:last-child {
+      border-right: 0;
     }
-    .over_map {
-        position: absolute;
-        width: 100%;
-        z-index: 99;
+    p {
+      margin: 5px 0 0 0 !important;
     }
-    .searchBarConteiner {
-        -webkit-transform: translate3d(0, -146%, 0);
-        transition: transform 0.3s;
+    button {
+      margin: 0 !important;
     }
-    page-modal {
-        position: absolute;
-        width: 100%;
-        top: unset;
-        // height: 110px;
-        height: 132px;
-        bottom: 0;
-        -webkit-transform: translate3d(0, 140%, 0);
-        transition: transform 0.3s;
-        .scroll-content {
-            background-color: #AFBDCF;
-            box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.3);
-        }
-    }
-    .slide-in {
-        -webkit-transform: translate3d(0, 0, 0) !important;
-    }
-    .expander {
-        width: 100%;
-        height: 48px;
-        padding: 12px 16px;
-        border: none;
-        font-size: 14px;
-        box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.3);
-        color: rgba(0, 0, 0, 0.54);
-        text-align: center;
-        background: white;
-        position: absolute !important;
-        bottom: 48px;
-        top: unset;
-        -webkit-transform: translate3d(0, 48px, 0);
-        transition: transform 0.3s;
-    }
-    .whiteSquare {
-        display: block;
-        background: #AFBDCF;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-        color: color($colors, mobileB);
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    }
-    .whiteSquare2 {
-        display: block;
-        margin: 0;
-        background: white;
-        padding: 0;
-        text-align: center;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-        border-radius: 0px 0px 10px 10px;
-    }
-    .counter {
-        flex: 2;
-        text-align: center;
-        margin-top: 8px;
-        .chip {
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-            background: white !important;
-            min-width: 100px;
-        }
-    }
-    .topMenu {
-        display: flex;
-        justify-content: space-around;
-        text-align: center;
-        font-size: 0.7em;
-        color: #0000008a;
-        padding: 2px;
-        div {
-            flex: 1;
-            border-right: 0.5px #9282828a solid;
-        }
-        div:last-child {
-            border-right: 0;
-        }
-        p {
-            margin: 5px 0 0 0 !important;
-        }
-        button {
-            margin: 0 !important;
-        }
-    }
-    .verRecorrido {
-        position: absolute;
-        top: 50%;
-        right: -27px;
-        writing-mode: vertical-lr;
-        transform: rotate(270deg);
-        z-index: 99;
-    }
-    .whiteSquareRecorrido {
-        display: block;
-        background: white;
-        margin: 0;
-        padding: 0;
-        border-radius: 10px 10px 0 0px;
-        text-align: center;
-        color: color($colors, gris);
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    }
-    .nombreRecorrido{
-        padding: 10px;
-        font-size: 14px
-    }
-    .nombreRecorridoConteiner {
-        max-width: 200px;
-        left: calc(50% - 100px);
-        -webkit-transform: translate3d(0, -175%, 0);
-        transition: transform 0.3s;
-    }
+  }
+  .verRecorrido {
+    position: absolute;
+    top: 50%;
+    right: -27px;
+    writing-mode: vertical-lr;
+    transform: rotate(270deg);
+    z-index: 99;
+  }
+  .whiteSquareRecorrido {
+    display: block;
+    background: white;
+    margin: 0;
+    padding: 0;
+    border-radius: 10px 10px 0 0px;
+    text-align: center;
+    color: color($colors, gris);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+  .nombreRecorrido {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .nameOverMap {
+    max-width: 200px;
+    left: calc(50% - 100px);
+    transition: transform 0.3s;
+  }
+  .nombreRecorridoConteiner {
+    @extend .nameOverMap;
+    -webkit-transform: translate3d(0, -175%, 0);
+  }
+  .nombreSearchFilter {
+    @extend .nameOverMap;
+    -webkit-transform: translate3d(0, 155%, 0);
+  }
 }

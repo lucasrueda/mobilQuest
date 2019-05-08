@@ -60,11 +60,11 @@ export class BusquedaFlotaComponent {
     for (let i in this.idGrupo) {
       if (this.idGrupo[i]) {
         const j = this.flota.map(f => f.idGrupo).indexOf(this.idGrupo[i]);
-        this.flota[j].vehiculos.push({dominio: this.dominio[i].toUpperCase()});
+        this.flota[j].vehiculos.push({ dominio: this.dominio[i].toUpperCase() });
       } else {
         //quiere decir que el vehiculo no tiene grupo, entonces lo agregamos a un grupo "null"
         const j = this.flota.map(f => f.idGrupo).indexOf(null);
-        this.flota[j].vehiculos.push({dominio:this.dominio[i].toUpperCase()});
+        this.flota[j].vehiculos.push({ dominio: this.dominio[i].toUpperCase() });
       }
     }
     this.listaFlotaBusqueda = JSON.parse(JSON.stringify(this.flota));
@@ -93,26 +93,23 @@ export class BusquedaFlotaComponent {
     }
   }
 
-
   // despues se recupera la seleccion
   vehiculoSeleccionado(vehiculo) {
-		console.log("​BusquedaFlotaComponent -> vehiculoSeleccionado -> vehiculo", vehiculo)
-    this.respuesta.emit({showAll: false, vehiculo});
+    console.log("​BusquedaFlotaComponent -> vehiculoSeleccionado -> vehiculo", vehiculo)
+    this.respuesta.emit({ showAll: false, vehiculo });
     this.showButtonTodaFlota = true;
     this.mostrarLista = false;
   }
-  
-  
+
   checkFocus() {
     this.mostrarLista = true;
   }
 
-  
   openGroup(grupo) {
     console.log("​HomePage -> openGroup -> grupo", grupo.nombre)
     grupo.show = !grupo.show;
   }
-  
+
   verTodaFlota() {
     for (let f of this.flota) {
       f.show = false;
@@ -121,14 +118,13 @@ export class BusquedaFlotaComponent {
     this.showButtonTodaFlota = false;
     this.mostrarLista = false;
     this.searchTermVehiculo = '';
-    this.respuesta.emit({showAll: true});
+    this.respuesta.emit({ showAll: true });
   }
 
-  cancelar(){
+  cancelar() {
     this.mostrarLista = false;
   }
-  
-  
+
 }
 
 // this.flota = [

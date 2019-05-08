@@ -29,6 +29,7 @@ export class HomePage {
   recorrido: boolean = false;
   nombreVehiculo: string;
   datosPreFiltros: { seAplicoFiltro: boolean, datos: any; } = { seAplicoFiltro: false, datos: [] };
+  mostrarDatosfiltradoDeBusqueda: { nombre: string, activo: boolean } = { nombre: '', activo: false };
 
   constructor(
     public navCtrl: NavController,
@@ -45,6 +46,7 @@ export class HomePage {
     this.mostrarOcultarFiltros();
     this.event.subscribe('filtroPorFechas', (datos) => {
       this.recorrido = true;
+      this.mostrarDatosfiltradoDeBusqueda = { nombre: '', activo: false };
       this.event.publish('user:click');
       this.nombreVehiculo = datos.nombreVehiculo;
       let datosRecorrido = datos;
@@ -53,15 +55,20 @@ export class HomePage {
       this.datosDinamicos = [];
       this.datosDinamicos = datosRecorrido;
     });
-    this.event.subscribe('filtradoDeBusqueda', autos => {
+    this.event.subscribe('filtradoDeBusqueda', datos => {
       this.recorrido = false;
-      const dataTemp = filtrarDatos(autos, this.datos);
+      const dataTemp = filtrarDatos(datos.vehiculos, this.datos);
       dataTemp['autoUpdate'] = false;
       this.calcularFiltrosAlertas(dataTemp);
-      if(autos.length === 1){
+      //esto lo hago para mostrar el cartel flotante que diga el nombre
+      this.mostrarDatosfiltradoDeBusqueda = { 
+        nombre: datos.nombre,
+        activo: true
+      }
+      if (datos.vehiculos.length === 1) {
         this.datosPreFiltros.seAplicoFiltro = true;
         this.datosPreFiltros.datos = this.datos;
-      }else{
+      } else {
         this.datosPreFiltros.seAplicoFiltro = false;
       }
       this.datosDinamicos = dataTemp;
@@ -117,6 +124,7 @@ export class HomePage {
             this.datosSinFiltrar = (await this.mapaSrv.consultarTodo(this.id_cliente))[0];
             this.datos = this.filtroVehiculosRepetidos(this.datosSinFiltrar);
             if (!autoUpdate) {
+              this.mostrarDatosfiltradoDeBusqueda = { nombre: '', activo: false };
               this.datosDinamicos = this.datos;
               this.datosPreFiltros.seAplicoFiltro = false;
             } else {
@@ -154,12 +162,12 @@ export class HomePage {
   }
 
   openSearch() {
-    let arrayToSearch = 
-      this.datosPreFiltros.seAplicoFiltro 
-        ? this.datosPreFiltros.datos 
-        : this.recorrido 
-            ? this.datos
-            : this.datosDinamicos;
+    let arrayToSearch =
+      this.datosPreFiltros.seAplicoFiltro
+        ? this.datosPreFiltros.datos
+        : this.recorrido
+          ? this.datos
+          : this.datosDinamicos;
     let data = {
       vectorIdGrupo: arrayToSearch.vector_id_grupo,
       vectorNombreGrupo: arrayToSearch.vector_nombre_grupo,
