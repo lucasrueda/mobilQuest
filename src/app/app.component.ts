@@ -9,7 +9,7 @@ import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { EstadoVehiculo } from '../models/EstadoVehiculo';
-import { DemoProvider } from '../providers/demo';
+import { CheckConnectionProvider } from '../providers/checkConnection';
 import { Error404Page } from '../pages/error404/error404';
 import { ReferenciaPage } from '../pages/referencia/referencia';
 import { Resumen } from '../models/Resumen';
@@ -32,7 +32,7 @@ export class MyApp {
   nombreCliente: string;
 
   constructor(
-    public demoPrv: DemoProvider,
+    public checkConnectionPrv: CheckConnectionProvider,
     platform: Platform,
     statusBar: StatusBar,
     public event: Events,
@@ -51,20 +51,24 @@ export class MyApp {
       statusBar.styleLightContent();
       statusBar.backgroundColorByHexString('#6B7A90');
       splashScreen.hide();
-      this.demoPrv.checkDemo()
-        .then((res: any) => {
-          if (res.demo) {
-            this.checkLogin();
-            this.getNombre();
-          } else throw new Error("Demo Expirada");
-        })
-        .catch(err => {
-          this.nav.setRoot(Error404Page, { mensaje: 'No se detecto conexion a internet', botonReintentar: false });
-        })
+      this.checkConnection();
     });
     this.handleMapClickEvent();
     this.handleRecorrido();
     this.handleLoginClientName();
+  }
+
+  checkConnection() {
+    this.checkConnectionPrv.checkConn()
+      .then((res: any) => {
+        console.log('res: ', res);
+        this.checkLogin();
+        this.getNombre();
+      })
+      .catch(err => {
+        console.log('err: ', err);
+        this.nav.setRoot(Error404Page, { mensaje: 'Problemas de comunicación con el servidor', botonReintentar: true });
+      })
   }
 
   checkLogin() {
