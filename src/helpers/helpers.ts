@@ -21,7 +21,7 @@ const signalGPS = hdop => {
 }
 
 const horometro = Horometro_usuario => {
-  return Math.round((Horometro_usuario/3600)*100)/100;
+  return Math.round((Horometro_usuario / 3600) * 100) / 100;
 }
 
 const obtenerDireccion = (lat, long) => {
@@ -283,7 +283,17 @@ const determinarAlertas = (data, i) => {
   return state;
 }
 
-const determinarIconoDeFlota = (estado_motor, velocidad, direccion, tiempo_parada, tiempo_sin_sat, tiempo_sin_reporte, buffer, hora_avl_tmp) => {
+const determinarIconoDeFlota = (
+    estado_motor,
+    velocidad,
+    direccion,
+    tiempo_parada,
+    tiempo_sin_sat,
+    tiempo_sin_reporte,
+    buffer,
+    hora_avl_tmp,
+    estado_panico
+  ) => {
   let icono = "";
   let icono_escudo = "";
   let icono_contorno = "transparente";
@@ -376,6 +386,10 @@ const determinarIconoDeFlota = (estado_motor, velocidad, direccion, tiempo_parad
       info_label = Math.round(parseFloat(velocidad));
     }
   }
+  if (estado_panico !== null) {
+      icono = 'panico';
+      icono_escudo = "transparente";
+  }
   return {
     icono, icono_escudo, icono_contorno, label, info_label
   }
@@ -393,9 +407,9 @@ const filtrarDatos = (data, datos) => {
   });
   auxObject['vector_id_grupo'] = [];
   auxObject['vector_nombre_grupo'] = [];
-  auxObject.id_grupo.forEach( idGrupoVehiculo => {
-    if(idGrupoVehiculo){
-      if(auxObject.vector_id_grupo.indexOf(idGrupoVehiculo) === -1){
+  auxObject.id_grupo.forEach(idGrupoVehiculo => {
+    if (idGrupoVehiculo) {
+      if (auxObject.vector_id_grupo.indexOf(idGrupoVehiculo) === -1) {
         let index = datos.vector_id_grupo.indexOf(idGrupoVehiculo);
         auxObject.vector_id_grupo.push(datos.vector_id_grupo[index]);
         auxObject.vector_nombre_grupo.push(datos.vector_nombre_grupo[index]);

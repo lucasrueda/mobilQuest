@@ -96,7 +96,16 @@ export class Mapajshtml {
 		let bounds = new google.maps.LatLngBounds();
 		for (let i = 0; i < this.datos.latitud.length; i++) {
 			let latLng = new google.maps.LatLng(this.datos.latitud[i], this.datos.longitud[i]);
-			let iconosURL = determinarIconoDeFlota(this.obtnerIconoVerde(this.datos.dominio[i]), this.datos.velocidad[i], this.datos.direcc[i], this.datos.tiempo_parada[i], this.datos.tiempo_sin_sat[i], this.datos.tiempo_sin_reporte[i], this.datos.min_buffer[i], this.datos.hora_avl_tmp[i]);
+      let iconosURL = 
+        determinarIconoDeFlota(
+          this.obtnerIconoVerde(this.datos.dominio[i]),
+          this.datos.velocidad[i], this.datos.direcc[i],
+          this.datos.tiempo_parada[i], this.datos.tiempo_sin_sat[i],
+          this.datos.tiempo_sin_reporte[i],
+          this.datos.min_buffer[i],
+          this.datos.hora_avl_tmp[i],
+          this.datos.estado_panico[i]
+        );
 			let x = ((this.datos.dominio[i].length * 7) / 2) - 3;
 			let y = 4;
 			let MarkerWithLabel = require('markerwithlabel')(google.maps);

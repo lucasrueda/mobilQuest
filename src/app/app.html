@@ -88,11 +88,13 @@
         <h2>Actualizado</h2>
         <p>{{ vehiculo?.actualizado }}</p>
       </ion-item>
-      <ion-item *ngFor="let sensor of vehiculo?.sensores">
-        <ion-icon name="ios-pulse-outline" item-start></ion-icon>
-        <h2>{{ sensor.nombre }}</h2>
-        <p text-wrap>{{ sensor.valor }}</p>
-      </ion-item>
+      <ng-container *ngIf="checkSensores(vehiculo?.sensores)">
+        <ion-item *ngFor="let sensor of vehiculo?.sensores">
+          <ion-icon name="ios-pulse-outline" item-start></ion-icon>
+          <h2>{{ sensor.nombre }}</h2>
+          <p text-wrap>{{ sensor.valor }}</p>
+        </ion-item>
+      </ng-container>
       <ion-item>
         <ion-icon name="ios-information-circle-outline" item-start></ion-icon>
         <h2>Tiempo de parada</h2>

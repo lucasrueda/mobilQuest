@@ -149,4 +149,10 @@ export class MyApp {
   verVehiculo(patente) {
     this.event.publish('verVehiculo', patente);
   }
+
+  checkSensores(sensores){
+    if(sensores && sensores.length && sensores[0].hasOwnProperty('nombre'))
+      return true
+    return false;
+  }
 }

@@ -7,15 +7,6 @@
     </ion-col>
   </ion-row>
 </div>
-<div class="nombreSearchFilter over_map" *ngIf="mostrarDatosfiltradoDeBusqueda.activo">
-  <ion-row>
-    <ion-col class="whiteSquare2">
-      <div class="nombreRecorrido">
-        {{mostrarDatosfiltradoDeBusqueda.nombre}}
-      </div>
-    </ion-col>
-  </ion-row>
-</div>
 <div #search class="searchBarConteiner over_map">
   <ion-row>
     <ion-col class="whiteSquare">
@@ -28,7 +19,9 @@
         </div>
         <div (click)="consultarTodo(true)">
           <p>Actualizar</p>
-          <button ion-button clear mini color="light" style="font-size: 20px;"><ion-icon name="ios-refresh"></ion-icon></button>
+          <button ion-button clear mini color="light" style="font-size: 20px;">
+            <ion-icon name="ios-refresh"></ion-icon>
+          </button>
         </div>
         <div>
           <p>Nº unidades</p>
@@ -50,6 +43,15 @@
       </div>
     </ion-col>
   </ion-row>
+  <div class="nombreSearchFilter over_map" *ngIf="mostrarDatosfiltradoDeBusqueda.activo">
+    <ion-row>
+      <ion-col class="whiteSquare2">
+        <div class="nombreRecorrido">
+          {{mostrarDatosfiltradoDeBusqueda.nombre}}
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
 </div>
 <mapajshtml [datos]="datosDinamicos" [datosSinFiltar]="datosSinFiltrar"></mapajshtml>
 <div class="verRecorrido" *ngIf="recorrido">

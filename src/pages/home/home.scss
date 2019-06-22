@@ -22,7 +22,7 @@ page-home {
     z-index: 99;
   }
   .searchBarConteiner {
-    -webkit-transform: translate3d(0, -146%, 0);
+    -webkit-transform: translate3d(0, -100%, 0);
     transition: transform 0.3s;
   }
   page-modal {
@@ -140,6 +140,5 @@ page-home {
   }
   .nombreSearchFilter {
     @extend .nameOverMap;
-    -webkit-transform: translate3d(0, 155%, 0);
   }
 }
