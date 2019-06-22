@@ -8,7 +8,7 @@ const httpOptions = {
 };
 
 @Injectable()
-export class DemoProvider {
+export class CheckConnectionProvider {
 
   constructor(
     public http: HttpClient
@@ -16,8 +16,8 @@ export class DemoProvider {
     
   }
 
-  checkDemo() {
-    return this.http.get('https://ingeit.com.ar/api/mobileQuest', httpOptions).toPromise();
+  checkConn() {
+    return this.http.get('http://httpbin.org/get', httpOptions).toPromise();
   }
 
 

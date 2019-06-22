@@ -1,14 +1,7 @@
-<ion-content padding>
-  <ion-grid class="centered">
-    <ion-row>
-      <ion-col>
-        <h1>¡Ups!</h1>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <p>{{mensaje}}</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+<div class="container">
+  <div class="errorContainer">
+    <ion-icon name="close-circle"></ion-icon>
+    <h3>{{mensaje}}</h3>
+    <a href="#" *ngIf="botonReintentar" (click)="checkConnection($event)">Reintentar</a>
+  </div>
+</div>

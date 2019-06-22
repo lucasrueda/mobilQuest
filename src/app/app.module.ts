@@ -22,7 +22,7 @@ import { LoginService } from '../components/login/login.service';
 import { SeleccionFechaComponent } from '../components/seleccion-fecha/seleccion-fecha';
 import { SeleccionFechaService } from '../components/seleccion-fecha/seleccion-fecha.service';
 import { BusquedaFlotaComponent } from '../components/busqueda-flota/busqueda-flota';
-import { DemoProvider } from '../providers/demo';
+import { CheckConnectionProvider } from '../providers/checkConnection';
 import { Error404Page } from '../pages/error404/error404';
 import { ReferenciaPage } from '../pages/referencia/referencia';
 
@@ -77,7 +77,7 @@ import { ReferenciaPage } from '../pages/referencia/referencia';
     LoginService,
     Keyboard,
     SeleccionFechaService,
-    DemoProvider
+    CheckConnectionProvider,
   ]
 })
 
